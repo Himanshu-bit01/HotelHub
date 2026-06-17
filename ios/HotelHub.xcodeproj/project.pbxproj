@@ -11,6 +11,9 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		E82B1CE7E08049A1988B6FF1 /* GreatVibes-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 092E06D61CE342F58E449030 /* GreatVibes-Regular.ttf */; };
+		A8C43F2B7C824184B424E909 /* PetitFormalScript-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAEE916E3C84F9BAE8DEAB9 /* PetitFormalScript-Regular.ttf */; };
+		30DCFEE97EDD4DAA809FE5CB /* PortLligatSlab-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4BB8183530444D24BA618C19 /* PortLligatSlab-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = HotelHub/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = HotelHub/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		092E06D61CE342F58E449030 /* GreatVibes-Regular.ttf */ = {isa = PBXFileReference; name = "GreatVibes-Regular.ttf"; path = "../src/assets/fonts/GreatVibes-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9FAEE916E3C84F9BAE8DEAB9 /* PetitFormalScript-Regular.ttf */ = {isa = PBXFileReference; name = "PetitFormalScript-Regular.ttf"; path = "../src/assets/fonts/PetitFormalScript-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4BB8183530444D24BA618C19 /* PortLligatSlab-Regular.ttf */ = {isa = PBXFileReference; name = "PortLligatSlab-Regular.ttf"; path = "../src/assets/fonts/PortLligatSlab-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +80,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				F3255CB11C2548F991C1867F /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -96,6 +103,17 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		F3255CB11C2548F991C1867F /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				092E06D61CE342F58E449030 /* GreatVibes-Regular.ttf */,
+				9FAEE916E3C84F9BAE8DEAB9 /* PetitFormalScript-Regular.ttf */,
+				4BB8183530444D24BA618C19 /* PortLligatSlab-Regular.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -159,6 +177,9 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				E82B1CE7E08049A1988B6FF1 /* GreatVibes-Regular.ttf in Resources */,
+				A8C43F2B7C824184B424E909 /* PetitFormalScript-Regular.ttf in Resources */,
+				30DCFEE97EDD4DAA809FE5CB /* PortLligatSlab-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

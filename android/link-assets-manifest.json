@@ -1,0 +1,17 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/GreatVibes-Regular.ttf",
+      "sha1": "1c5136fcb8820617e2209f75f7f0a413b34be410"
+    },
+    {
+      "path": "src/assets/fonts/PetitFormalScript-Regular.ttf",
+      "sha1": "40d3941f4f6414aed4c00ffdead5a71a887ff0b0"
+    },
+    {
+      "path": "src/assets/fonts/PortLligatSlab-Regular.ttf",
+      "sha1": "fa01bd5261af6e079f157ddae730d1bedd0b70f2"
+    }
+  ]
+}
