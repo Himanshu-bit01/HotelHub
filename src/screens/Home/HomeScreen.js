@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -6,16 +6,22 @@ import {
   StatusBar,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
 
+import TopNavBar from '../../components/Home-Screen/Topnavbar';
 import SearchAndStays from '../../components/Home-Screen/SearchAndStays';
 import HeroSection from '../../components/Home-Screen/HeroSection';
+import { fetchHomeData } from '../../redux/store/slices/HotelSlice';
 
-// Extra space to clear the bottom tab bar. If your tab bar has a custom
-// fixed height, you can replace this constant with that exact number.
 const TAB_BAR_CLEARANCE = 90;
 
 const HomeScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchHomeData());
+  }, [dispatch]);
 
   return (
     <View style={styles.root}>
@@ -28,10 +34,8 @@ const HomeScreen = ({ navigation }) => {
           paddingBottom: insets.bottom + TAB_BAR_CLEARANCE,
         }}
       >
-        {/* ── Hero Block (top nav + search tabs + hero text) ── */}
-        <HeroSection navigation={navigation} />
-
-        {/* ── Search Card + Recent Stays ── */}
+        <TopNavBar navigation={navigation} />
+        <HeroSection />
         <SearchAndStays />
       </ScrollView>
     </View>

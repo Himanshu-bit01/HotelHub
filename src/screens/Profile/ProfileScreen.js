@@ -7,8 +7,8 @@ import {
   ScrollView,
   Dimensions,
   StatusBar,
-  SafeAreaView,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Heart,
   User,
@@ -29,27 +29,30 @@ import {
   Bell,
   Gift,
   Hotel,
-  Pencil,
   Banknote,
   Calendar,
   BookOpen,
 } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import HotelHubHeader from '../../components/HotelHubHeader/HotelHubHeader';
+import QuickActions from '../../components/Profile/QuickActions';
 
 const { width } = Dimensions.get('window');
 
 // ─────────────────────────────────────────────────────
 //  MENU ITEMS
 // ─────────────────────────────────────────────────────
+// Sorted alphabetically by label. "My bookings" keeps its reserved spot
+// in alphabetical order (under "M") rather than being pinned/removed.
 const MENU_ITEMS = [
+  { id: 'settings', label: 'Account Settings', Icon: Settings },
+  { id: 'back', label: 'Back to Home', Icon: ArrowLeft },
   { id: 'dashboard', label: 'Dashboard', Icon: LayoutDashboard },
   { id: 'bookings', label: 'My bookings', Icon: BookMarked },
   { id: 'payments', label: 'Payments & Wallet', Icon: CreditCard },
   { id: 'reviews', label: 'Reviews & Ratings', Icon: Star },
   { id: 'saved', label: 'Saved Hotels', Icon: Bookmark },
   { id: 'support', label: 'Support', Icon: HeadphonesIcon },
-  { id: 'settings', label: 'Account Settings', Icon: Settings },
-  { id: 'back', label: 'Back to Home', Icon: ArrowLeft },
 ];
 
 // ─────────────────────────────────────────────────────
@@ -149,16 +152,6 @@ const NOTIFS = [
 ];
 
 // ─────────────────────────────────────────────────────
-//  QUICK ACTIONS
-// ─────────────────────────────────────────────────────
-const QUICK_ACTIONS = [
-  { id: 'bookings', label: 'Bookings', Icon: BookOpen, iconBg: '#EDE9FE', iconColor: '#7C3AED' },
-  { id: 'payments', label: 'Payments', Icon: CreditCard, iconBg: '#D1FAE5', iconColor: '#059669' },
-  { id: 'review', label: 'Review', Icon: Pencil, iconBg: '#FEF3C7', iconColor: '#D97706' },
-  { id: 'support', label: 'Support', Icon: HeadphonesIcon, iconBg: '#FEE2E2', iconColor: '#DC2626' },
-];
-
-// ─────────────────────────────────────────────────────
 //  STAT CARD COMPONENT
 // ─────────────────────────────────────────────────────
 const StatCard = ({ item }) => (
@@ -182,29 +175,28 @@ const ProfileScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   return (
     <SafeAreaView style={styles.safe}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <StatusBar barStyle="light-content" backgroundColor="#1A0533" />
 
       {/* ══ HEADER ══════════════════════════════ */}
-      <View style={styles.header}>
-        <Text style={styles.brand}>
-          <Text style={styles.brandHotel}>Hotel</Text>
-          <Text style={styles.brandHub}>Hub</Text>
-        </Text>
-        <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.hBtn}>
-            <Heart size={18} color="#374151" strokeWidth={1.8} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.hBtn}>
-            <View>
-              <User size={18} color="#374151" strokeWidth={1.8} />
-              <View style={styles.redDot} />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.menuSquare}>
-            <Menu size={15} color="#fff" strokeWidth={2.2} />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <HotelHubHeader
+        theme="dark"
+        rightIcons={
+          <>
+            <TouchableOpacity style={styles.hBtn}>
+              <Heart size={18} color="#FFFFFF" strokeWidth={1.8} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.hBtn}>
+              <View>
+                <User size={18} color="#FFFFFF" strokeWidth={1.8} />
+                <View style={styles.redDot} />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.menuSquare}>
+              <Menu size={15} color="#fff" strokeWidth={2.2} />
+            </TouchableOpacity>
+          </>
+        }
+      />
 
       {/* ══ SCROLL ══════════════════════════════ */}
       <ScrollView
@@ -231,7 +223,7 @@ const ProfileScreen = ({ navigation }) => {
           </View>
 
           {/* Book a Stay button */}
-          <TouchableOpacity style={styles.bookStayBtn} activeOpacity={0.85}>
+          <TouchableOpacity style={styles.bookStayBtn} activeOpacity={0.85} onPress={() => navigation.navigate('Bottom', { screen: 'Home' })}>
             <Text style={styles.bookStayTxt}>Book a Stay</Text>
           </TouchableOpacity>
         </View>
@@ -240,11 +232,27 @@ const ProfileScreen = ({ navigation }) => {
         <View style={styles.menuCard}>
           {MENU_ITEMS.map((item, idx) => {
             const isFirst = idx === 0;
+            const menuNavMap = {
+              dashboard: { screen: 'Bottom', params: { screen: 'Home' } },
+              bookings: 'Bookings',
+              payments: 'Payments',
+              reviews: 'Reviews',
+              saved: 'Search',
+              support: 'Support',
+              settings: 'Settings',
+              back: { screen: 'Bottom', params: { screen: 'Home' } },
+            };
             return (
               <TouchableOpacity
                 key={item.id}
                 style={[styles.menuItem, isFirst && styles.menuItemActive]}
                 activeOpacity={0.7}
+                onPress={() => {
+                  const target = menuNavMap[item.id];
+                  if (target) {
+                    navigation.navigate(target);
+                  }
+                }}
               >
                 <View style={[styles.menuIconWrap, isFirst && styles.menuIconWrapActive]}>
                   <item.Icon
@@ -282,7 +290,7 @@ const ProfileScreen = ({ navigation }) => {
               <Hotel size={20} color="#9CA3AF" strokeWidth={1.5} />
             </View>
             <Text style={styles.emptyTxt}>No upcoming stays</Text>
-            <TouchableOpacity style={styles.browseBtn} activeOpacity={0.85}>
+            <TouchableOpacity style={styles.browseBtn} activeOpacity={0.85} onPress={() => navigation.navigate('Bottom', { screen: 'Home' })}>
               <Text style={styles.browseTxt}>Browse Hotels</Text>
             </TouchableOpacity>
           </View>
@@ -336,19 +344,7 @@ const ProfileScreen = ({ navigation }) => {
         </View>
 
         {/* ── Quick Actions ── */}
-        <View style={styles.sectionCard}>
-          <Text style={styles.sectionTitle}>Quick Actions</Text>
-          <View style={styles.quickActionsRow}>
-            {QUICK_ACTIONS.map(q => (
-              <TouchableOpacity key={q.id} style={styles.quickAction} activeOpacity={0.8}>
-                <View style={[styles.qaIcon, { backgroundColor: q.iconBg }]}>
-                  <q.Icon size={18} color={q.iconColor} strokeWidth={1.8} />
-                </View>
-                <Text style={styles.qaLabel}>{q.label}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
+        <QuickActions navigation={navigation} />
 
       </ScrollView>
     </SafeAreaView>
@@ -362,21 +358,6 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#F3F4F6' },
 
   // ── Header ─────────────────────────────────
-  header: {
-    backgroundColor: '#FFFFFF',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingTop: 35,
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F3F4F6',
-  },
-  brand: { fontSize: 20, fontWeight: '800' },
-  brandHotel: { color: '#111827' },
-  brandHub: { color: '#7C3AED' },
-  headerRight: { flexDirection: 'row', alignItems: 'center', gap: 4 },
   hBtn: { width: 32, height: 32, justifyContent: 'center', alignItems: 'center' },
   redDot: {
     position: 'absolute', top: -1, right: -1,
@@ -671,30 +652,6 @@ const styles = StyleSheet.create({
     color: '#6B7280',
     lineHeight: 13,
     marginTop: 1,
-  },
-
-  // ── Quick Actions ───────────────────────────
-  quickActionsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 8,
-  },
-  quickAction: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  qaIcon: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 5,
-  },
-  qaLabel: {
-    fontSize: 10,
-    color: '#374151',
-    fontWeight: '600',
   },
 });
 

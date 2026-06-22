@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,8 +7,9 @@ import {
   ScrollView,
   Dimensions,
   StatusBar,
-  SafeAreaView,
+  ActivityIndicator,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Heart,
   User,
@@ -19,6 +20,17 @@ import {
   MapPin,
   Star,
 } from 'lucide-react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+
+import { HomeProvider, useHomeContext } from '../../redux/context/HomeContext';
+import HotelHubHeader from '../../components/HotelHubHeader/HotelHubHeader';
+import {
+  fetchHomeData,
+  selectFeaturedHotels,
+  selectHotelsLoading,
+  selectHotelsError,
+} from '../../redux/store/slices/HotelSlice';
 
 const { width } = Dimensions.get('window');
 
@@ -55,51 +67,6 @@ const COUPONS = [
     bg: '#F472B6',
     accent: '#DB2777',
     decorColor: '#BE185D',
-  },
-];
-
-// ─────────────────────────────────────────────────────
-//  SPRING HIGHLIGHTS
-// ─────────────────────────────────────────────────────
-const HIGHLIGHTS = [
-  {
-    id: 1,
-    badge: 'Limited Time',
-    badgeColor: '#6D28D9',
-    name: 'Beachside Bliss in Goa',
-    sub: 'Beach Resort & Spa',
-    location: 'Goa, India',
-    rating: 4.6,
-    price: '₹9,800',
-    off: '10% OFF',
-    imgColor: '#3B6EA5',
-    imgColor2: '#5B8EC5',
-  },
-  {
-    id: 2,
-    badge: 'Exclusive',
-    badgeColor: '#7C3AED',
-    name: 'Luxury Stay in Mumbai',
-    sub: 'The Ocean View Hotel',
-    location: 'Mumbai, India',
-    rating: 4.7,
-    price: '₹7,200',
-    off: '15% OFF',
-    imgColor: '#6D28A0',
-    imgColor2: '#8B5CF6',
-  },
-  {
-    id: 3,
-    badge: 'Best Seller',
-    badgeColor: '#B45309',
-    name: 'Heritage Comfort in Delhi',
-    sub: 'Imperial Grand Hotel',
-    location: 'New Delhi, India',
-    rating: 4.5,
-    price: '₹7,200',
-    off: '15% OFF',
-    imgColor: '#78572A',
-    imgColor2: '#A0743C',
   },
 ];
 
@@ -167,10 +134,23 @@ const HighlightCard = ({ item }) => (
 );
 
 // ─────────────────────────────────────────────────────
-//  MAIN SCREEN
+//  MAIN SCREEN CONTENT
+//  Split out so it can use useDispatch/useSelector, which only work
+//  inside the Redux <Provider>, and useHomeContext, which only works
+//  inside <HomeProvider>.
 // ─────────────────────────────────────────────────────
-const OffersScreen = () => {
-  const [activeNavTab, setActiveNavTab] = useState('Search');
+const OffersScreenContent = () => {
+  const navigation = useNavigation();
+  const { selectedTab, setSelectedTab } = useHomeContext();
+  const dispatch = useDispatch();
+
+  const featuredHotels = useSelector(selectFeaturedHotels);
+  const loading = useSelector(selectHotelsLoading);
+  const error = useSelector(selectHotelsError);
+
+  useEffect(() => {
+    dispatch(fetchHomeData());
+  }, [dispatch]);
 
   const NAV_TABS = [
     { id: 'Search', Icon: Search },
@@ -180,44 +160,48 @@ const OffersScreen = () => {
 
   return (
     <SafeAreaView style={styles.safe}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <StatusBar barStyle="light-content" backgroundColor="#1A0533" />
 
       {/* ══ HEADER ══════════════════════════════ */}
-      <View style={styles.header}>
-        {/* Brand */}
-        <Text style={styles.brand}>
-          <Text style={styles.brandHotel}>Hotel</Text>
-          <Text style={styles.brandHub}>Hub</Text>
-        </Text>
-
-        {/* Right icons */}
-        <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.hBtn}>
-            <Heart size={18} color="#374151" strokeWidth={1.8} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.hBtn}>
-            {/* notification bell dot */}
-            <View>
-              <User size={18} color="#374151" strokeWidth={1.8} />
-              <View style={styles.redDot} />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.menuSquare}>
-            <Menu size={15} color="#fff" strokeWidth={2.2} />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <HotelHubHeader
+        theme="dark"
+        rightIcons={
+          <>
+            <TouchableOpacity style={styles.hBtn}>
+              <Heart size={18} color="#FFFFFF" strokeWidth={1.8} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.hBtn} onPress={() => navigation.navigate('Bottom', { screen: 'Profile' })}>
+              <View>
+                <User size={18} color="#FFFFFF" strokeWidth={1.8} />
+                <View style={styles.redDot} />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.menuSquare}>
+              <Menu size={15} color="#fff" strokeWidth={2.2} />
+            </TouchableOpacity>
+          </>
+        }
+      />
 
       {/* ══ NAV TAB BAR ═════════════════════════ */}
       <View style={styles.navTabOuter}>
         <View style={styles.navTabBar}>
           {NAV_TABS.map(({ id, Icon }) => {
-            const active = activeNavTab === id;
+            const active = selectedTab === id;
             return (
               <TouchableOpacity
                 key={id}
                 style={[styles.navTab, active && styles.navTabActive]}
-                onPress={() => setActiveNavTab(id)}
+                onPress={() => {
+                  if (id === 'Search') {
+                    setSelectedTab(id);
+                    navigation.navigate('Search');
+                  } else if (id === 'Trending') {
+                    navigation.navigate('Trending');
+                  } else if (id === 'Explore') {
+                    navigation.navigate('Explore');
+                  }
+                }}
                 activeOpacity={0.8}
               >
                 <Icon size={11} color={active ? '#fff' : 'rgba(255,255,255,0.55)'} strokeWidth={active ? 2 : 1.8} />
@@ -252,14 +236,39 @@ const OffersScreen = () => {
           <Text style={styles.sectionSub}>Discover properties guests love</Text>
         </View>
 
-        {/* ── Highlight cards ── */}
-        <View style={styles.hlList}>
-          {HIGHLIGHTS.map(h => <HighlightCard key={h.id} item={h} />)}
-        </View>
+        {/* ── Highlight cards: loading / error / data ── */}
+        {loading && (
+          <View style={styles.stateBox}>
+            <ActivityIndicator size="small" color="#7C3AED" />
+          </View>
+        )}
+
+        {!loading && error && (
+          <View style={styles.stateBox}>
+            <Text style={styles.errorText}>{error}</Text>
+          </View>
+        )}
+
+        {!loading && !error && (
+          <View style={styles.hlList}>
+            {featuredHotels.map(h => <HighlightCard key={h.id} item={h} />)}
+          </View>
+        )}
 
         <View style={{ height: 20 }} />
       </ScrollView>
     </SafeAreaView>
+  );
+};
+
+// ─────────────────────────────────────────────────────
+//  SCREEN WRAPPER
+// ─────────────────────────────────────────────────────
+const OffersScreen = () => {
+  return (
+    <HomeProvider>
+      <OffersScreenContent />
+    </HomeProvider>
   );
 };
 
@@ -270,20 +279,6 @@ const styles = StyleSheet.create({
   },
 
   // ── Header ─────────────────────────────────
-  header: {
-    backgroundColor: '#FFFFFF',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingTop: 35,
-    paddingBottom: 10,
-    borderBottomWidth: 0,
-  },
-  brand: { fontSize: 20, fontWeight: '800' },
-  brandHotel: { color: '#111827' },
-  brandHub: { color: '#7C3AED' },
-  headerRight: { flexDirection: 'row', alignItems: 'center', gap: 4 },
   hBtn: { width: 32, height: 32, justifyContent: 'center', alignItems: 'center' },
   redDot: {
     position: 'absolute',
@@ -425,6 +420,18 @@ const styles = StyleSheet.create({
     fontSize: 11.5,
     color: '#6B7280',
     marginTop: 1,
+  },
+
+  // ── State (loading / error) ─────────────────
+  stateBox: {
+    paddingVertical: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  errorText: {
+    fontSize: 13,
+    color: '#DC2626',
+    textAlign: 'center',
   },
 
   // ── Highlight list ──────────────────────────

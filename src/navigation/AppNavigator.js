@@ -4,12 +4,20 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SplashScreen from '../screens/Splash/SplashScreen';
 import BottomTabNavigator from '../screens/BottomTab/BottomTabNavigator';
+import TrendingScreen from '../screens/Trending/TrendingScreen';
+import ExploreScreen from '../screens/Explore/ExploreScreen';
+import SearchScreen from '../screens/Search/SearchScreen';
+import PaymentsScreen from '../screens/Profile/PaymentsScreen';
+import ReviewsScreen from '../screens/Profile/ReviewsScreen';
+import SupportScreen from '../screens/Profile/SupportScreen';
+import { HomeProvider } from '../redux/context/HomeContext';
 
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
   return (
-    <NavigationContainer>
+    <HomeProvider>
+      <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Splash"
         screenOptions={{
@@ -18,32 +26,42 @@ const AppNavigator = () => {
           contentStyle: { backgroundColor: '#FFFFFF' },
         }}
       >
-        {/* Splash screen - shown on app launch, navigates to Bottom after delay */}
         <Stack.Screen name="Splash" component={SplashScreen} />
-
-        {/* Bottom Tab Navigator - wraps Home, Bookings, Offers, Profile */}
         <Stack.Screen name="Bottom" component={BottomTabNavigator} />
 
-        {/* Uncomment below screens when ready:
-
-          <Stack.Screen
-            name="Search"
-            component={SearchScreen}
-            options={{ animation: 'slide_from_right' }}
-          />
-          <Stack.Screen
-            name="Trending"
-            component={TrendingScreen}
-            options={{ animation: 'slide_from_right' }}
-          />
-          <Stack.Screen
-            name="Explore"
-            component={ExploreScreen}
-            options={{ animation: 'slide_from_right' }}
-          />
-        */}
+        <Stack.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{ animation: 'slide_from_right' }}
+        />
+        <Stack.Screen
+          name="Trending"
+          component={TrendingScreen}
+          options={{ animation: 'slide_from_right' }}
+        />
+        <Stack.Screen
+          name="Explore"
+          component={ExploreScreen}
+          options={{ animation: 'slide_from_right' }}
+        />
+        <Stack.Screen
+          name="Payments"
+          component={PaymentsScreen}
+          options={{ animation: 'slide_from_right' }}
+        />
+        <Stack.Screen
+          name="Reviews"
+          component={ReviewsScreen}
+          options={{ animation: 'slide_from_right' }}
+        />
+        <Stack.Screen
+          name="Support"
+          component={SupportScreen}
+          options={{ animation: 'slide_from_right' }}
+        />
       </Stack.Navigator>
-    </NavigationContainer>
+      </NavigationContainer>
+    </HomeProvider>
   );
 };
 

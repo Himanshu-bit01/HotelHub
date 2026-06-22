@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   TextInput,
   Image,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import {
   MapPin,
@@ -17,42 +18,31 @@ import {
   CalendarDays,
   Users,
 } from 'lucide-react-native';
+import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { useHomeContext } from '../../redux/context/HomeContext';
+import {
+  selectRecentStays,
+  selectHotelsLoading,
+  selectHotelsError,
+} from '../../redux/store/slices/HotelSlice';
 
 const { width } = Dimensions.get('window');
 
-const RECENT_STAYS = [
-  {
-    id: '1',
-    name: 'Grand Ocean\nResort & Spa',
-    location: 'Bali, Indonesia',
-    rating: 4.8,
-    reviews: 120,
-    price: '320',
-    image: { uri: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=400' },
-  },
-  {
-    id: '2',
-    name: 'The Royal\nPalace Hotel',
-    location: 'Dubai, UAE',
-    rating: 4.8,
-    reviews: 98,
-    price: '450',
-    image: { uri: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400' },
-  },
-  {
-    id: '3',
-    name: 'Maldives\nParadise Stay',
-    location: 'Maldives',
-    rating: 4.8,
-    reviews: 76,
-    price: '680',
-    image: { uri: 'https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=400' },
-  },
-];
-
 const SearchAndStays = () => {
-  const [destination, setDestination] = useState('');
-  const [checkInOut, setCheckInOut] = useState('');
+  const navigation = useNavigation();
+  const {
+    destination,
+    setDestination,
+    checkInOut,
+    setCheckInOut,
+    guests,
+    rooms,
+  } = useHomeContext();
+
+  const recentStays = useSelector(selectRecentStays);
+  const loading = useSelector(selectHotelsLoading);
+  const error = useSelector(selectHotelsError);
 
   return (
     <>
@@ -94,13 +84,13 @@ const SearchAndStays = () => {
         <View style={styles.inputBox}>
           <Users size={15} color="#AAA" strokeWidth={2} style={styles.inputIcon} />
           <View>
-            <Text style={styles.guestMain}>2 Guest(s)</Text>
-            <Text style={styles.guestSub}>1 Room(s)</Text>
+            <Text style={styles.guestMain}>{guests} Guest(s)</Text>
+            <Text style={styles.guestSub}>{rooms} Room(s)</Text>
           </View>
         </View>
 
         {/* Search Button */}
-        <TouchableOpacity style={styles.searchBtn} activeOpacity={0.85}>
+        <TouchableOpacity style={styles.searchBtn} activeOpacity={0.85} onPress={() => navigation.navigate('Search')}>
           <Text style={styles.searchBtnText}>Search Hotels</Text>
         </TouchableOpacity>
       </View>
@@ -112,7 +102,7 @@ const SearchAndStays = () => {
             <Text style={styles.recentDot}>✦</Text>
             <Text style={styles.recentLabel}> RECENT SEARCHES</Text>
           </View>
-          <TouchableOpacity style={styles.seeAllRow}>
+          <TouchableOpacity style={styles.seeAllRow} onPress={() => navigation.navigate('Search')}>
             <Text style={styles.seeAll}>See all stays</Text>
             <ArrowRight size={13} color="#7C3AED" strokeWidth={2.5} />
           </TouchableOpacity>
@@ -123,46 +113,62 @@ const SearchAndStays = () => {
           Swipe through the stays travelers are checking back on right now.
         </Text>
 
+        {/* Loading state */}
+        {loading && (
+          <View style={styles.stateBox}>
+            <ActivityIndicator size="small" color="#7C3AED" />
+          </View>
+        )}
+
+        {/* Error state */}
+        {!loading && error && (
+          <View style={styles.stateBox}>
+            <Text style={styles.errorText}>{error}</Text>
+          </View>
+        )}
+
         {/* Horizontal Hotel Cards */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.cardsRow}>
-          {RECENT_STAYS.map((stay) => (
-            <TouchableOpacity key={stay.id} style={styles.stayCard} activeOpacity={0.85}>
-              {/* Card image */}
-              <Image
-                source={stay.image}
-                style={styles.cardImage}
-                resizeMode="cover"
-              />
-              {/* Gradient overlay on image */}
-              <View style={styles.cardImageOverlay} />
+        {!loading && !error && (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.cardsRow}>
+            {recentStays.map((stay) => (
+              <TouchableOpacity key={stay.id} style={styles.stayCard} activeOpacity={0.85} onPress={() => navigation.navigate('Bookings')}>
+                {/* Card image */}
+                <Image
+                  source={stay.image}
+                  style={styles.cardImage}
+                  resizeMode="cover"
+                />
+                {/* Gradient overlay on image */}
+                <View style={styles.cardImageOverlay} />
 
-              {/* Card body */}
-              <View style={styles.cardBody}>
-                <Text style={styles.cardName}>{stay.name}</Text>
+                {/* Card body */}
+                <View style={styles.cardBody}>
+                  <Text style={styles.cardName}>{stay.name}</Text>
 
-                <View style={styles.cardLocationRow}>
-                  <MapPin size={11} color="rgba(255,255,255,0.7)" strokeWidth={2} />
-                  <Text style={styles.cardLocation}> {stay.location}</Text>
+                  <View style={styles.cardLocationRow}>
+                    <MapPin size={11} color="rgba(255,255,255,0.7)" strokeWidth={2} />
+                    <Text style={styles.cardLocation}> {stay.location}</Text>
+                  </View>
+
+                  <View style={styles.cardRatingRow}>
+                    <Star size={11} color="#FACC15" fill="#FACC15" strokeWidth={0} />
+                    <Text style={styles.cardRating}> {stay.rating}</Text>
+                    <Text style={styles.cardReviews}> ({stay.reviews})</Text>
+                  </View>
+
+                  <View style={styles.cardPriceRow}>
+                    <Text style={styles.cardCurrency}>₹</Text>
+                    <Text style={styles.cardPrice}>{stay.price}</Text>
+                    <Text style={styles.cardNight}>/night</Text>
+                  </View>
                 </View>
-
-                <View style={styles.cardRatingRow}>
-                  <Star size={11} color="#FACC15" fill="#FACC15" strokeWidth={0} />
-                  <Text style={styles.cardRating}> {stay.rating}</Text>
-                  <Text style={styles.cardReviews}> ({stay.reviews})</Text>
-                </View>
-
-                <View style={styles.cardPriceRow}>
-                  <Text style={styles.cardCurrency}>₹</Text>
-                  <Text style={styles.cardPrice}>{stay.price}</Text>
-                  <Text style={styles.cardNight}>/night</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        )}
       </View>
     </>
   );
@@ -297,6 +303,16 @@ const styles = StyleSheet.create({
   cardsRow: {
     paddingRight: 4,
     gap: 14,
+  },
+  stateBox: {
+    paddingVertical: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  errorText: {
+    fontSize: 13,
+    color: '#D14343',
+    textAlign: 'center',
   },
 
   // ── Stay Cards ──

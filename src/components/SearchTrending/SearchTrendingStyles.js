@@ -1,0 +1,248 @@
+import { StyleSheet } from 'react-native';
+
+const SearchTrendingStyles = StyleSheet.create({
+  safe: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  body: { flex: 1, backgroundColor: '#F9FAFB' },
+  bodyContent: { paddingTop: 4, paddingBottom: 0 },
+
+  // ── FORM CARD ──────────────────────────────
+  formCardWrap: {
+    marginHorizontal: 12,
+    marginBottom: 16,
+  },
+  formCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    borderWidth: 1.5,
+    borderColor: '#EDE9FE',
+    paddingHorizontal: 14,
+    paddingTop: 14,
+    paddingBottom: 16,
+    shadowColor: '#000',
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 3,
+  },
+  modifyLabel: {
+    fontSize: 11,
+    color: '#7C3AED',
+    fontWeight: '800',
+    letterSpacing: 1.5,
+    marginBottom: 8,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#F3F4F6',
+    marginBottom: 12,
+  },
+  formRow: {
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
+  fieldWrap: { marginBottom: 10 },
+  fieldLbl: {
+    fontSize: 11,
+    color: '#374151',
+    fontWeight: '700',
+    marginBottom: 5,
+  },
+  fieldBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F9FAFB',
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+    borderRadius: 9,
+    paddingHorizontal: 10,
+    paddingVertical: 9,
+    gap: 7,
+  },
+  fieldInp: {
+    flex: 1,
+    fontSize: 11.5,
+    color: '#111827',
+    padding: 0,
+    margin: 0,
+  },
+  fieldMainTxt: { fontSize: 11.5, color: '#111827', fontWeight: '700' },
+  fieldSubTxt: { fontSize: 9.5, color: '#9CA3AF', marginTop: 1 },
+  updateBtn: {
+    backgroundColor: '#7C3AED',
+    borderRadius: 9,
+    paddingVertical: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 2,
+  },
+  updateBtnTxt: {
+    fontSize: 13,
+    color: '#fff',
+    fontWeight: '700',
+    letterSpacing: 0.3,
+  },
+
+  // ── FAB ────────────────────────────────────
+  fab: {
+    position: 'absolute',
+    bottom: -18,
+    right: 6,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#7C3AED',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#7C3AED',
+    shadowOpacity: 0.45,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 8,
+  },
+
+  // ── CARDS LIST ─────────────────────────────
+  listWrap: {
+    paddingHorizontal: 12,
+    gap: 10,
+  },
+
+  // ── CARD ───────────────────────────────────
+  card: {
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 14,
+    overflow: 'hidden',
+    height: 132,
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
+    marginBottom: 10,
+  },
+
+  // Photo (left)
+  cardPhoto: {
+    width: 110,
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  photoBadge: {
+    position: 'absolute',
+    top: 7,
+    left: 7,
+    borderRadius: 4,
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+    zIndex: 5,
+  },
+  photoBadgeText: {
+    fontSize: 8,
+    color: '#fff',
+    fontWeight: '700',
+    letterSpacing: 0.3,
+  },
+  photoHeart: {
+    position: 'absolute',
+    top: 7,
+    right: 7,
+    width: 22,
+    height: 22,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    borderRadius: 11,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 5,
+  },
+
+  // Info (right)
+  cardInfo: {
+    flex: 1,
+    paddingHorizontal: 11,
+    paddingVertical: 10,
+    justifyContent: 'space-between',
+  },
+  cardName: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#111827',
+    lineHeight: 17,
+  },
+  locationRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 2,
+  },
+  locationTxt: {
+    fontSize: 10.5,
+    color: '#6B7280',
+    fontWeight: '500',
+  },
+  roomsTxt: {
+    fontSize: 10,
+    color: '#9CA3AF',
+  },
+  starsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 3,
+    gap: 4,
+  },
+  ratingTxt: {
+    fontSize: 10.5,
+    color: '#111827',
+    fontWeight: '700',
+  },
+  tinyTag: {
+    width: 14,
+    height: 14,
+    borderRadius: 4,
+    backgroundColor: '#F3E8FF',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tagsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 4,
+    marginTop: 4,
+  },
+  tag: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F3E8FF',
+    borderRadius: 4,
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+  },
+  tagTxt: {
+    fontSize: 7.5,
+    color: '#7C3AED',
+    fontWeight: '600',
+    letterSpacing: 0.1,
+  },
+  bottomRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    marginTop: 4,
+  },
+  priceLbl: { fontSize: 8.5, color: '#9CA3AF' },
+  priceVal: { fontSize: 13.5, fontWeight: '800', color: '#7C3AED', marginTop: 1 },
+  bookBtn: {
+    backgroundColor: '#7C3AED',
+    borderRadius: 7,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+  },
+  bookTxt: {
+    fontSize: 9.5,
+    color: '#fff',
+    fontWeight: '700',
+  },
+});
+
+export default SearchTrendingStyles;
