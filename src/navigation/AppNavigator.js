@@ -11,6 +11,7 @@ import PaymentsScreen from '../screens/Profile/PaymentsScreen';
 import ReviewsScreen from '../screens/Profile/ReviewsScreen';
 import SupportScreen from '../screens/Profile/SupportScreen';
 import { HomeProvider } from '../redux/context/HomeContext';
+import AccountSettings from '../screens/Profile/AccountSettings';
 
 const Stack = createNativeStackNavigator();
 
@@ -58,6 +59,10 @@ const AppNavigator = () => {
           name="Support"
           component={SupportScreen}
           options={{ animation: 'slide_from_right' }}
+        />
+        <Stack.Screen
+          name="AccountSettings"
+          component={AccountSettings}
         />
       </Stack.Navigator>
       </NavigationContainer>

@@ -239,7 +239,7 @@ const ProfileScreen = ({ navigation }) => {
               reviews: 'Reviews',
               saved: 'Search',
               support: 'Support',
-              settings: 'Settings',
+              settings: 'AccountSettings',
               back: { screen: 'Bottom', params: { screen: 'Home' } },
             };
             return (
