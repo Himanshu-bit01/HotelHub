@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     paddingBottom: 14,
   },
   containerDark: {
-    backgroundColor: '#1A0533',
+    backgroundColor: '#ffffff',
   },
   containerLight: {
     backgroundColor: '#FFFFFF',
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   brandWhite: {
     fontSize: 24,
-    color: '#FFFFFF',
+    color: '#000000',
   },
   brandDark: {
     fontSize: 24,

@@ -19,6 +19,7 @@ import {
   Compass,
   MapPin,
   Star,
+  Info,
 } from 'lucide-react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -159,8 +160,10 @@ const OffersScreenContent = () => {
   ];
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <StatusBar barStyle="light-content" backgroundColor="#1A0533" />
+    <SafeAreaView style={styles.safe}
+    edges={['left', 'right', 'bottom']}
+    >
+      <StatusBar barStyle="light-content" backgroundColor="#1A0533"/>
 
       {/* ══ HEADER ══════════════════════════════ */}
       <HotelHubHeader
@@ -168,16 +171,10 @@ const OffersScreenContent = () => {
         rightIcons={
           <>
             <TouchableOpacity style={styles.hBtn}>
-              <Heart size={18} color="#FFFFFF" strokeWidth={1.8} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.hBtn} onPress={() => navigation.navigate('Bottom', { screen: 'Profile' })}>
-              <View>
-                <User size={18} color="#FFFFFF" strokeWidth={1.8} />
-                <View style={styles.redDot} />
-              </View>
+              <Heart size={20} color="#000000" strokeWidth={1.8} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.menuSquare}>
-              <Menu size={15} color="#fff" strokeWidth={2.2} />
+              <Info size={20} color="#000000" strokeWidth={1.8} />
             </TouchableOpacity>
           </>
         }
@@ -289,14 +286,14 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     backgroundColor: '#EF4444',
   },
-  menuSquare: {
-    width: 28,
-    height: 28,
-    backgroundColor: '#7C3AED',
-    borderRadius: 6,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  // menuSquare: {
+  //   width: 28,
+  //   height: 28,
+  //   backgroundColor: '#7C3AED',
+  //   borderRadius: 6,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  // },
 
   // ── Nav tab bar ─────────────────────────────
   navTabOuter: {

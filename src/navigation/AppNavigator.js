@@ -32,37 +32,36 @@ const AppNavigator = () => {
         <Stack.Screen
           name="Search"
           component={SearchScreen}
-          options={{ animation: 'slide_from_right' }}
+          // options={{ animation: 'slide_from_right' }}
         />
         <Stack.Screen
           name="Trending"
           component={TrendingScreen}
-          options={{ animation: 'slide_from_right' }}
+          // options={{ animation: 'slide_from_right' }}
         />
         <Stack.Screen
           name="Explore"
           component={ExploreScreen}
-          options={{ animation: 'slide_from_right' }}
+          // options={{ animation: 'slide_from_right' }}
         />
         <Stack.Screen
           name="Payments"
           component={PaymentsScreen}
-          options={{ animation: 'slide_from_right' }}
+          // options={{ animation: 'slide_from_right' }}
         />
         <Stack.Screen
           name="Reviews"
           component={ReviewsScreen}
-          options={{ animation: 'slide_from_right' }}
+          // options={{ animation: 'slide_from_right' }}
         />
         <Stack.Screen
           name="Support"
           component={SupportScreen}
-          options={{ animation: 'slide_from_right' }}
+          // options={{ animation: 'slide_from_right' }}
         />
       </Stack.Navigator>
       </NavigationContainer>
     </HomeProvider>
   );
 };
-
 export default AppNavigator;

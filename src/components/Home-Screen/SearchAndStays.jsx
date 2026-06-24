@@ -17,6 +17,7 @@ import {
   Search,
   CalendarDays,
   Users,
+  Heart,
 } from 'lucide-react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -45,7 +46,7 @@ const SearchAndStays = () => {
   const error = useSelector(selectHotelsError);
 
   return (
-    <>
+    <View style={styles.wrapper}>
       {/* ══════════════ SEARCH CARD ══════════════ */}
       <View style={styles.searchCard}>
         <View style={styles.searchCardHeader}>
@@ -60,7 +61,7 @@ const SearchAndStays = () => {
           <TextInput
             style={styles.inputText}
             placeholder="Search Destination"
-            placeholderTextColor="#AAA"
+            placeholderTextColor="#BBBBBB"
             value={destination}
             onChangeText={setDestination}
           />
@@ -73,7 +74,7 @@ const SearchAndStays = () => {
           <TextInput
             style={styles.inputText}
             placeholder="Select check-in & check-out dates"
-            placeholderTextColor="#AAA"
+            placeholderTextColor="#BBBBBB"
             value={checkInOut}
             onChangeText={setCheckInOut}
           />
@@ -90,7 +91,11 @@ const SearchAndStays = () => {
         </View>
 
         {/* Search Button */}
-        <TouchableOpacity style={styles.searchBtn} activeOpacity={0.85} onPress={() => navigation.navigate('Search')}>
+        <TouchableOpacity
+          style={styles.searchBtn}
+          activeOpacity={0.85}
+          onPress={() => navigation.navigate('Search')}
+        >
           <Text style={styles.searchBtnText}>Search Hotels</Text>
         </TouchableOpacity>
       </View>
@@ -102,9 +107,12 @@ const SearchAndStays = () => {
             <Text style={styles.recentDot}>✦</Text>
             <Text style={styles.recentLabel}> RECENT SEARCHES</Text>
           </View>
-          <TouchableOpacity style={styles.seeAllRow} onPress={() => navigation.navigate('Search')}>
+          <TouchableOpacity
+            style={styles.seeAllRow}
+            onPress={() => navigation.navigate('Search')}
+          >
             <Text style={styles.seeAll}>See all stays</Text>
-            <ArrowRight size={13} color="#7C3AED" strokeWidth={2.5} />
+            <Text style={styles.seeAllArrow}> →</Text>
           </TouchableOpacity>
         </View>
 
@@ -132,25 +140,43 @@ const SearchAndStays = () => {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.cardsRow}>
+            contentContainerStyle={styles.cardsRow}
+          >
             {recentStays.map((stay) => (
-              <TouchableOpacity key={stay.id} style={styles.stayCard} activeOpacity={0.85} onPress={() => navigation.navigate('Bookings')}>
+              <TouchableOpacity
+                key={stay.id}
+                style={styles.stayCard}
+                activeOpacity={0.85}
+                onPress={() => navigation.navigate('Bookings')}
+              >
                 {/* Card image */}
-                <Image
-                  source={stay.image}
-                  style={styles.cardImage}
-                  resizeMode="cover"
-                />
-                {/* Gradient overlay on image */}
-                <View style={styles.cardImageOverlay} />
+                <View style={styles.cardImageWrapper}>
+                  <Image
+                    source={stay.image}
+                    style={styles.cardImage}
+                    resizeMode="cover"
+                  />
+                  {/* Gradient overlay */}
+                  <View style={styles.cardImageOverlay} />
+                  {/* Heart icon */}
+                  <TouchableOpacity style={styles.cardHeartBtn}>
+                    <Heart size={13} color="#FFFFFF" strokeWidth={2} />
+                  </TouchableOpacity>
+                  {/* Trending badge */}
+                  {stay.trending && (
+                    <View style={styles.trendingBadge}>
+                      <Text style={styles.trendingText}>Trending</Text>
+                    </View>
+                  )}
+                </View>
 
                 {/* Card body */}
                 <View style={styles.cardBody}>
-                  <Text style={styles.cardName}>{stay.name}</Text>
+                  <Text style={styles.cardName} numberOfLines={1}>{stay.name}</Text>
 
                   <View style={styles.cardLocationRow}>
-                    <MapPin size={11} color="rgba(255,255,255,0.7)" strokeWidth={2} />
-                    <Text style={styles.cardLocation}> {stay.location}</Text>
+                    <MapPin size={10} color="#888" strokeWidth={2} />
+                    <Text style={styles.cardLocation} numberOfLines={1}> {stay.location}</Text>
                   </View>
 
                   <View style={styles.cardRatingRow}>
@@ -170,36 +196,46 @@ const SearchAndStays = () => {
           </ScrollView>
         )}
       </View>
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+    backgroundColor: '#F5F3F8',
+  },
+
   // ── Search Card ──
   searchCard: {
     backgroundColor: '#FFFFFF',
-    marginHorizontal: 16,
-    marginTop: -40,
-    borderRadius: 20,
-    padding: 20 ,
+    marginHorizontal: 14,
+    // Pull the card up so it overlaps the bottom of the hero section.
+    // Screenshot shows the card starting roughly 28% up from the hero bottom,
+    // which on a typical device is ~100px of overlap.
+    marginTop: -100,
+    borderRadius: 18,
+    padding: 18,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.15,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.18,
     shadowRadius: 20,
-    elevation: 12,
+    elevation: 16,
     zIndex: 20,
   },
   searchCardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 14,
+    marginBottom: 12,
   },
   searchCardTitle: {
     fontSize: 15,
     fontWeight: '700',
     color: '#1A0533',
   },
-  searchCardStar: { fontSize: 14, color: '#7C3AED' },
+  searchCardStar: {
+    fontSize: 14,
+    color: '#7C3AED',
+  },
   fieldLabel: {
     fontSize: 13,
     fontWeight: '600',
@@ -211,10 +247,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#E5E5E5',
+    borderColor: '#E8E8E8',
     borderRadius: 10,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 11,
     backgroundColor: '#FAFAFA',
     gap: 8,
   },
@@ -223,43 +259,44 @@ const styles = StyleSheet.create({
   },
   inputText: {
     flex: 1,
-    fontSize: 14,
+    fontSize: 13,
     color: '#333',
     padding: 0,
   },
   guestMain: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#333',
     fontWeight: '500',
   },
   guestSub: {
     fontSize: 12,
-    color: '#888',
-    marginTop: 2,
+    color: '#999',
+    marginTop: 1,
   },
   searchBtn: {
     backgroundColor: '#7C3AED',
     borderRadius: 12,
-    paddingVertical: 16,
+    paddingVertical: 15,
     alignItems: 'center',
-    marginTop: 18,
+    marginTop: 16,
     shadowColor: '#7C3AED',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.45,
-    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.40,
+    shadowRadius: 10,
     elevation: 8,
   },
   searchBtnText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '700',
     color: '#FFFFFF',
-    letterSpacing: 0.5,
+    letterSpacing: 0.4,
   },
 
   // ── Recent Searches ──
   recentSection: {
-    paddingTop: 28,
-    paddingHorizontal: 20,
+    paddingTop: 26,
+    paddingHorizontal: 18,
+    paddingBottom: 8,
   },
   recentHeader: {
     flexDirection: 'row',
@@ -271,19 +308,30 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  recentDot: { fontSize: 10, color: '#7C3AED' },
+  recentDot: {
+    fontSize: 10,
+    color: '#7C3AED',
+  },
   recentLabel: {
     fontSize: 11,
     fontWeight: '700',
     color: '#7C3AED',
-    letterSpacing: 2,
+    letterSpacing: 1.8,
   },
   seeAllRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 2,
+    backgroundColor: 'rgba(124,58,237,0.08)',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 14,
   },
   seeAll: {
+    fontSize: 12,
+    color: '#7C3AED',
+    fontWeight: '600',
+  },
+  seeAllArrow: {
     fontSize: 12,
     color: '#7C3AED',
     fontWeight: '600',
@@ -296,13 +344,14 @@ const styles = StyleSheet.create({
   },
   recentSub: {
     fontSize: 13,
-    color: '#888',
+    color: '#999',
     marginBottom: 16,
     lineHeight: 18,
   },
   cardsRow: {
     paddingRight: 4,
-    gap: 14,
+    gap: 12,
+    paddingBottom: 4,
   },
   stateBox: {
     paddingVertical: 24,
@@ -317,63 +366,113 @@ const styles = StyleSheet.create({
 
   // ── Stay Cards ──
   stayCard: {
-    width: width * 0.44,
-    borderRadius: 12,
+    width: width * 0.42,
+    borderRadius: 14,
     overflow: 'hidden',
-    backgroundColor: '#1A0533',
+    backgroundColor: '#FFFFFF',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.18,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.12,
     shadowRadius: 8,
     elevation: 5,
   },
+  cardImageWrapper: {
+    width: '100%',
+    height: 110,
+    position: 'relative',
+  },
   cardImage: {
     width: '100%',
-    height: 120,
+    height: 110,
   },
   cardImageOverlay: {
     position: 'absolute',
     top: 0,
     left: 0,
     width: '100%',
-    height: 120,
-    backgroundColor: 'rgba(26,5,51,0.25)',
+    height: 110,
+    backgroundColor: 'rgba(26,5,51,0.18)',
+  },
+  cardHeartBtn: {
+    position: 'absolute',
+    top: 7,
+    right: 7,
+    backgroundColor: 'rgba(0,0,0,0.35)',
+    borderRadius: 12,
+    width: 24,
+    height: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  trendingBadge: {
+    position: 'absolute',
+    top: 7,
+    left: 7,
+    backgroundColor: '#7C3AED',
+    borderRadius: 8,
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+  },
+  trendingText: {
+    fontSize: 9,
+    color: '#FFFFFF',
+    fontWeight: '700',
+    letterSpacing: 0.3,
   },
   cardBody: {
-    padding: 10,
-    backgroundColor: '#fbfafd',
+    padding: 9,
+    backgroundColor: '#FFFFFF',
   },
   cardName: {
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: '700',
-    color: '#0c0c0c',
-    lineHeight: 18,
+    color: '#1A0533',
+    lineHeight: 17,
     marginBottom: 2,
   },
   cardLocationRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 6,
+    marginBottom: 4,
   },
   cardLocation: {
     fontSize: 11,
-    color: 'rgba(34, 33, 33, 0.7)',
+    color: '#888',
   },
   cardRatingRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 10,
   },
-  cardRating: { fontSize: 12, fontWeight: '700', color: '#1d1c1c' },
-  cardReviews: { fontSize: 11, color: 'rgba(24, 23, 23, 0.55)' },
+  cardRating: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#1A0533',
+  },
+  cardReviews: {
+    fontSize: 10,
+    color: '#AAA',
+  },
   cardPriceRow: {
     flexDirection: 'row',
     alignItems: 'baseline',
     gap: 1,
   },
-  cardCurrency: { fontSize: 12, color: '#1a1919', fontWeight: '700' },
-  cardPrice: { fontSize: 18, fontWeight: '800', color: '#0a0a0a' },
-  cardNight: { fontSize: 11, color: 'rgba(22, 21, 21, 0.55)', marginLeft: 2 },
+  cardCurrency: {
+    fontSize: 12,
+    color: '#1A0533',
+    fontWeight: '700',
+  },
+  cardPrice: {
+    fontSize: 17,
+    fontWeight: '800',
+    color: '#1A0533',
+  },
+  cardNight: {
+    fontSize: 10,
+    color: '#AAA',
+    marginLeft: 2,
+  },
 });
 
 export default SearchAndStays;

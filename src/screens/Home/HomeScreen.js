@@ -30,12 +30,27 @@ const HomeScreen = ({ navigation }) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.scroll}
+        // Allow the negatively-margined search card to render above its
+        // natural position without being clipped by the scroll container.
         contentContainerStyle={{
           paddingBottom: insets.bottom + TAB_BAR_CLEARANCE,
         }}
       >
-        <TopNavBar navigation={navigation} />
-        <HeroSection />
+        {/*
+          darkTop: contains the navbar and hero. The dark background extends
+          a little beyond the hero so the overlapping search card still sits
+          against a dark surface visually.
+        */}
+        <View style={styles.darkTop}>
+          <TopNavBar navigation={navigation} />
+          <HeroSection />
+        </View>
+
+        {/*
+          SearchAndStays pulls itself up via negative marginTop on its inner
+          searchCard, overlapping the hero below the gradient. zIndex on the
+          card ensures it renders above the darkTop layer.
+        */}
         <SearchAndStays />
       </ScrollView>
     </View>
@@ -45,10 +60,16 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#F5F3F8',
   },
   scroll: {
     flex: 1,
+  },
+  darkTop: {
+    backgroundColor: '#1A0533',
+    // Let the search card (which has a negative marginTop) overlap this view
+    // without being clipped.
+    overflow: 'visible',
   },
 });
 

@@ -174,7 +174,7 @@ const StatCard = ({ item }) => (
 const ProfileScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={['left', 'right', 'bottom']} >
       <StatusBar barStyle="light-content" backgroundColor="#1A0533" />
 
       {/* ══ HEADER ══════════════════════════════ */}
