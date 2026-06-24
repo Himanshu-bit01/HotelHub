@@ -1,4 +1,3 @@
-// import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import React, { useState } from 'react';
 import {
   View,
@@ -9,8 +8,7 @@ import {
   Pressable,
   Image,
 } from 'react-native';
-import { Camera, Mail, Phone, CheckCircle, AlertCircle } from 'lucide-react-native'; // ✅ replaced all PNG imports
-// import {launchImageLibrary} from 'react-native-image-picker';
+import { Camera, Mail, Phone, CheckCircle, AlertCircle } from 'lucide-react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 const AccountSettings = () => {
@@ -29,15 +27,6 @@ const AccountSettings = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [profileImage, setProfileImage] = useState<string | null>(null);
 
-  const pickImage = () => {
-    launchImageLibrary({ mediaType: 'photo', quality: 0.8 }, response => {
-      if (response.didCancel) return;
-      if (response.assets?.length && response.assets[0].uri) {
-        setProfileImage(response.assets[0].uri);
-      }
-    });
-  };
-
   return (
     <ScrollView
       style={styles.container}
@@ -55,13 +44,13 @@ const AccountSettings = () => {
             {profileImage ? (
               <Image source={{ uri: profileImage }} style={styles.avatarImage} />
             ) : (
-              <Camera size={34} color="#fff" /> // ✅ Camera lucide icon
+              <Camera size={34} color="#fff" />
             )}
           </View>
           <View>
             <Text style={styles.profileName}>Arjun Sharma</Text>
             <Text style={styles.memberText}>Member since January 2024</Text>
-            <Pressable onPress={pickImage}>
+            <Pressable onPress={() => {}}>
               <Text style={styles.uploadText}>Upload new photo</Text>
             </Pressable>
           </View>
@@ -89,13 +78,13 @@ const AccountSettings = () => {
         <Text style={styles.desc}>Update and Verify your email address with a one-time password.</Text>
 
         <View style={styles.infoRow}>
-          <Mail size={34} color="#22D3EE" /> {/* ✅ Mail lucide icon */}
+          <Mail size={34} color="#22D3EE" />
           <View style={{ flex: 1, marginLeft: 12 }}>
             <Text style={styles.smallLabel}>Current Email</Text>
             <Text style={styles.infoValue}>arjun.sharma@example.com</Text>
           </View>
           <View style={styles.verifiedBadge}>
-            <CheckCircle size={18} color="#16A34A" /> {/* ✅ CheckCircle lucide icon */}
+            <CheckCircle size={18} color="#16A34A" />
             <Text style={styles.verifiedText}>Verified</Text>
           </View>
         </View>
@@ -120,13 +109,13 @@ const AccountSettings = () => {
         <Text style={styles.desc}>Update and verify your phone number with a one-time password.</Text>
 
         <View style={styles.infoRow}>
-          <Phone size={34} color="#22C55E" /> {/* ✅ Phone lucide icon */}
+          <Phone size={34} color="#22C55E" />
           <View style={{ flex: 1, marginLeft: 12 }}>
             <Text style={styles.smallLabel}>Current Phone</Text>
             <Text style={styles.infoValue}>+91 9876543210</Text>
           </View>
           <View style={styles.unverifiedBadge}>
-            <AlertCircle size={18} color="#F97316" /> {/* ✅ AlertCircle lucide icon */}
+            <AlertCircle size={18} color="#F97316" />
             <Text style={styles.unverifiedText}>Unverified</Text>
           </View>
         </View>
