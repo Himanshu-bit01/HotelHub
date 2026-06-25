@@ -23,8 +23,9 @@ import {
 } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import HotelHubHeader from '../../components/HotelHubHeader/HotelHubHeader';
+import { BookingItem } from '../../types';
 
-const upcomingBookings = [
+const upcomingBookings: BookingItem[] = [
   {
     id: 'HH1234567890',
     status: 'Confirmed',
@@ -69,7 +70,7 @@ const upcomingBookings = [
   },
 ];
 
-const cancelledBookings = [
+const cancelledBookings: (BookingItem & { cancelledOn: string; cancellationReason: string; refundStatus: string; refundStatusColor: string; refundAmount: string })[] = [
   {
     id: 'HH1234567890',
     status: 'Cancelled',
@@ -102,14 +103,23 @@ const cancelledBookings = [
   },
 ];
 
-const StatusBadge = ({ label, color, bg, IconComp }) => (
+type StatusBadgeProps = {
+  label: string;
+  color: string;
+  bg: string;
+  IconComp: any;
+};
+
+const StatusBadge = ({ label, color, bg, IconComp }: StatusBadgeProps) => (
   <View style={[styles.statusBadge, { backgroundColor: bg }]}>
     <IconComp size={12} color={color} style={{ marginRight: 4 }} />
     <Text style={[styles.statusBadgeText, { color }]}>{label}</Text>
   </View>
 );
 
-const UpcomingCard = ({ item }) => (
+type UpcomingCardProps = { item: BookingItem };
+
+const UpcomingCard = ({ item }: UpcomingCardProps) => (
   <View style={styles.card}>
     <View style={styles.cardTopRow}>
       <View>
@@ -118,8 +128,8 @@ const UpcomingCard = ({ item }) => (
       </View>
       <StatusBadge
         label={item.status}
-        color={item.statusColor}
-        bg={item.statusBg}
+        color={item.statusColor ?? '#000'}
+        bg={item.statusBg ?? '#EEE'}
         IconComp={CheckCircle2}
       />
     </View>
@@ -159,7 +169,11 @@ const UpcomingCard = ({ item }) => (
   </View>
 );
 
-const CancelledCard = ({ item }) => (
+type CancelledCardProps = {
+  item: BookingItem & { cancelledOn: string; cancellationReason: string; refundStatus: string; refundStatusColor: string; refundAmount: string };
+};
+
+const CancelledCard = ({ item }: CancelledCardProps) => (
   <View style={styles.card}>
     <View style={styles.cardTopRow}>
       <View>
@@ -226,15 +240,14 @@ const CancelledCard = ({ item }) => (
   </View>
 );
 
-const BookingScreen = ({ navigation }) => {
-  const [activeTab, setActiveTab] = useState('upcoming');
+const BookingScreen = () => {
+  const [activeTab, setActiveTab] = useState<'upcoming' | 'cancelled'>('upcoming');
   const insets = useSafeAreaInsets();
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" backgroundColor="#1A0533" />
 
-      {/* Header */}
       <HotelHubHeader
         theme="dark"
         rightIcons={
@@ -247,7 +260,6 @@ const BookingScreen = ({ navigation }) => {
 
       <Text style={styles.screenTitle}>My Booking</Text>
 
-      {/* Tabs */}
       <View style={styles.tabsWrap}>
         <TouchableOpacity
           style={[styles.tab, activeTab === 'upcoming' && styles.tabActive]}
@@ -271,7 +283,6 @@ const BookingScreen = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={[styles.scrollContent, { paddingBottom: insets.bottom + 90 }]}
       >
-        {/* Banner */}
         {activeTab === 'upcoming' ? (
           <View style={styles.bannerUpcoming}>
             <Hourglass size={18} color="#8B2FC9" style={{ marginRight: 10 }} />

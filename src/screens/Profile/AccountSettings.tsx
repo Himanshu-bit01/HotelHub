@@ -9,10 +9,10 @@ import {
   Image,
 } from 'react-native';
 import { Camera, Mail, Phone, CheckCircle, AlertCircle } from 'lucide-react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const AccountSettings = () => {
-  const dispatch = useDispatch();
+
 
   const account = useSelector(
     (state: any) => state.account || {}
@@ -25,7 +25,7 @@ const AccountSettings = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [profileImage] = useState<string | null>(null);
 
   return (
     <ScrollView

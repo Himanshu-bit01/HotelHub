@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import {
-  View,
   Text,
   StyleSheet,
   Animated,
@@ -13,15 +12,18 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const { height: SCREEN_H } = Dimensions.get('window');
 
-const SplashScreen = ({ navigation }) => {
-  const logoOpacity = useRef(new Animated.Value(0)).current;
-  const logoScale   = useRef(new Animated.Value(0.85)).current;
-  const textOpacity = useRef(new Animated.Value(0)).current;
-  const cityOpacity = useRef(new Animated.Value(0)).current;
-  const spinValue   = useRef(new Animated.Value(0)).current;
+type SplashScreenProps = {
+  navigation: any;
+};
+
+const SplashScreen = ({ navigation }: SplashScreenProps) => {
+  const logoOpacity = useRef(new Animated.Value(0)).current as any;
+  const logoScale   = useRef(new Animated.Value(0.85)).current as any;
+  const textOpacity = useRef(new Animated.Value(0)).current as any;
+  const cityOpacity = useRef(new Animated.Value(0)).current as any;
+  const spinValue   = useRef(new Animated.Value(0)).current as any;
 
   useEffect(() => {
-    // Spinner loop
     const spinAnim = Animated.loop(
       Animated.timing(spinValue, {
         toValue: 1,
@@ -32,7 +34,6 @@ const SplashScreen = ({ navigation }) => {
     );
     spinAnim.start();
 
-    // Entrance sequence
     const entranceAnim = Animated.sequence([
       Animated.parallel([
         Animated.timing(logoOpacity, { toValue: 1, duration: 700, useNativeDriver: true }),
@@ -54,6 +55,7 @@ const SplashScreen = ({ navigation }) => {
       spinAnim.stop();
       entranceAnim.stop();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const spin = spinValue.interpolate({
@@ -72,7 +74,6 @@ const SplashScreen = ({ navigation }) => {
     >
       <StatusBar barStyle="light-content" backgroundColor="#7F2DFE" />
 
-      {/* ── Logo + brand name ── */}
       <Animated.View
         style={[styles.logoBlock, { opacity: logoOpacity, transform: [{ scale: logoScale }] }]}
       >
@@ -82,17 +83,14 @@ const SplashScreen = ({ navigation }) => {
         </Text>
       </Animated.View>
 
-      {/* ── Spinning loader ── */}
       <Animated.View style={[styles.loaderWrap, { opacity: textOpacity }]}>
         <Animated.View style={[styles.loaderRing, { transform: [{ rotate: spin }] }]} />
       </Animated.View>
 
-      {/* ── Tagline ── */}
       <Animated.Text style={[styles.tagline, { opacity: textOpacity }]}>
         Finding best stays{'\n'}for you...
       </Animated.Text>
 
-      {/* ── Cityscape image at bottom ── */}
       <Animated.View style={[styles.cityWrap, { opacity: cityOpacity }]}>
         <Image source={imageSource} style={styles.cityImage} resizeMode="contain" />
       </Animated.View>
@@ -153,7 +151,7 @@ const styles = StyleSheet.create({
   },
   cityImage: {
     width: '100%',
-    height: '440',
+    height: 440 as any,
     position: 'absolute',
     bottom:1,
 

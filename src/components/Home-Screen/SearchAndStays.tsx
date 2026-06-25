@@ -13,7 +13,6 @@ import {
 import {
   MapPin,
   Star,
-  ArrowRight,
   Search,
   CalendarDays,
   Users,
@@ -21,17 +20,23 @@ import {
 } from 'lucide-react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useHomeContext } from '../../redux/context/HomeContext';
 import {
   selectRecentStays,
   selectHotelsLoading,
   selectHotelsError,
 } from '../../redux/store/slices/HotelSlice';
+import { RootStackParamList } from '../../types';
 
 const { width } = Dimensions.get('window');
 
-const SearchAndStays = () => {
-  const navigation = useNavigation();
+type SearchAndStaysProps = {
+  navigation?: any;
+};
+
+const SearchAndStays = (_props?: SearchAndStaysProps) => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const {
     destination,
     setDestination,
@@ -47,14 +52,12 @@ const SearchAndStays = () => {
 
   return (
     <View style={styles.wrapper}>
-      {/* ══════════════ SEARCH CARD ══════════════ */}
       <View style={styles.searchCard}>
         <View style={styles.searchCardHeader}>
           <Text style={styles.searchCardTitle}>Find your next stay </Text>
           <Text style={styles.searchCardStar}>✦</Text>
         </View>
 
-        {/* Destination */}
         <Text style={styles.fieldLabel}>Destination</Text>
         <View style={styles.inputBox}>
           <Search size={15} color="#AAA" strokeWidth={2} style={styles.inputIcon} />
@@ -67,7 +70,6 @@ const SearchAndStays = () => {
           />
         </View>
 
-        {/* Check-in & Check-out */}
         <Text style={styles.fieldLabel}>Check-in & Check-out</Text>
         <View style={styles.inputBox}>
           <CalendarDays size={15} color="#AAA" strokeWidth={2} style={styles.inputIcon} />
@@ -80,7 +82,6 @@ const SearchAndStays = () => {
           />
         </View>
 
-        {/* Guests & Rooms */}
         <Text style={styles.fieldLabel}>Guests & Rooms</Text>
         <View style={styles.inputBox}>
           <Users size={15} color="#AAA" strokeWidth={2} style={styles.inputIcon} />
@@ -90,7 +91,6 @@ const SearchAndStays = () => {
           </View>
         </View>
 
-        {/* Search Button */}
         <TouchableOpacity
           style={styles.searchBtn}
           activeOpacity={0.85}
@@ -100,7 +100,6 @@ const SearchAndStays = () => {
         </TouchableOpacity>
       </View>
 
-      {/* ══════════════ RECENT SEARCHES ══════════════ */}
       <View style={styles.recentSection}>
         <View style={styles.recentHeader}>
           <View style={styles.recentTitleRow}>
@@ -121,21 +120,18 @@ const SearchAndStays = () => {
           Swipe through the stays travelers are checking back on right now.
         </Text>
 
-        {/* Loading state */}
         {loading && (
           <View style={styles.stateBox}>
             <ActivityIndicator size="small" color="#7C3AED" />
           </View>
         )}
 
-        {/* Error state */}
         {!loading && error && (
           <View style={styles.stateBox}>
             <Text style={styles.errorText}>{error}</Text>
           </View>
         )}
 
-        {/* Horizontal Hotel Cards */}
         {!loading && !error && (
           <ScrollView
             horizontal
@@ -147,22 +143,18 @@ const SearchAndStays = () => {
                 key={stay.id}
                 style={styles.stayCard}
                 activeOpacity={0.85}
-                onPress={() => navigation.navigate('Bookings')}
+                onPress={() => navigation.navigate('Bottom', { screen: 'Bookings' })}
               >
-                {/* Card image */}
                 <View style={styles.cardImageWrapper}>
                   <Image
                     source={stay.image}
                     style={styles.cardImage}
                     resizeMode="cover"
                   />
-                  {/* Gradient overlay */}
                   <View style={styles.cardImageOverlay} />
-                  {/* Heart icon */}
                   <TouchableOpacity style={styles.cardHeartBtn}>
                     <Heart size={13} color="#FFFFFF" strokeWidth={2} />
                   </TouchableOpacity>
-                  {/* Trending badge */}
                   {stay.trending && (
                     <View style={styles.trendingBadge}>
                       <Text style={styles.trendingText}>Trending</Text>
@@ -170,7 +162,6 @@ const SearchAndStays = () => {
                   )}
                 </View>
 
-                {/* Card body */}
                 <View style={styles.cardBody}>
                   <Text style={styles.cardName} numberOfLines={1}>{stay.name}</Text>
 
@@ -204,14 +195,9 @@ const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: '#F5F3F8',
   },
-
-  // ── Search Card ──
   searchCard: {
     backgroundColor: '#FFFFFF',
     marginHorizontal: 14,
-    // Pull the card up so it overlaps the bottom of the hero section.
-    // Screenshot shows the card starting roughly 28% up from the hero bottom,
-    // which on a typical device is ~100px of overlap.
     marginTop: -100,
     borderRadius: 18,
     padding: 18,
@@ -291,8 +277,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     letterSpacing: 0.4,
   },
-
-  // ── Recent Searches ──
   recentSection: {
     paddingTop: 26,
     paddingHorizontal: 18,
@@ -363,8 +347,6 @@ const styles = StyleSheet.create({
     color: '#D14343',
     textAlign: 'center',
   },
-
-  // ── Stay Cards ──
   stayCard: {
     width: width * 0.42,
     borderRadius: 14,

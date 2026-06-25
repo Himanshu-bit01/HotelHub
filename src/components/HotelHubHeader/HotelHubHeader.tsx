@@ -1,20 +1,13 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-/**
- * Shared HotelHub brand header.
- *
- * Reference: TopNavBar dark-purple design.
- * - "Hotel" in #FFFFFF, "Hub" in #A855F7
- * - Font size 24, weight 700, letter-spacing 0.5
- * - Padding: top 35, bottom 12, horizontal 20
- *
- * Props:
- *   theme     – "dark" (default, #1A0533 bg) | "light" (white bg)
- *   rightIcons – React node rendered on the right (e.g. icon buttons)
- *   children   – optional content rendered below the brand row
- */
-const HotelHubHeader = ({ theme = 'dark', rightIcons, children }) => {
+type HotelHubHeaderProps = {
+  theme?: 'dark' | 'light';
+  rightIcons?: ReactNode;
+  children?: ReactNode;
+};
+
+const HotelHubHeader = ({ theme = 'dark', rightIcons, children }: HotelHubHeaderProps) => {
   const isDark = theme === 'dark';
 
   return (
@@ -41,7 +34,6 @@ const styles = StyleSheet.create({
   containerLight: {
     backgroundColor: '#FFFFFF',
   },
-
   topBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',

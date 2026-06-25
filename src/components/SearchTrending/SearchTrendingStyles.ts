@@ -7,8 +7,6 @@ const SearchTrendingStyles = StyleSheet.create({
   },
   body: { flex: 1, backgroundColor: '#F9FAFB' },
   bodyContent: { paddingTop: 4, paddingBottom: 0 },
-
-  // ── FORM CARD ──────────────────────────────
   formCardWrap: {
     marginHorizontal: 12,
     marginBottom: 16,
@@ -84,8 +82,6 @@ const SearchTrendingStyles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 0.3,
   },
-
-  // ── FAB ────────────────────────────────────
   fab: {
     position: 'absolute',
     bottom: -18,
@@ -102,14 +98,10 @@ const SearchTrendingStyles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     elevation: 8,
   },
-
-  // ── CARDS LIST ─────────────────────────────
   listWrap: {
     paddingHorizontal: 12,
     gap: 10,
   },
-
-  // ── CARD ───────────────────────────────────
   card: {
     flexDirection: 'row',
     backgroundColor: '#FFFFFF',
@@ -123,8 +115,6 @@ const SearchTrendingStyles = StyleSheet.create({
     elevation: 2,
     marginBottom: 10,
   },
-
-  // Photo (left)
   cardPhoto: {
     width: 110,
     position: 'relative',
@@ -157,8 +147,6 @@ const SearchTrendingStyles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 5,
   },
-
-  // Info (right)
   cardInfo: {
     flex: 1,
     paddingHorizontal: 11,

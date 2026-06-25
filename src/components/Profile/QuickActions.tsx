@@ -7,14 +7,19 @@ import {
   HeadphonesIcon,
 } from 'lucide-react-native';
 
+
 const QUICK_ACTIONS = [
-  { id: 'bookings', label: 'Bookings', Icon: BookOpen, iconBg: '#EDE9FE', iconColor: '#7C3AED', screen: 'Bookings' },
-  { id: 'payments', label: 'Payments', Icon: CreditCard, iconBg: '#D1FAE5', iconColor: '#059669', screen: 'Payments' },
-  { id: 'review', label: 'Review', Icon: Pencil, iconBg: '#FEF3C7', iconColor: '#D97706', screen: 'Reviews' },
-  { id: 'support', label: 'Support', Icon: HeadphonesIcon, iconBg: '#FEE2E2', iconColor: '#DC2626', screen: 'Support' },
+  { id: 'bookings', label: 'Bookings', Icon: BookOpen, iconBg: '#EDE9FE', iconColor: '#7C3AED', screen: 'Bookings' as const },
+  { id: 'payments', label: 'Payments', Icon: CreditCard, iconBg: '#D1FAE5', iconColor: '#059669', screen: 'Payments' as const },
+  { id: 'review', label: 'Review', Icon: Pencil, iconBg: '#FEF3C7', iconColor: '#D97706', screen: 'Reviews' as const },
+  { id: 'support', label: 'Support', Icon: HeadphonesIcon, iconBg: '#FEE2E2', iconColor: '#DC2626', screen: 'Support' as const },
 ];
 
-const QuickActions = ({ navigation }) => {
+type QuickActionsProps = {
+  navigation: any;
+};
+
+const QuickActions = ({ navigation }: QuickActionsProps) => {
   return (
     <View style={styles.sectionCard}>
       <Text style={styles.sectionTitle}>Quick Actions</Text>
@@ -53,7 +58,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#111827',
   },
-
   quickActionsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',

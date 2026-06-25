@@ -12,8 +12,9 @@ import ReviewsScreen from '../screens/Profile/ReviewsScreen';
 import SupportScreen from '../screens/Profile/SupportScreen';
 import { HomeProvider } from '../redux/context/HomeContext';
 import AccountSettings from '../screens/Profile/AccountSettings';
+import { RootStackParamList } from '../types';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator = () => {
   return (
@@ -33,32 +34,26 @@ const AppNavigator = () => {
         <Stack.Screen
           name="Search"
           component={SearchScreen}
-          // options={{ animation: 'slide_from_right' }}
         />
         <Stack.Screen
           name="Trending"
           component={TrendingScreen}
-          // options={{ animation: 'slide_from_right' }}
         />
         <Stack.Screen
           name="Explore"
           component={ExploreScreen}
-          // options={{ animation: 'slide_from_right' }}
         />
         <Stack.Screen
           name="Payments"
           component={PaymentsScreen}
-          // options={{ animation: 'slide_from_right' }}
         />
         <Stack.Screen
           name="Reviews"
           component={ReviewsScreen}
-          // options={{ animation: 'slide_from_right' }}
         />
         <Stack.Screen
           name="Support"
           component={SupportScreen}
-          // options={{ animation: 'slide_from_right' }}
         />
         <Stack.Screen
           name="AccountSettings"

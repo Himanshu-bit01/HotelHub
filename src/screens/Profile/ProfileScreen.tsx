@@ -37,13 +37,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import HotelHubHeader from '../../components/HotelHubHeader/HotelHubHeader';
 import QuickActions from '../../components/Profile/QuickActions';
 
+
 const { width } = Dimensions.get('window');
 
-// ─────────────────────────────────────────────────────
-//  MENU ITEMS
-// ─────────────────────────────────────────────────────
-// Sorted alphabetically by label. "My bookings" keeps its reserved spot
-// in alphabetical order (under "M") rather than being pinned/removed.
 const MENU_ITEMS = [
   { id: 'settings', label: 'Account Settings', Icon: Settings },
   { id: 'back', label: 'Back to Home', Icon: ArrowLeft },
@@ -55,9 +51,6 @@ const MENU_ITEMS = [
   { id: 'support', label: 'Support', Icon: HeadphonesIcon },
 ];
 
-// ─────────────────────────────────────────────────────
-//  STAT CARDS
-// ─────────────────────────────────────────────────────
 const STATS = [
   { id: 1, count: '0', label: 'Total Bookings', sublabel: '0 total', Icon: BookOpen, iconBg: '#EDE9FE', iconColor: '#7C3AED', trendColor: '#10B981' },
   { id: 2, count: '0', label: 'Upcoming Stays', sublabel: '0 stays', Icon: Calendar, iconBg: '#D1FAE5', iconColor: '#059669', trendColor: '#10B981' },
@@ -65,96 +58,21 @@ const STATS = [
   { id: 4, count: '₹0', label: 'Total Spent', sublabel: 'Across all bookings', Icon: IndianRupee, iconBg: '#FEF3C7', iconColor: '#D97706', trendColor: '#10B981' },
 ];
 
-// ─────────────────────────────────────────────────────
-//  RECENT ACTIVITY
-// ─────────────────────────────────────────────────────
 const ACTIVITY = [
-  {
-    id: 1,
-    title: 'Booking Confirmed',
-    desc: 'Your booking for The Grand View Hotel',
-    date: 'Jun 01, 2026 • 2 nights',
-    dotColor: '#10B981',
-    Icon: CheckCircle,
-    iconColor: '#10B981',
-    iconBg: '#D1FAE5',
-  },
-  {
-    id: 2,
-    title: 'New Listing Added',
-    desc: 'Sunrise Villa has been added to saved',
-    date: 'May 28, 2026',
-    dotColor: '#7C3AED',
-    Icon: Bookmark,
-    iconColor: '#7C3AED',
-    iconBg: '#EDE9FE',
-  },
-  {
-    id: 3,
-    title: 'Payment Received',
-    desc: 'Payment of ₹3,200 received successfully',
-    date: 'May 25, 2026',
-    dotColor: '#10B981',
-    Icon: Banknote,
-    iconColor: '#10B981',
-    iconBg: '#D1FAE5',
-  },
-  {
-    id: 4,
-    title: 'Review Submitted',
-    desc: 'You reviewed The Ocean View Hotel',
-    date: 'May 22, 2026',
-    dotColor: '#F59E0B',
-    Icon: Star,
-    iconColor: '#F59E0B',
-    iconBg: '#FEF3C7',
-  },
-  {
-    id: 5,
-    title: 'Booking Cancelled',
-    desc: 'Booking for Mountain Retreat cancelled',
-    date: 'May 18, 2026',
-    dotColor: '#DC2626',
-    Icon: X,
-    iconColor: '#DC2626',
-    iconBg: '#FEE2E2',
-  },
+  { id: 1, title: 'Booking Confirmed', desc: 'Your booking for The Grand View Hotel', date: 'Jun 01, 2026 • 2 nights', dotColor: '#10B981', Icon: CheckCircle, iconColor: '#10B981', iconBg: '#D1FAE5' },
+  { id: 2, title: 'New Listing Added', desc: 'Sunrise Villa has been added to saved', date: 'May 28, 2026', dotColor: '#7C3AED', Icon: Bookmark, iconColor: '#7C3AED', iconBg: '#EDE9FE' },
+  { id: 3, title: 'Payment Received', desc: 'Payment of ₹3,200 received successfully', date: 'May 25, 2026', dotColor: '#10B981', Icon: Banknote, iconColor: '#10B981', iconBg: '#D1FAE5' },
+  { id: 4, title: 'Review Submitted', desc: 'You reviewed The Ocean View Hotel', date: 'May 22, 2026', dotColor: '#F59E0B', Icon: Star, iconColor: '#F59E0B', iconBg: '#FEF3C7' },
+  { id: 5, title: 'Booking Cancelled', desc: 'Booking for Mountain Retreat cancelled', date: 'May 18, 2026', dotColor: '#DC2626', Icon: X, iconColor: '#DC2626', iconBg: '#FEE2E2' },
 ];
 
-// ─────────────────────────────────────────────────────
-//  NOTIFICATIONS
-// ─────────────────────────────────────────────────────
 const NOTIFS = [
-  {
-    id: 1,
-    title: 'Check-in Reminder',
-    desc: 'Your stay at The Ocean View Hotel is tomorrow. Check-in starts at 2PM.',
-    Icon: Bell,
-    iconColor: '#7C3AED',
-    iconBg: '#EDE9FE',
-  },
-  {
-    id: 2,
-    title: 'Payment Pending',
-    desc: 'You have a payment of ₹4,500 due in 2 days for Sunrise Villa',
-    Icon: CreditCard,
-    iconColor: '#F59E0B',
-    iconBg: '#FEF3C7',
-  },
-  {
-    id: 3,
-    title: 'Exclusive Offer for You',
-    desc: 'Get 20% off on your next booking. Use code SAVE20. Valid till Jun 30.',
-    Icon: Gift,
-    iconColor: '#10B981',
-    iconBg: '#D1FAE5',
-  },
+  { id: 1, title: 'Check-in Reminder', desc: 'Your stay at The Ocean View Hotel is tomorrow. Check-in starts at 2PM.', Icon: Bell, iconColor: '#7C3AED', iconBg: '#EDE9FE' },
+  { id: 2, title: 'Payment Pending', desc: 'You have a payment of ₹4,500 due in 2 days for Sunrise Villa', Icon: CreditCard, iconColor: '#F59E0B', iconBg: '#FEF3C7' },
+  { id: 3, title: 'Exclusive Offer for You', desc: 'Get 20% off on your next booking. Use code SAVE20. Valid till Jun 30.', Icon: Gift, iconColor: '#10B981', iconBg: '#D1FAE5' },
 ];
 
-// ─────────────────────────────────────────────────────
-//  STAT CARD COMPONENT
-// ─────────────────────────────────────────────────────
-const StatCard = ({ item }) => (
+const StatCard = ({ item }: { item: typeof STATS[number] }) => (
   <View style={styles.statCard}>
     <View style={styles.statTop}>
       <View style={[styles.statIconWrap, { backgroundColor: item.iconBg }]}>
@@ -168,16 +86,16 @@ const StatCard = ({ item }) => (
   </View>
 );
 
-// ─────────────────────────────────────────────────────
-//  MAIN SCREEN
-// ─────────────────────────────────────────────────────
-const ProfileScreen = ({ navigation }) => {
+type ProfileScreenProps = {
+  navigation: any;
+};
+
+const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
   const insets = useSafeAreaInsets();
   return (
     <SafeAreaView style={styles.safe} edges={['left', 'right', 'bottom']} >
       <StatusBar barStyle="light-content" backgroundColor="#1A0533" />
 
-      {/* ══ HEADER ══════════════════════════════ */}
       <HotelHubHeader
         theme="dark"
         rightIcons={
@@ -198,20 +116,15 @@ const ProfileScreen = ({ navigation }) => {
         }
       />
 
-      {/* ══ SCROLL ══════════════════════════════ */}
       <ScrollView
         style={styles.body}
         contentContainerStyle={[styles.bodyContent, { paddingBottom: insets.bottom + 70 }]}
         showsVerticalScrollIndicator={false}
       >
-        {/* ── Profile Hero Card ── */}
         <View style={styles.profileHero}>
-          {/* Avatar */}
           <View style={styles.avatar}>
             <Text style={styles.avatarLetter}>U</Text>
           </View>
-
-          {/* Info */}
           <View style={styles.profileInfo}>
             <Text style={styles.welcomeTxt}>Welcome back,</Text>
             <Text style={styles.profileName}>Guest</Text>
@@ -221,18 +134,15 @@ const ProfileScreen = ({ navigation }) => {
               <Text style={styles.bookingsTxt}> 0 bookings</Text>
             </View>
           </View>
-
-          {/* Book a Stay button */}
           <TouchableOpacity style={styles.bookStayBtn} activeOpacity={0.85} onPress={() => navigation.navigate('Bottom', { screen: 'Home' })}>
             <Text style={styles.bookStayTxt}>Book a Stay</Text>
           </TouchableOpacity>
         </View>
 
-        {/* ── Menu List ── */}
         <View style={styles.menuCard}>
           {MENU_ITEMS.map((item, idx) => {
             const isFirst = idx === 0;
-            const menuNavMap = {
+            const menuNavMap: Record<string, any> = {
               dashboard: { screen: 'Bottom', params: { screen: 'Home' } },
               bookings: 'Bookings',
               payments: 'Payments',
@@ -270,12 +180,10 @@ const ProfileScreen = ({ navigation }) => {
           })}
         </View>
 
-        {/* ── Stats Grid ── */}
         <View style={styles.statsGrid}>
           {STATS.map(s => <StatCard key={s.id} item={s} />)}
         </View>
 
-        {/* ── Upcoming Stays ── */}
         <View style={styles.sectionCard}>
           <View style={styles.sectionHeaderRow}>
             <Text style={styles.sectionTitle}>Upcoming Stays</Text>
@@ -283,8 +191,6 @@ const ProfileScreen = ({ navigation }) => {
               <Text style={styles.seeAll}>Show All</Text>
             </TouchableOpacity>
           </View>
-
-          {/* Empty state */}
           <View style={styles.emptyState}>
             <View style={styles.emptyIcon}>
               <Hotel size={20} color="#9CA3AF" strokeWidth={1.5} />
@@ -296,9 +202,7 @@ const ProfileScreen = ({ navigation }) => {
           </View>
         </View>
 
-        {/* ── Recent Activity + Notifications (side by side) ── */}
         <View style={styles.twoColRow}>
-          {/* Recent Activity */}
           <View style={[styles.twoColCard, { marginRight: 5 }]}>
             <View style={styles.sectionHeaderRow}>
               <Text style={styles.sectionTitle}>Recent Activity</Text>
@@ -318,7 +222,6 @@ const ProfileScreen = ({ navigation }) => {
             ))}
           </View>
 
-          {/* Notifications */}
           <View style={[styles.twoColCard, { marginLeft: 5 }]}>
             <View style={styles.sectionHeaderRow}>
               <Text style={styles.sectionTitle}>Notifications</Text>
@@ -343,7 +246,6 @@ const ProfileScreen = ({ navigation }) => {
           </View>
         </View>
 
-        {/* ── Quick Actions ── */}
         <QuickActions navigation={navigation} />
 
       </ScrollView>
@@ -351,13 +253,8 @@ const ProfileScreen = ({ navigation }) => {
   );
 };
 
-// ─────────────────────────────────────────────────────
-//  STYLES
-// ─────────────────────────────────────────────────────
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#F3F4F6' },
-
-  // ── Header ─────────────────────────────────
   hBtn: { width: 32, height: 32, justifyContent: 'center', alignItems: 'center' },
   redDot: {
     position: 'absolute', top: -1, right: -1,
@@ -367,12 +264,8 @@ const styles = StyleSheet.create({
     width: 28, height: 28, backgroundColor: '#7C3AED',
     borderRadius: 6, justifyContent: 'center', alignItems: 'center',
   },
-
-  // ── Body ────────────────────────────────────
   body: { flex: 1 },
   bodyContent: { padding: 12, gap: 10 },
-
-  // ── Profile Hero ────────────────────────────
   profileHero: {
     backgroundColor: '#7C3AED',
     borderRadius: 14,
@@ -410,8 +303,6 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
   },
   bookStayTxt: { fontSize: 10, color: '#7C3AED', fontWeight: '700' },
-
-  // ── Menu Card ───────────────────────────────
   menuCard: {
     backgroundColor: '#FFFFFF',
     borderRadius: 14,
@@ -456,8 +347,6 @@ const styles = StyleSheet.create({
     color: '#7C3AED',
     fontWeight: '700',
   },
-
-  // ── Stats Grid ──────────────────────────────
   statsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -504,8 +393,6 @@ const styles = StyleSheet.create({
     color: '#9CA3AF',
     marginTop: 1,
   },
-
-  // ── Section Card ────────────────────────────
   sectionCard: {
     backgroundColor: '#FFFFFF',
     borderRadius: 14,
@@ -532,8 +419,6 @@ const styles = StyleSheet.create({
     color: '#7C3AED',
     fontWeight: '600',
   },
-
-  // ── Empty State ─────────────────────────────
   emptyState: {
     alignItems: 'center',
     paddingVertical: 16,
@@ -563,8 +448,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '700',
   },
-
-  // ── Two-column row ──────────────────────────
   twoColRow: {
     flexDirection: 'row',
   },
@@ -579,8 +462,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     elevation: 1,
   },
-
-  // ── Activity ────────────────────────────────
   activityItem: {
     flexDirection: 'row',
     alignItems: 'flex-start',
@@ -612,8 +493,6 @@ const styles = StyleSheet.create({
     color: '#9CA3AF',
     marginTop: 2,
   },
-
-  // ── Notifications ───────────────────────────
   notifBadge: {
     backgroundColor: '#EF4444',
     borderRadius: 8,

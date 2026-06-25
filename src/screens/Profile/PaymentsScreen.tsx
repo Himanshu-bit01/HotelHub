@@ -8,99 +8,27 @@ import {
   StatusBar,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import {
-  ArrowLeft,
-  Plus,
-  Trash2,
-  Hotel,
-} from 'lucide-react-native';
+import { ArrowLeft, Plus, Trash2, Hotel } from 'lucide-react-native';
 
-// ─────────────────────────────────────────────────────
-//  PAYMENT METHODS
-// ─────────────────────────────────────────────────────
 const PAYMENT_METHODS = [
-  {
-    id: 1,
-    type: 'Visa',
-    badgeBg: '#1A56DB',
-    badgeLabel: 'Visa',
-    name: 'HDFC Bank Visa',
-    detail: '•••• •••• •••• 4242',
-    meta: 'Expires 12/2027',
-    isDefault: true,
-  },
-  {
-    id: 2,
-    type: 'Mastercard',
-    badgeBg: '#EA580C',
-    badgeLabel: 'MasterCard',
-    name: 'SBI Mastercard',
-    detail: '•••• •••• •••• 8868',
-    meta: 'Expires 08/2026',
-    isDefault: false,
-  },
-  {
-    id: 3,
-    type: 'UPI',
-    badgeBg: '#16A34A',
-    badgeLabel: 'UPI',
-    name: 'Google Pay UPI',
-    detail: 'arjun@okaxis',
-    meta: null,
-    isDefault: false,
-  },
+  { id: 1, type: 'Visa', badgeBg: '#1A56DB', badgeLabel: 'Visa', name: 'HDFC Bank Visa', detail: '•••• •••• •••• 4242', meta: 'Expires 12/2027', isDefault: true },
+  { id: 2, type: 'Mastercard', badgeBg: '#EA580C', badgeLabel: 'MasterCard', name: 'SBI Mastercard', detail: '•••• •••• •••• 8868', meta: 'Expires 08/2026', isDefault: false },
+  { id: 3, type: 'UPI', badgeBg: '#16A34A', badgeLabel: 'UPI', name: 'Google Pay UPI', detail: 'arjun@okaxis', meta: null, isDefault: false },
 ];
 
-// ─────────────────────────────────────────────────────
-//  TRANSACTION HISTORY
-// ─────────────────────────────────────────────────────
 const TRANSACTIONS = [
-  {
-    id: 1,
-    title: 'The Leela Palace New Delhi - Jun 15-18',
-    method: 'Visa •••• 4242',
-    amount: '-₹53,100',
-    amountColor: '#DC2626',
-    date: '01 May 2026',
-  },
-  {
-    id: 2,
-    title: 'The Claridges New Delhi - Mar 18-20',
-    method: 'Visa •••• 4242',
-    amount: '-₹33,040',
-    amountColor: '#DC2626',
-    date: '28 Feb 2026',
-  },
-  {
-    id: 3,
-    title: 'Vivanta New Delhi, Dwarka - Feb 9-12',
-    method: 'Visa •••• 4242',
-    amount: '-₹49,590',
-    amountColor: '#DC2626',
-    date: '25 Jan 2026',
-  },
-  {
-    id: 4,
-    title: 'Refund - Radisson Blu Plaza Delhi Airport',
-    method: 'Google Pay UPI',
-    amount: '+₹14,160',
-    amountColor: '#16A34A',
-    date: '17 Jan 2026',
-  },
-  {
-    id: 5,
-    title: 'Refund - Hyatt Regency Delhi',
-    method: 'Visa •••• 4242',
-    amount: '+₹84,900',
-    amountColor: '#16A34A',
-    date: '12 Dec 2025',
-  },
+  { id: 1, title: 'The Leela Palace New Delhi - Jun 15-18', method: 'Visa •••• 4242', amount: '-₹53,100', amountColor: '#DC2626', date: '01 May 2026' },
+  { id: 2, title: 'The Claridges New Delhi - Mar 18-20', method: 'Visa •••• 4242', amount: '-₹33,040', amountColor: '#DC2626', date: '28 Feb 2026' },
+  { id: 3, title: 'Vivanta New Delhi, Dwarka - Feb 9-12', method: 'Visa •••• 4242', amount: '-₹49,590', amountColor: '#DC2626', date: '25 Jan 2026' },
+  { id: 4, title: 'Refund - Radisson Blu Plaza Delhi Airport', method: 'Google Pay UPI', amount: '+₹14,160', amountColor: '#16A34A', date: '17 Jan 2026' },
+  { id: 5, title: 'Refund - Hyatt Regency Delhi', method: 'Visa •••• 4242', amount: '+₹84,900', amountColor: '#16A34A', date: '12 Dec 2025' },
 ];
 
-// ─────────────────────────────────────────────────────
-//  PAYMENT & WALLET SCREEN
-// ─────────────────────────────────────────────────────
-const PaymentsScreen = ({ navigation }) => {
+type PaymentsScreenProps = {
+  navigation: any;
+};
+
+const PaymentsScreen = ({ navigation }: PaymentsScreenProps) => {
   const insets = useSafeAreaInsets();
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -117,11 +45,9 @@ const PaymentsScreen = ({ navigation }) => {
         contentContainerStyle={[styles.bodyContent, { paddingBottom: insets.bottom + 24 }]}
         showsVerticalScrollIndicator={false}
       >
-        {/* ── Title ── */}
         <Text style={styles.title}>Payment & Wallet</Text>
         <Text style={styles.subtitle}>Manage payment methods and view transaction history</Text>
 
-        {/* ── Wallet Card ── */}
         <View style={styles.walletCard}>
           <View style={{ flex: 1 }}>
             <Text style={styles.walletLabel}>HotelHub Wallet</Text>
@@ -133,7 +59,6 @@ const PaymentsScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/* ── Payment Methods Header ── */}
         <View style={styles.sectionHeaderRow}>
           <Text style={styles.sectionTitle}>Payment Methods</Text>
           <TouchableOpacity style={styles.addNewBtn} activeOpacity={0.8}>
@@ -142,7 +67,6 @@ const PaymentsScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/* ── Payment Method List ── */}
         <View style={styles.methodList}>
           {PAYMENT_METHODS.map(m => (
             <View key={m.id} style={styles.methodCard}>
@@ -170,7 +94,6 @@ const PaymentsScreen = ({ navigation }) => {
           ))}
         </View>
 
-        {/* ── Transaction History ── */}
         <Text style={[styles.sectionTitle, { marginTop: 22, marginBottom: 12 }]}>Transaction History</Text>
         <View style={styles.txnList}>
           {TRANSACTIONS.map(t => (
@@ -194,22 +117,14 @@ const PaymentsScreen = ({ navigation }) => {
   );
 };
 
-// ─────────────────────────────────────────────────────
-//  STYLES
-// ─────────────────────────────────────────────────────
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#FFFFFF' },
-
   topBar: { height: 44, justifyContent: 'center', paddingHorizontal: 16 },
   backBtn: { width: 32, height: 32, justifyContent: 'center', alignItems: 'flex-start' },
-
   body: { flex: 1 },
   bodyContent: { paddingHorizontal: 18, paddingTop: 4 },
-
   title: { fontSize: 23, fontWeight: '800', color: '#111827' },
   subtitle: { fontSize: 12.5, color: '#9CA3AF', lineHeight: 17, marginTop: 4, marginBottom: 16 },
-
-  // ── Wallet Card ──
   walletCard: {
     backgroundColor: '#7C3AED',
     borderRadius: 16,
@@ -228,8 +143,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   addMoneyTxt: { fontSize: 12, color: '#7C3AED', fontWeight: '700' },
-
-  // ── Section Header ──
   sectionHeaderRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -248,8 +161,6 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   addNewTxt: { fontSize: 11.5, color: '#7C3AED', fontWeight: '700' },
-
-  // ── Payment Method List ──
   methodList: { gap: 10 },
   methodCard: {
     flexDirection: 'row',
@@ -275,8 +186,6 @@ const styles = StyleSheet.create({
   methodRight: { alignItems: 'flex-end' },
   defaultTag: { fontSize: 10.5, color: '#16A34A', fontWeight: '700' },
   setDefaultTag: { fontSize: 10.5, color: '#7C3AED', fontWeight: '600' },
-
-  // ── Transaction History ──
   txnList: { gap: 14 },
   txnRow: { flexDirection: 'row', alignItems: 'center' },
   txnIconWrap: {

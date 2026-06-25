@@ -9,14 +9,14 @@ const TABS = [
   { label: 'Explore', Icon: Compass },
 ];
 
-const TopNavBar = ({ navigation }) => {
-  const { selectedTab, setSelectedTab } = useHomeContext();
+type TopNavBarProps = {
+  navigation: any;
+};
 
-  // Derive the actual current route name from navigation state.
-  // Check the parent navigator first (tab/stack), then fall back to
-  // the local navigator. This ensures we always reflect the real
-  // screen that is visible, not just the last tab the user tapped.
-  const getActiveRouteName = () => {
+const TopNavBar = ({ navigation }: TopNavBarProps) => {
+  const { setSelectedTab } = useHomeContext();
+
+  const getActiveRouteName = (): string | null => {
     if (!navigation) return null;
     try {
       const parent = navigation.getParent();
@@ -28,26 +28,18 @@ const TopNavBar = ({ navigation }) => {
     }
   };
 
-  // Re-evaluate on every render so the highlight updates the moment
-  // the user navigates away from one of the tab screens.
   const activeRouteName = getActiveRouteName();
 
-  // A tab is highlighted only when the current visible screen matches
-  // its label. If we are on any other screen (e.g. Bookings, Details)
-  // none of the tabs will appear selected.
-  const isTabActive = (label) => activeRouteName === label;
+  const isTabActive = (label: string) => activeRouteName === label;
 
   return (
     <View style={styles.container}>
-      {/* ── Brand Row ── */}
       <View style={styles.brandRow}>
-        {/* Logo */}
         <Text style={styles.logoText}>
           <Text style={styles.logoHotel}>Hotel</Text>
           <Text style={styles.logoHub}>Hub</Text>
         </Text>
 
-        {/* Right Icons */}
         <View style={styles.rightIcons}>
           <TouchableOpacity style={styles.iconBtn}>
             <Heart size={20} color="#FFFFFF" strokeWidth={1.8} />
@@ -58,7 +50,6 @@ const TopNavBar = ({ navigation }) => {
         </View>
       </View>
 
-      {/* ── Search / Trending / Explore Tabs ── */}
       <View style={styles.tabsWrapper}>
         <View style={styles.searchTabsRow}>
           {TABS.map(({ label, Icon }, i) => {
@@ -72,12 +63,12 @@ const TopNavBar = ({ navigation }) => {
                   if (navigation) {
                     const parent = navigation.getParent();
                     if (parent) {
-                      parent.navigate(label);
+                      parent.navigate(label as any);
                     } else {
                       const currentRoute =
                         navigation.getState()?.routes[navigation.getState()?.index]?.name;
                       if (currentRoute !== label) {
-                        navigation.navigate(label);
+                        navigation.navigate(label as any);
                       }
                     }
                   }
@@ -104,8 +95,6 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     paddingHorizontal: 16,
   },
-
-  // ── Brand Row ──
   brandRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -136,8 +125,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
-  // ── Tabs ──
   tabsWrapper: {
     paddingHorizontal: 0,
   },

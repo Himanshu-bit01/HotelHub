@@ -23,153 +23,41 @@ import { useHomeContext } from '../../redux/context/HomeContext';
 import TopNavBar from '../../components/Home-Screen/Topnavbar';
 import { BottomTabBar } from '../BottomTab/BottomTabNavigator';
 import SearchTrendingStyles from '../../components/SearchTrending/SearchTrendingStyles';
+import { HotelCardData } from '../../types';
 
-// ─────────────────────────────────────────────────────────────
-//  DATA
-// ─────────────────────────────────────────────────────────────
-export const HOTELS = [
-  {
-    id: 1,
-    name: 'Manhattan Skyline Suites',
-    location: 'Manhattan',
-    rooms: '4 Bedrooms',
-    rating: 5.0,
-    reviews: 87,
-    tags: ['City View', 'Pool', 'Free Wifi'],
-    badge: '40%',
-    badgeColor: '#7C3AED',
-    price: '₹5,000',
-    imgTop: '#5B8DB8',
-    imgBottom: '#8BAFC8',
-  },
-  {
-    id: 2,
-    name: 'Grand Palace Hotel',
-    location: 'Hotel',
-    rooms: '3 Bedrooms',
-    rating: 4.8,
-    reviews: 0,
-    tags: ['Free Wifi', 'Parking', 'Restaurant'],
-    badge: '40%',
-    badgeColor: '#7C3AED',
-    price: '₹3,500',
-    imgTop: '#3F3A36',
-    imgBottom: '#2B2725',
-  },
-  {
-    id: 3,
-    name: 'Grand Palace Hotel',
-    location: 'Cityscape',
-    rooms: '2 Bedrooms',
-    rating: 4.5,
-    reviews: 0,
-    tags: ['Free Wifi', 'Pool', 'Parking'],
-    badge: '40%',
-    badgeColor: '#7C3AED',
-    price: '₹3,000',
-    imgTop: '#C9C2B6',
-    imgBottom: '#A9A296',
-  },
-  {
-    id: 4,
-    name: 'Grand Palace Hotel',
-    location: 'Oceanfront',
-    rooms: '2 Bedrooms',
-    rating: 4.0,
-    reviews: 0,
-    tags: ['Free Wifi', 'Pool', 'Parking'],
-    badge: '40%',
-    badgeColor: '#7C3AED',
-    price: '₹9,500',
-    imgTop: '#36495A',
-    imgBottom: '#26333F',
-  },
-  {
-    id: 5,
-    name: 'Eiffel Luxury Star',
-    location: 'Central Paris',
-    rooms: '2 Bedrooms',
-    rating: 4.6,
-    reviews: 0,
-    tags: ['Free Wifi', 'Pool', 'Parking'],
-    badge: '40%',
-    badgeColor: '#7C3AED',
-    price: '₹4,000',
-    imgTop: '#3A3530',
-    imgBottom: '#272320',
-  },
-  {
-    id: 6,
-    name: 'Fab Hotel',
-    location: 'Hotel',
-    rooms: '1 Bedroom',
-    rating: 5.0,
-    reviews: 0,
-    tags: ['Free Wifi', 'Pool', 'Parking'],
-    badge: '40%',
-    badgeColor: '#7C3AED',
-    price: '₹2,000',
-    imgTop: '#3D4A52',
-    imgBottom: '#2A343A',
-  },
-  {
-    id: 7,
-    name: 'Green Valley Stay',
-    location: 'Aspen Ridge',
-    rooms: '2 Bedrooms',
-    rating: 4.1,
-    reviews: 0,
-    tags: ['Free Wifi', 'Pool', 'Parking'],
-    badge: '40%',
-    badgeColor: '#7C3AED',
-    price: '₹3,000',
-    imgTop: '#D7CDBE',
-    imgBottom: '#B9AE9C',
-  },
-  {
-    id: 8,
-    name: 'Searq',
-    location: 'In the Alps',
-    rooms: '2 Bedrooms',
-    rating: 4.0,
-    reviews: 0,
-    tags: ['Free Wifi', 'Pool', 'Parking'],
-    badge: '40%',
-    badgeColor: '#7C3AED',
-    price: '₹2,500',
-    imgTop: '#6E7E8C',
-    imgBottom: '#4F5E6B',
-  },
+export const HOTELS: HotelCardData[] = [
+  { id: 1, name: 'Manhattan Skyline Suites', location: 'Manhattan', rooms: '4 Bedrooms', rating: 5.0, reviews: 87, tags: ['City View', 'Pool', 'Free Wifi'], badge: '40%', badgeColor: '#7C3AED', price: '₹5,000', imgTop: '#5B8DB8', imgBottom: '#8BAFC8' },
+  { id: 2, name: 'Grand Palace Hotel', location: 'Hotel', rooms: '3 Bedrooms', rating: 4.8, reviews: 0, tags: ['Free Wifi', 'Parking', 'Restaurant'], badge: '40%', badgeColor: '#7C3AED', price: '₹3,500', imgTop: '#3F3A36', imgBottom: '#2B2725' },
+  { id: 3, name: 'Grand Palace Hotel', location: 'Cityscape', rooms: '2 Bedrooms', rating: 4.5, reviews: 0, tags: ['Free Wifi', 'Pool', 'Parking'], badge: '40%', badgeColor: '#7C3AED', price: '₹3,000', imgTop: '#C9C2B6', imgBottom: '#A9A296' },
+  { id: 4, name: 'Grand Palace Hotel', location: 'Oceanfront', rooms: '2 Bedrooms', rating: 4.0, reviews: 0, tags: ['Free Wifi', 'Pool', 'Parking'], badge: '40%', badgeColor: '#7C3AED', price: '₹9,500', imgTop: '#36495A', imgBottom: '#26333F' },
+  { id: 5, name: 'Eiffel Luxury Star', location: 'Central Paris', rooms: '2 Bedrooms', rating: 4.6, reviews: 0, tags: ['Free Wifi', 'Pool', 'Parking'], badge: '40%', badgeColor: '#7C3AED', price: '₹4,000', imgTop: '#3A3530', imgBottom: '#272320' },
+  { id: 6, name: 'Fab Hotel', location: 'Hotel', rooms: '1 Bedroom', rating: 5.0, reviews: 0, tags: ['Free Wifi', 'Pool', 'Parking'], badge: '40%', badgeColor: '#7C3AED', price: '₹2,000', imgTop: '#3D4A52', imgBottom: '#2A343A' },
+  { id: 7, name: 'Green Valley Stay', location: 'Aspen Ridge', rooms: '2 Bedrooms', rating: 4.1, reviews: 0, tags: ['Free Wifi', 'Pool', 'Parking'], badge: '40%', badgeColor: '#7C3AED', price: '₹3,000', imgTop: '#D7CDBE', imgBottom: '#B9AE9C' },
+  { id: 8, name: 'Searq', location: 'In the Alps', rooms: '2 Bedrooms', rating: 4.0, reviews: 0, tags: ['Free Wifi', 'Pool', 'Parking'], badge: '40%', badgeColor: '#7C3AED', price: '₹2,500', imgTop: '#6E7E8C', imgBottom: '#4F5E6B' },
 ];
 
-// ─────────────────────────────────────────────────────────────
-//  HOTEL CARD
-// ─────────────────────────────────────────────────────────────
-export const HotelCard = ({ hotel, navigation }) => {
+type HotelCardProps = {
+  hotel: HotelCardData;
+  navigation: any;
+};
+
+export const HotelCard = ({ hotel, navigation }: HotelCardProps) => {
   const [liked, setLiked] = useState(false);
 
   return (
     <View style={styles.card}>
-      {/* ── Photo panel (left) ── */}
       <View style={[styles.cardPhoto, { backgroundColor: hotel.imgTop }]}>
         <View
-          style={[
-            StyleSheet.absoluteFillObject,
-            {
-              top: '55%',
-              backgroundColor: hotel.imgBottom,
-            },
+          style={          [
+            StyleSheet.absoluteFill,
+            { top: '55%', backgroundColor: hotel.imgBottom },
           ]}
         />
-
-        {/* Discount badge */}
         {hotel.badge && (
           <View style={[styles.photoBadge, { backgroundColor: hotel.badgeColor }]}>
             <Text style={styles.photoBadgeText}>{hotel.badge}</Text>
           </View>
         )}
-
-        {/* Heart */}
         <TouchableOpacity
           style={styles.photoHeart}
           onPress={() => setLiked(p => !p)}
@@ -184,18 +72,13 @@ export const HotelCard = ({ hotel, navigation }) => {
         </TouchableOpacity>
       </View>
 
-      {/* ── Info panel (right) ── */}
       <View style={styles.cardInfo}>
-        <Text style={styles.cardName} numberOfLines={1}>
-          {hotel.name}
-        </Text>
-
+        <Text style={styles.cardName} numberOfLines={1}>{hotel.name}</Text>
         <View style={styles.locationRow}>
           <MapPin size={10} color="#9CA3AF" strokeWidth={2.2} />
           <Text style={styles.locationTxt}> {hotel.location}</Text>
           <Text style={styles.roomsTxt}>  •  {hotel.rooms}</Text>
         </View>
-
         <View style={styles.starsRow}>
           <Star size={10} color="#F59E0B" fill="#F59E0B" strokeWidth={0} />
           <Text style={styles.ratingTxt}> {hotel.rating.toFixed(1)}</Text>
@@ -206,7 +89,6 @@ export const HotelCard = ({ hotel, navigation }) => {
             <Calendar size={7} color="#7C3AED" strokeWidth={2.5} />
           </View>
         </View>
-
         <View style={styles.tagsRow}>
           {hotel.tags.map(t => (
             <View key={t} style={styles.tag}>
@@ -215,7 +97,6 @@ export const HotelCard = ({ hotel, navigation }) => {
             </View>
           ))}
         </View>
-
         <View style={styles.bottomRow}>
           <View>
             <Text style={styles.priceLbl}>Price per night</Text>
@@ -234,19 +115,18 @@ export const HotelCard = ({ hotel, navigation }) => {
   );
 };
 
-// ─────────────────────────────────────────────────────────────
-//  SCREEN
-// ─────────────────────────────────────────────────────────────
-const SearchScreen = ({ navigation }) => {
-  const { setSelectedTab } = useHomeContext();
+type SearchScreenProps = {
+  navigation: any;
+};
 
+const SearchScreen = ({ navigation }: SearchScreenProps) => {
+  const { setSelectedTab } = useHomeContext();
   const [destination, setDestination] = useState('');
   const [dates, setDates] = useState('');
 
-  // Sync the HeroSection tab highlight when this screen mounts
   useEffect(() => {
     setSelectedTab('Search');
-  }, []);
+  }, [setSelectedTab]);
 
   return (
     <SafeAreaView style={styles.safe} edges={['bottom']}>
@@ -254,20 +134,17 @@ const SearchScreen = ({ navigation }) => {
 
       <TopNavBar navigation={navigation} />
 
-      {/* ══ SCROLL BODY ═════════════════════════ */}
       <ScrollView
         style={styles.body}
         contentContainerStyle={styles.bodyContent}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
-        {/* ── Search form ── */}
         <View style={styles.formCardWrap}>
           <View style={styles.formCard}>
             <Text style={styles.modifyLabel}>MODIFY SEARCH</Text>
             <View style={styles.divider} />
 
-            {/* Row 1: Destination  |  Guests & Rooms */}
             <View style={styles.formRow}>
               <View style={[styles.fieldWrap, { flex: 1.15, marginRight: 8 }]}>
                 <Text style={styles.fieldLbl}>Destination</Text>
@@ -294,7 +171,6 @@ const SearchScreen = ({ navigation }) => {
               </View>
             </View>
 
-            {/* Row 2: Check-in/out (full width) */}
             <View style={styles.fieldWrap}>
               <Text style={styles.fieldLbl}>Check-in & Check-out</Text>
               <View style={styles.fieldBox}>
@@ -309,22 +185,16 @@ const SearchScreen = ({ navigation }) => {
               </View>
             </View>
 
-            {/* Update Results button */}
-            <TouchableOpacity
-              style={styles.updateBtn}
-              activeOpacity={0.85}
-            >
+            <TouchableOpacity style={styles.updateBtn} activeOpacity={0.85}>
               <Text style={styles.updateBtnTxt}>Update Results</Text>
             </TouchableOpacity>
           </View>
 
-          {/* ── Floating purple circle (bottom-right, overlaps card) ── */}
           <View style={styles.fab}>
             <SlidersHorizontal size={18} color="#fff" strokeWidth={2.4} />
           </View>
         </View>
 
-        {/* ── Hotel cards ── */}
         <View style={styles.listWrap}>
           {HOTELS.map(h => (
             <HotelCard key={h.id} hotel={h} navigation={navigation} />

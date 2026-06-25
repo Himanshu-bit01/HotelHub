@@ -8,42 +8,28 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const { height, width } = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 
-// Hero height — tall enough so the search card overlaps it visibly
 const HERO_HEIGHT = height * 0.44;
 
 const HeroSection = () => {
   return (
     <View style={styles.heroBlock}>
-      {/* ── Hotel background image (right-aligned, full height) ── */}
       <Image
         source={require('../../assets/images/background.jpeg')}
         style={styles.heroBgImage}
         resizeMode="cover"
       />
 
-      {/*
-        ── Layer 1: deep dark base so the left side is always #1A0533 ──
-        Covers the whole block at low opacity so the image still bleeds
-        through on the right half.
-      */}
       <View style={styles.darkBase} />
 
-      {/*
-        ── Layer 2: LinearGradient sweeping left→right ──
-        Left:   fully opaque #1A0533  (text area is completely dark)
-        Center: semi-transparent #2B0B4F  (transition zone)
-        Right:  transparent  (the hotel image glow shows through)
-        This replicates the dual-color blended look in the screenshot.
-      */}
       <LinearGradient
         colors={[
-          '#1A0533',          // hard left edge — opaque          'rgba(26,5,51,0.92)',
+          '#1A0533',
           'rgba(43,11,79,0.75)',
           'rgba(60,15,100,0.40)',
           'rgba(80,20,130,0.10)',
-          'transparent',      // far right — image fully visible
+          'transparent',
         ]}
         locations={[0, 0.30, 0.45, 0.58, 0.72, 0.85, 1]}
         start={{ x: 0.5, y: 0 }}
@@ -51,11 +37,6 @@ const HeroSection = () => {
         style={StyleSheet.absoluteFill}
       />
 
-      {/*
-        ── Layer 3: top-to-bottom gradient ──
-        Darkens the very bottom of the hero so the white search card
-        appears to lift off a dark surface (matching the screenshot).
-      */}
       <LinearGradient
         colors={[
           'transparent',
@@ -68,7 +49,6 @@ const HeroSection = () => {
         style={StyleSheet.absoluteFill}
       />
 
-      {/* ── Hero Text ── */}
       <View style={styles.heroContent}>
         <View style={styles.heroBadge}>
           <Text style={styles.heroBadgeIcon}>✦</Text>
@@ -96,8 +76,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: '#1A0533',
   },
-
-  // Hotel image — fills the right ~60% of the block
   heroBgImage: {
     position: 'absolute',
     top: 0,
@@ -105,14 +83,10 @@ const styles = StyleSheet.create({
     width:'100%',
     height: '140%',
   },
-
-  // Thin dark base so the image never bleeds fully through on left
   darkBase: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: 'rgba(26,5,51,0.35)',
   },
-
-  // ── Hero Text ──
   heroContent: {
     paddingHorizontal: 20,
     paddingTop: 16,

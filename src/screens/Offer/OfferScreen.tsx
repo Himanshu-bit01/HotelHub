@@ -5,15 +5,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Dimensions,
   StatusBar,
   ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Heart,
-  User,
-  Menu,
   Search,
   TrendingUp,
   Compass,
@@ -23,6 +20,7 @@ import {
 } from 'lucide-react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { HomeProvider, useHomeContext } from '../../redux/context/HomeContext';
 import HotelHubHeader from '../../components/HotelHubHeader/HotelHubHeader';
@@ -32,13 +30,10 @@ import {
   selectHotelsLoading,
   selectHotelsError,
 } from '../../redux/store/slices/HotelSlice';
+import { AppDispatch, FeaturedHotel, CouponItem, RootStackParamList } from '../../types';
 
-const { width } = Dimensions.get('window');
 
-// ─────────────────────────────────────────────────────
-//  COUPON CARDS  (3 pink/gradient cards)
-// ─────────────────────────────────────────────────────
-const COUPONS = [
+const COUPONS: CouponItem[] = [
   {
     id: 1,
     save: 'Save',
@@ -71,15 +66,10 @@ const COUPONS = [
   },
 ];
 
-// ─────────────────────────────────────────────────────
-//  COUPON CARD COMPONENT
-// ─────────────────────────────────────────────────────
-const CouponCard = ({ item }) => (
+const CouponCard = ({ item }: { item: CouponItem }) => (
   <View style={[styles.couponCard, { backgroundColor: item.bg }]}>
-    {/* decorative circle top-right */}
     <View style={[styles.couponCircle1, { backgroundColor: item.decorColor }]} />
     <View style={[styles.couponCircle2, { backgroundColor: item.accent }]} />
-
     <Text style={styles.couponSave}>{item.save}</Text>
     <Text style={styles.couponPercent}>{item.percent}</Text>
     <Text style={styles.couponLabel}>{item.label}</Text>
@@ -87,46 +77,34 @@ const CouponCard = ({ item }) => (
   </View>
 );
 
-// ─────────────────────────────────────────────────────
-//  HIGHLIGHT CARD COMPONENT
-// ─────────────────────────────────────────────────────
-const HighlightCard = ({ item }) => (
+const HighlightCard = ({ item }: { item: FeaturedHotel }) => (
   <View style={styles.hlCard}>
-    {/* Image (left) */}
     <View style={[styles.hlImg, { backgroundColor: item.imgColor }]}>
-      {/* sky/ground layer */}
       <View
         style={[
-          StyleSheet.absoluteFillObject,
+          StyleSheet.absoluteFill,
           { top: '50%', backgroundColor: item.imgColor2, borderBottomLeftRadius: 10 },
         ]}
       />
-      {/* Badge */}
       <View style={[styles.hlBadge, { backgroundColor: item.badgeColor }]}>
         <Text style={styles.hlBadgeText}>{item.badge}</Text>
       </View>
     </View>
 
-    {/* Info (right) */}
     <View style={styles.hlInfo}>
-      {/* Rating pill top-right */}
       <View style={styles.hlRatingPill}>
         <Star size={9} color="#F59E0B" fill="#F59E0B" strokeWidth={1.5} />
         <Text style={styles.hlRatingNum}> {item.rating}</Text>
       </View>
-
       <Text style={styles.hlName} numberOfLines={1}>{item.name}</Text>
       <Text style={styles.hlSub} numberOfLines={1}>{item.sub}</Text>
-
       <View style={styles.hlLocationRow}>
         <MapPin size={9} color="#7C3AED" strokeWidth={2.5} />
         <Text style={styles.hlLocationTxt}> {item.location}</Text>
       </View>
-
       <View style={styles.hlOffRow}>
         <Text style={styles.hlOff}>{item.off}</Text>
       </View>
-
       <View style={styles.hlPriceRow}>
         <Text style={styles.hlPrice}>{item.price}</Text>
       </View>
@@ -134,16 +112,10 @@ const HighlightCard = ({ item }) => (
   </View>
 );
 
-// ─────────────────────────────────────────────────────
-//  MAIN SCREEN CONTENT
-//  Split out so it can use useDispatch/useSelector, which only work
-//  inside the Redux <Provider>, and useHomeContext, which only works
-//  inside <HomeProvider>.
-// ─────────────────────────────────────────────────────
 const OffersScreenContent = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { selectedTab, setSelectedTab } = useHomeContext();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const featuredHotels = useSelector(selectFeaturedHotels);
   const loading = useSelector(selectHotelsLoading);
@@ -165,7 +137,6 @@ const OffersScreenContent = () => {
     >
       <StatusBar barStyle="light-content" backgroundColor="#1A0533"/>
 
-      {/* ══ HEADER ══════════════════════════════ */}
       <HotelHubHeader
         theme="dark"
         rightIcons={
@@ -180,7 +151,6 @@ const OffersScreenContent = () => {
         }
       />
 
-      {/* ══ NAV TAB BAR ═════════════════════════ */}
       <View style={styles.navTabOuter}>
         <View style={styles.navTabBar}>
           {NAV_TABS.map(({ id, Icon }) => {
@@ -209,31 +179,26 @@ const OffersScreenContent = () => {
         </View>
       </View>
 
-      {/* ══ SCROLL BODY ═════════════════════════ */}
       <ScrollView
         style={styles.body}
         contentContainerStyle={styles.bodyContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* ── OFFERS heading ── */}
         <View style={styles.offersTitleWrap}>
           <Text style={styles.offersTitle}>OFFERS</Text>
           <Text style={styles.offersSub}>Offers curated just for you</Text>
           <Text style={styles.offersSubSmall}>Unbeatable deals on your favorite destinations</Text>
         </View>
 
-        {/* ── Coupon Cards Row ── */}
         <View style={styles.couponsRow}>
           {COUPONS.map(c => <CouponCard key={c.id} item={c} />)}
         </View>
 
-        {/* ── Spring to highlights ── */}
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Spring to highlights</Text>
           <Text style={styles.sectionSub}>Discover properties guests love</Text>
         </View>
 
-        {/* ── Highlight cards: loading / error / data ── */}
         {loading && (
           <View style={styles.stateBox}>
             <ActivityIndicator size="small" color="#7C3AED" />
@@ -258,9 +223,6 @@ const OffersScreenContent = () => {
   );
 };
 
-// ─────────────────────────────────────────────────────
-//  SCREEN WRAPPER
-// ─────────────────────────────────────────────────────
 const OffersScreen = () => {
   return (
     <HomeProvider>
@@ -274,9 +236,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
   },
-
-  // ── Header ─────────────────────────────────
   hBtn: { width: 32, height: 32, justifyContent: 'center', alignItems: 'center' },
+  menuSquare: {
+    width: 28, height: 28, backgroundColor: '#7C3AED',
+    borderRadius: 6, justifyContent: 'center', alignItems: 'center',
+  },
   redDot: {
     position: 'absolute',
     top: -1,
@@ -286,16 +250,6 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     backgroundColor: '#EF4444',
   },
-  // menuSquare: {
-  //   width: 28,
-  //   height: 28,
-  //   backgroundColor: '#7C3AED',
-  //   borderRadius: 6,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
-
-  // ── Nav tab bar ─────────────────────────────
   navTabOuter: {
     backgroundColor: '#1A0533',
     paddingHorizontal: 14,
@@ -321,12 +275,8 @@ const styles = StyleSheet.create({
   navTabActive: { backgroundColor: '#6D28D9' },
   navTabTxt: { fontSize: 11, color: 'rgba(255,255,255,0.55)', fontWeight: '500' },
   navTabTxtActive: { color: '#fff', fontWeight: '700' },
-
-  // ── Body ────────────────────────────────────
   body: { flex: 1, backgroundColor: '#FFFFFF' },
   bodyContent: { paddingHorizontal: 14, paddingTop: 16 },
-
-  // ── Offers Title ────────────────────────────
   offersTitleWrap: { marginBottom: 16 },
   offersTitle: {
     fontSize: 30,
@@ -346,8 +296,6 @@ const styles = StyleSheet.create({
     color: '#6B7280',
     marginTop: 2,
   },
-
-  // ── Coupon Cards ────────────────────────────
   couponsRow: {
     flexDirection: 'row',
     gap: 8,
@@ -405,8 +353,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     letterSpacing: 0.3,
   },
-
-  // ── Section header ──────────────────────────
   sectionHeader: { marginBottom: 12 },
   sectionTitle: {
     fontSize: 15,
@@ -418,8 +364,6 @@ const styles = StyleSheet.create({
     color: '#6B7280',
     marginTop: 1,
   },
-
-  // ── State (loading / error) ─────────────────
   stateBox: {
     paddingVertical: 24,
     alignItems: 'center',
@@ -430,8 +374,6 @@ const styles = StyleSheet.create({
     color: '#DC2626',
     textAlign: 'center',
   },
-
-  // ── Highlight list ──────────────────────────
   hlList: { gap: 10 },
   hlCard: {
     flexDirection: 'row',

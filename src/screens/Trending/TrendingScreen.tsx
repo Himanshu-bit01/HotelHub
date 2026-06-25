@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
   ScrollView,
   TextInput,
@@ -14,21 +13,20 @@ import { useHomeContext } from '../../redux/context/HomeContext';
 import TopNavBar from '../../components/Home-Screen/Topnavbar';
 import { BottomTabBar } from '../BottomTab/BottomTabNavigator';
 import SearchTrendingStyles from '../../components/SearchTrending/SearchTrendingStyles';
-
-// Reuse the exact same data and hotel card component used on SearchScreen
-// so both screens are pixel-identical to the reference design.
 import { HOTELS, HotelCard } from '../Search/SearchScreen';
 
-const TrendingScreen = ({ navigation }) => {
-  const { setSelectedTab } = useHomeContext();
+type TrendingScreenProps = {
+  navigation: any;
+};
 
+const TrendingScreen = ({ navigation }: TrendingScreenProps) => {
+  const { setSelectedTab } = useHomeContext();
   const [destination, setDestination] = useState('');
   const [dates, setDates] = useState('');
 
-  // Sync the HeroSection tab highlight when this screen mounts
   useEffect(() => {
     setSelectedTab('Trending');
-  }, []);
+  }, [setSelectedTab]);
 
   return (
     <SafeAreaView style={styles.safe} edges={['bottom']}>
@@ -36,20 +34,17 @@ const TrendingScreen = ({ navigation }) => {
 
       <TopNavBar navigation={navigation} />
 
-      {/* ══ SCROLL BODY ═════════════════════════ */}
       <ScrollView
         style={styles.body}
         contentContainerStyle={styles.bodyContent}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
-        {/* ── Search form ── */}
         <View style={styles.formCardWrap}>
           <View style={styles.formCard}>
             <Text style={styles.modifyLabel}>MODIFY SEARCH</Text>
             <View style={styles.divider} />
 
-            {/* Row 1: Destination  |  Guests & Rooms */}
             <View style={styles.formRow}>
               <View style={[styles.fieldWrap, { flex: 1.15, marginRight: 8 }]}>
                 <Text style={styles.fieldLbl}>Destination</Text>
@@ -76,7 +71,6 @@ const TrendingScreen = ({ navigation }) => {
               </View>
             </View>
 
-            {/* Row 2: Check-in/out (full width) */}
             <View style={styles.fieldWrap}>
               <Text style={styles.fieldLbl}>Check-in & Check-out</Text>
               <View style={styles.fieldBox}>
@@ -91,22 +85,16 @@ const TrendingScreen = ({ navigation }) => {
               </View>
             </View>
 
-            {/* Update Results button */}
-            <TouchableOpacity
-              style={styles.updateBtn}
-              activeOpacity={0.85}
-            >
+            <TouchableOpacity style={styles.updateBtn} activeOpacity={0.85}>
               <Text style={styles.updateBtnTxt}>Update Results</Text>
             </TouchableOpacity>
           </View>
 
-          {/* ── Floating purple circle (bottom-right, overlaps card) ── */}
           <View style={styles.fab}>
             <SlidersHorizontal size={18} color="#fff" strokeWidth={2.4} />
           </View>
         </View>
 
-        {/* ── Hotel cards (same data + card design as SearchScreen) ── */}
         <View style={styles.listWrap}>
           {HOTELS.map(h => (
             <HotelCard key={h.id} hotel={h} navigation={navigation} />

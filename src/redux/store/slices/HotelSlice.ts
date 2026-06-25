@@ -1,12 +1,11 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { HotelsState, RecentStay, FeaturedHotel } from '../../../types';
 
-/**
- * Simulated API call.
- * Replace this with a real network request (fetch/axios) when the backend
- * is ready — the shape returned here is exactly what the slice expects,
- * so swapping the implementation won't require touching the reducers.
- */
-const fetchHomeDataFromApi = () =>
+const fetchHomeDataFromApi = (): Promise<{
+  recentStays: RecentStay[];
+  featuredHotels: FeaturedHotel[];
+  trendingHotels: FeaturedHotel[];
+}> =>
   new Promise((resolve) => {
     setTimeout(() => {
       resolve({
@@ -45,8 +44,6 @@ const fetchHomeDataFromApi = () =>
             },
           },
         ],
-        // Shape matches the "highlight card" used on the Offers screen:
-        // id, badge, name, sub, location, rating, price, off, imgColor, imgColor2
         featuredHotels: [
           {
             id: 1,
@@ -93,23 +90,23 @@ const fetchHomeDataFromApi = () =>
     }, 400);
   });
 
-// Thunk: fetches recent stays / featured hotels / trending hotels together.
-// Kept as a single thunk since today they're loaded together for the Home
-// screen; split into separate thunks later if they end up on independent
-// loading timelines.
-export const fetchHomeData = createAsyncThunk(
+export const fetchHomeData = createAsyncThunk<
+  { recentStays: RecentStay[]; featuredHotels: FeaturedHotel[]; trendingHotels: FeaturedHotel[] },
+  void,
+  { rejectValue: string }
+>(
   'hotels/fetchHomeData',
   async (_, { rejectWithValue }) => {
     try {
       const data = await fetchHomeDataFromApi();
       return data;
-    } catch (err) {
+    } catch (err: any) {
       return rejectWithValue(err?.message || 'Failed to load hotel data');
     }
   }
 );
 
-const initialState = {
+const initialState: HotelsState = {
   recentStays: [],
   featuredHotels: [],
   trendingHotels: [],
@@ -121,13 +118,13 @@ const hotelsSlice = createSlice({
   name: 'hotels',
   initialState,
   reducers: {
-    setRecentStays(state, action) {
+    setRecentStays(state, action: PayloadAction<RecentStay[]>) {
       state.recentStays = action.payload;
     },
-    setFeaturedHotels(state, action) {
+    setFeaturedHotels(state, action: PayloadAction<FeaturedHotel[]>) {
       state.featuredHotels = action.payload;
     },
-    setTrendingHotels(state, action) {
+    setTrendingHotels(state, action: PayloadAction<FeaturedHotel[]>) {
       state.trendingHotels = action.payload;
     },
     clearHotelsError(state) {
@@ -148,7 +145,7 @@ const hotelsSlice = createSlice({
       })
       .addCase(fetchHomeData.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Something went wrong';
+        state.error = action.payload ?? 'Something went wrong';
       });
   },
 });
@@ -160,11 +157,10 @@ export const {
   clearHotelsError,
 } = hotelsSlice.actions;
 
-// Selectors
-export const selectRecentStays = (state) => state.hotels.recentStays;
-export const selectFeaturedHotels = (state) => state.hotels.featuredHotels;
-export const selectTrendingHotels = (state) => state.hotels.trendingHotels;
-export const selectHotelsLoading = (state) => state.hotels.loading;
-export const selectHotelsError = (state) => state.hotels.error;
+export const selectRecentStays = (state: { hotels: HotelsState }) => state.hotels.recentStays;
+export const selectFeaturedHotels = (state: { hotels: HotelsState }) => state.hotels.featuredHotels;
+export const selectTrendingHotels = (state: { hotels: HotelsState }) => state.hotels.trendingHotels;
+export const selectHotelsLoading = (state: { hotels: HotelsState }) => state.hotels.loading;
+export const selectHotelsError = (state: { hotels: HotelsState }) => state.hotels.error;
 
 export default hotelsSlice.reducer;

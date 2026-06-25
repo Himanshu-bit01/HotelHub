@@ -7,8 +7,9 @@ import HomeScreen    from '../Home/HomeScreen';
 import BookingScreen from '../Booking/BookingScreen';
 import OfferScreen   from '../Offer/OfferScreen';
 import ProfileScreen from '../Profile/ProfileScreen';
+import { BottomTabParamList } from '../../types';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const ACTIVE_COLOR   = '#7C3AED';
 const INACTIVE_COLOR = '#18181B';
@@ -16,18 +17,18 @@ const ACTIVE_PILL_BG = '#fdfcfd';
 const BORDER_COLOR   = '#d779fa';
 
 const TABS = [
-  { name: 'Home', label: 'Home', Icon: Home },
-  { name: 'Bookings', label: 'Bookings', Icon: Briefcase },
-  { name: 'Offers', label: 'Offers', Icon: Tag },
-  { name: 'Profile', label: 'Profile', Icon: User },
+  { name: 'Home' as const, label: 'Home', Icon: Home },
+  { name: 'Bookings' as const, label: 'Bookings', Icon: Briefcase },
+  { name: 'Offers' as const, label: 'Offers', Icon: Tag },
+  { name: 'Profile' as const, label: 'Profile', Icon: User },
 ];
 
-const BottomTabBar = ({ activeTab, navigation, state }) => {
+const BottomTabBar = ({ activeTab, navigation, state }: any) => {
   const currentIndex = state ? state.index : null;
 
   const getActiveName = () => {
     if (state) {
-      return TABS[currentIndex]?.name;
+      return TABS[currentIndex!]?.name;
     }
     return activeTab;
   };

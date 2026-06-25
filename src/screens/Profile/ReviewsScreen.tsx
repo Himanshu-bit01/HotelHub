@@ -10,25 +10,22 @@ import {
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArrowLeft, Calendar } from 'lucide-react-native';
 
-// ─────────────────────────────────────────────────────
-//  STATS
-// ─────────────────────────────────────────────────────
 const REVIEW_STATS = [
   { id: 1, count: '0', label: 'Total Stays', color: '#7C3AED' },
   { id: 2, count: '0', label: 'Review writting', color: '#10B981' },
   { id: 3, count: '0', label: 'Pending reviews', color: '#F97316' },
 ];
 
-// ─────────────────────────────────────────────────────
-//  REVIEWS & RATINGS SCREEN
-// ─────────────────────────────────────────────────────
-const ReviewsScreen = ({ navigation }) => {
+type ReviewsScreenProps = {
+  navigation: any;
+};
+
+const ReviewsScreen = ({ navigation }: ReviewsScreenProps) => {
   const insets = useSafeAreaInsets();
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
-      {/* ── Back bar ── */}
       <View style={styles.topBar}>
         <TouchableOpacity style={styles.backBtn} activeOpacity={0.7} onPress={() => navigation.goBack()}>
           <ArrowLeft size={18} color="#111827" strokeWidth={2} />
@@ -40,13 +37,11 @@ const ReviewsScreen = ({ navigation }) => {
         contentContainerStyle={[styles.bodyContent, { paddingBottom: insets.bottom + 24 }]}
         showsVerticalScrollIndicator={false}
       >
-        {/* ── Title ── */}
         <Text style={styles.title}>Reviews & Ratings</Text>
         <Text style={styles.subtitle}>
           Rate your completed stays and help other travelers
         </Text>
 
-        {/* ── Stats Row ── */}
         <View style={styles.statsRow}>
           {REVIEW_STATS.map(s => (
             <View key={s.id} style={styles.statCard}>
@@ -56,7 +51,6 @@ const ReviewsScreen = ({ navigation }) => {
           ))}
         </View>
 
-        {/* ── Empty State ── */}
         <View style={styles.emptyCard}>
           <View style={styles.emptyIconWrap}>
             <Calendar size={26} color="#9CA3AF" strokeWidth={1.5} />
@@ -69,12 +63,8 @@ const ReviewsScreen = ({ navigation }) => {
   );
 };
 
-// ─────────────────────────────────────────────────────
-//  STYLES
-// ─────────────────────────────────────────────────────
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#FFFFFF' },
-
   topBar: {
     height: 44,
     justifyContent: 'center',
@@ -86,10 +76,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
-
   body: { flex: 1 },
   bodyContent: { paddingHorizontal: 18, paddingTop: 4 },
-
   title: {
     fontSize: 23,
     fontWeight: '800',
@@ -102,8 +90,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginBottom: 18,
   },
-
-  // ── Stats Row ──
   statsRow: {
     flexDirection: 'row',
     gap: 10,
@@ -129,8 +115,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
     textAlign: 'center',
   },
-
-  // ── Empty State ──
   emptyCard: {
     borderWidth: 1,
     borderColor: '#E5E7EB',
