@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
+  Pressable,
   ScrollView,
   TextInput,
   StatusBar,
@@ -13,7 +13,8 @@ import { useHomeContext } from '../../redux/context/HomeContext';
 import TopNavBar from '../../components/Home-Screen/Topnavbar';
 import { BottomTabBar } from '../BottomTab/BottomTabNavigator';
 import SearchTrendingStyles from '../../components/SearchTrending/SearchTrendingStyles';
-import { HOTELS, HotelCard } from '../Search/SearchScreen';
+import { HOTELS } from '../Search/hotelConstants';
+import { HotelCard } from '../Search/hotelData';
 
 type TrendingScreenProps = {
   navigation: any;
@@ -85,9 +86,9 @@ const TrendingScreen = ({ navigation }: TrendingScreenProps) => {
               </View>
             </View>
 
-            <TouchableOpacity style={styles.updateBtn} activeOpacity={0.85}>
+            <Pressable style={styles.updateBtn} activeOpacity={0.85}>
               <Text style={styles.updateBtnTxt}>Update Results</Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
 
           <View style={styles.fab}>

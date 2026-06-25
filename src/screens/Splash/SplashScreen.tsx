@@ -1,67 +1,84 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import {
   Text,
   StyleSheet,
-  Animated,
   StatusBar,
-  Easing,
   Image,
-  Dimensions,
+  useWindowDimensions,
 } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  withRepeat,
+  withSequence,
+  withSpring,
+  Easing,
+  runOnJS,
+} from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient';
-
-const { height: SCREEN_H } = Dimensions.get('window');
 
 type SplashScreenProps = {
   navigation: any;
 };
 
 const SplashScreen = ({ navigation }: SplashScreenProps) => {
-  const logoOpacity = useRef(new Animated.Value(0)).current as any;
-  const logoScale   = useRef(new Animated.Value(0.85)).current as any;
-  const textOpacity = useRef(new Animated.Value(0)).current as any;
-  const cityOpacity = useRef(new Animated.Value(0)).current as any;
-  const spinValue   = useRef(new Animated.Value(0)).current as any;
+  const { height: SCREEN_H } = useWindowDimensions();
+  const logoOpacity = useSharedValue(0);
+  const logoScale = useSharedValue(0.85);
+  const textOpacity = useSharedValue(0);
+  const cityOpacity = useSharedValue(0);
+  const spinValue = useSharedValue(0);
+
+  const navigateToHome = () => {
+    navigation.replace('Bottom');
+  };
 
   useEffect(() => {
-    const spinAnim = Animated.loop(
-      Animated.timing(spinValue, {
-        toValue: 1,
-        duration: 900,
-        easing: Easing.linear,
-        useNativeDriver: true,
-      })
+    spinValue.value = withRepeat(
+      withTiming(1, { duration: 900, easing: Easing.linear }),
+      -1,
+      false
     );
-    spinAnim.start();
 
-    const entranceAnim = Animated.sequence([
-      Animated.parallel([
-        Animated.timing(logoOpacity, { toValue: 1, duration: 700, useNativeDriver: true }),
-        Animated.spring(logoScale, { toValue: 1, friction: 7, useNativeDriver: true }),
-      ]),
-      Animated.parallel([
-        Animated.timing(textOpacity, { toValue: 1, duration: 500, useNativeDriver: true }),
-        Animated.timing(cityOpacity, { toValue: 1, duration: 700, useNativeDriver: true }),
-      ]),
-    ]);
-    entranceAnim.start();
+    logoOpacity.value = withTiming(1, { duration: 700 });
+    logoScale.value = withSpring(1, { damping: 7 });
+
+    textOpacity.value = withSequence(
+      withTiming(0, { duration: 700 }),
+      withTiming(1, { duration: 500 })
+    );
+
+    cityOpacity.value = withTiming(1, { duration: 700 });
 
     const timer = setTimeout(() => {
-      navigation.replace('Bottom');
+      runOnJS(navigateToHome)();
     }, 3000);
 
-    return () => {
-      clearTimeout(timer);
-      spinAnim.stop();
-      entranceAnim.stop();
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => clearTimeout(timer);
+  // eslint-disable-next-line react-doctor/exhaustive-deps
   }, []);
 
-  const spin = spinValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
-  });
+  // const logoAnimatedStyle = useAnimatedStyle(() => ({
+  //   opacity: logoOpacity.value,
+  //   transform: [{ scale: logoScale.value }],
+  // }));
+
+  const loaderAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: textOpacity.value,
+  }));
+
+  const spinAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${spinValue.value * 360}deg` }],
+  }));
+
+  const taglineAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: textOpacity.value,
+  }));
+
+  const cityAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: cityOpacity.value,
+  }));
 
   const imageSource = require('../../assets/images/image 31.png');
 
@@ -74,24 +91,22 @@ const SplashScreen = ({ navigation }: SplashScreenProps) => {
     >
       <StatusBar barStyle="light-content" backgroundColor="#7F2DFE" />
 
-      <Animated.View
-        style={[styles.logoBlock, { opacity: logoOpacity, transform: [{ scale: logoScale }] }]}
-      >
+      <Animated.View style={[styles.logoBlock]}>
         <Text style={styles.brandName}>
           <Text style={styles.brandWhite}>Hotel</Text>
           <Text style={styles.brandOrange}>Hub</Text>
         </Text>
       </Animated.View>
 
-      <Animated.View style={[styles.loaderWrap, { opacity: textOpacity }]}>
-        <Animated.View style={[styles.loaderRing, { transform: [{ rotate: spin }] }]} />
+      <Animated.View style={[styles.loaderWrap, loaderAnimatedStyle]}>
+        <Animated.View style={[styles.loaderRing, spinAnimatedStyle]} />
       </Animated.View>
 
-      <Animated.Text style={[styles.tagline, { opacity: textOpacity }]}>
+      <Animated.Text style={[styles.tagline, taglineAnimatedStyle]}>
         Finding best stays{'\n'}for you...
       </Animated.Text>
 
-      <Animated.View style={[styles.cityWrap, { opacity: cityOpacity }]}>
+      <Animated.View style={[styles.cityWrap, cityAnimatedStyle]}>
         <Image source={imageSource} style={styles.cityImage} resizeMode="contain" />
       </Animated.View>
     </LinearGradient>
@@ -105,10 +120,11 @@ const styles = StyleSheet.create({
   },
   logoBlock: {
     alignItems: 'center',
-    marginTop: SCREEN_H * 0.264,
-    marginBottom: SCREEN_H * 0.069,
+    marginTop: '26.4%',
+    marginBottom: '6.9%',
   },
   brandName: {
+    paddingTop:200,
     fontSize: 34,
     fontWeight: '800',
     letterSpacing: 0.4,
@@ -120,7 +136,7 @@ const styles = StyleSheet.create({
     color: '#FF5AF6',
   },
   loaderWrap: {
-    marginBottom: SCREEN_H * 0.068,
+    marginBottom: '6.8%',
     width: 32,
     height: 32,
     justifyContent: 'center',
@@ -147,14 +163,13 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: SCREEN_H * 0.347,
+    height: '34.7%',
   },
   cityImage: {
     width: '100%',
-    height: 440 as any,
+    height: 440,
     position: 'absolute',
-    bottom:1,
-
+    bottom: 1,
   },
 });
 

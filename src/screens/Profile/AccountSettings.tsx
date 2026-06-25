@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import {
   View,
   Text,
@@ -10,22 +10,24 @@ import {
 } from 'react-native';
 import { Camera, Mail, Phone, CheckCircle, AlertCircle } from 'lucide-react-native';
 import { useSelector } from 'react-redux';
+import { formReducer } from './accountSettingsReducer';
 
-const AccountSettings = () => {
+type AccountSettingsProps = {};
 
-
+function AccountSettings() {
   const account = useSelector(
     (state: any) => state.account || {}
   );
 
-  const [firstName, setFirstName] = useState(account.firstName || 'Arjun');
-  const [lastName, setLastName] = useState(account.lastName || 'Sharma');
-  const [newEmail, setNewEmail] = useState('');
-  const [newPhone, setNewPhone] = useState('');
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [profileImage] = useState<string | null>(null);
+  const [state, dispatch] = useReducer(formReducer, {
+    firstName: account.firstName || 'Arjun',
+    lastName: account.lastName || 'Sharma',
+    newEmail: '',
+    newPhone: '',
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  });
 
   return (
     <ScrollView
@@ -41,11 +43,7 @@ const AccountSettings = () => {
       <View style={styles.card}>
         <View style={styles.profileRow}>
           <View style={styles.avatar}>
-            {profileImage ? (
-              <Image source={{ uri: profileImage }} style={styles.avatarImage} />
-            ) : (
-              <Camera size={34} color="#fff" />
-            )}
+            <Camera size={34} color="#fff" />
           </View>
           <View>
             <Text style={styles.profileName}>Arjun Sharma</Text>
@@ -59,11 +57,11 @@ const AccountSettings = () => {
         <View style={styles.row}>
           <View style={styles.half}>
             <Text style={styles.label}>First Name</Text>
-            <TextInput style={styles.input} value={firstName} onChangeText={setFirstName} />
+            <TextInput style={styles.input} value={state.firstName} onChangeText={(v) => dispatch({ type: 'SET_FIRST_NAME', payload: v })} />
           </View>
           <View style={styles.half}>
             <Text style={styles.label}>Last Name</Text>
-            <TextInput style={styles.input} value={lastName} onChangeText={setLastName} />
+            <TextInput style={styles.input} value={state.lastName} onChangeText={(v) => dispatch({ type: 'SET_LAST_NAME', payload: v })} />
           </View>
         </View>
 
@@ -94,8 +92,8 @@ const AccountSettings = () => {
           <TextInput
             style={styles.emailInput}
             placeholder="new@example.com"
-            value={newEmail}
-            onChangeText={setNewEmail}
+            value={state.newEmail}
+            onChangeText={(v) => dispatch({ type: 'SET_NEW_EMAIL', payload: v })}
           />
           <Pressable style={styles.otpButton}>
             <Text style={styles.buttonText}>Send OTP</Text>
@@ -125,8 +123,8 @@ const AccountSettings = () => {
           <TextInput
             style={styles.emailInput}
             placeholder="+91 9876543210"
-            value={newPhone}
-            onChangeText={setNewPhone}
+            value={state.newPhone}
+            onChangeText={(v) => dispatch({ type: 'SET_NEW_PHONE', payload: v })}
           />
           <Pressable style={styles.otpButton}>
             <Text style={styles.buttonText}>Send OTP</Text>
@@ -140,13 +138,13 @@ const AccountSettings = () => {
         <Text style={styles.desc}>Use a strong password with at least 8 characters.</Text>
 
         <Text style={styles.label}>Current Password</Text>
-        <TextInput style={styles.input} secureTextEntry value={currentPassword} onChangeText={setCurrentPassword} placeholder="••••••••" />
+        <TextInput style={styles.input} secureTextEntry value={state.currentPassword} onChangeText={(v) => dispatch({ type: 'SET_CURRENT_PASSWORD', payload: v })} placeholder="••••••••" />
 
         <Text style={styles.label}>New Password</Text>
-        <TextInput style={styles.input} secureTextEntry value={newPassword} onChangeText={setNewPassword} placeholder="••••••••" />
+        <TextInput style={styles.input} secureTextEntry value={state.newPassword} onChangeText={(v) => dispatch({ type: 'SET_NEW_PASSWORD', payload: v })} placeholder="••••••••" />
 
         <Text style={styles.label}>Confirm New Password</Text>
-        <TextInput style={styles.input} secureTextEntry value={confirmPassword} onChangeText={setConfirmPassword} placeholder="••••••••" />
+        <TextInput style={styles.input} secureTextEntry value={state.confirmPassword} onChangeText={(v) => dispatch({ type: 'SET_CONFIRM_PASSWORD', payload: v })} placeholder="••••••••" />
 
         <Pressable style={styles.button}>
           <Text style={styles.buttonText}>Save changes</Text>
@@ -180,211 +178,6 @@ const AccountSettings = () => {
       </View>
     </ScrollView>
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F8F8F8',
-    padding: 20,
-    paddingTop: 50,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '800',
-    color: '#000',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#8B8B8B',
-    marginTop: 4,
-    marginBottom: 18,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#000',
-    marginBottom: 10,
-    marginTop: 10,
-  },
-  card: {
-    backgroundColor: '#FFF',
-    borderWidth: 1,
-    borderColor: '#E6E6E6',
-    borderRadius: 16,
-    padding: 18,
-    marginBottom: 14,
-  },
-  profileRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 18,
-  },
-  avatar: {
-    width: 86,
-    height: 86,
-    borderRadius: 43,
-    backgroundColor: '#9333EA',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 16,
-  },
-  avatarImage: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 43,
-  },
-  profileName: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: '#000',
-  },
-  memberText: {
-    fontSize: 14,
-    color: '#7D7D7D',
-    marginTop: 4,
-  },
-  uploadText: {
-    fontSize: 16,
-    color: '#A855F7',
-    marginTop: 4,
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  half: {
-    width: '48%',
-  },
-  label: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#000',
-    marginBottom: 8,
-    marginTop: 8,
-  },
-  input: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#D9D9D9',
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    backgroundColor: '#FFF',
-  },
-  button: {
-    height: 40,
-    borderRadius: 14,
-    backgroundColor: '#7C3AED',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'flex-end',
-    paddingHorizontal: 10,
-    marginTop: 16,
-  },
-  buttonText: {
-    color: '#FFF',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  desc: {
-    color: '#8B8B8B',
-    fontSize: 15,
-    marginBottom: 18,
-  },
-  infoRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  smallLabel: {
-    fontSize: 14,
-    color: '#8B8B8B',
-  },
-  infoValue: {
-    fontSize: 16,
-    color: '#000',
-    marginTop: 4,
-  },
-  actionRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  emailInput: {
-    flex: 1,
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#D9D9D9',
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    backgroundColor: '#FFF',
-    marginRight: 12,
-  },
-  otpButton: {
-    width: 110,
-    height: 40,
-    borderRadius: 14,
-    backgroundColor: '#7C3AED',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  verifiedBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#16A34A',
-    borderRadius: 20,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-  },
-  verifiedText: {
-    color: '#16A34A',
-    marginLeft: 4,
-    fontWeight: '600',
-  },
-  unverifiedBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#F97316',
-    borderRadius: 20,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-  },
-  unverifiedText: {
-    color: '#F97316',
-    marginLeft: 4,
-    fontWeight: '600',
-  },
-  securityRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  securityTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#000',
-  },
-  securityDesc: {
-    color: '#777',
-    fontSize: 13,
-    marginTop: 4,
-  },
-  sessionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginTop: 10,
-    color: '#000',
-  },
-  sessionSub: {
-    color: '#777',
-    marginTop: 4,
-  },
-  signOutText: {
-    color: '#FF3B30',
-    fontSize: 16,
-    marginTop: 12,
-    fontWeight: '500',
-  },
-});
+}
 
 export default AccountSettings;

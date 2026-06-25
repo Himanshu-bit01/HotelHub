@@ -3,7 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
+  Pressable,
   ScrollView,
   StatusBar,
   Linking,
@@ -47,9 +47,9 @@ const SupportScreen = ({ navigation }: SupportScreenProps) => {
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
       <View style={styles.topBar}>
-        <TouchableOpacity style={styles.backBtn} activeOpacity={0.7} onPress={() => navigation.goBack()}>
+        <Pressable style={styles.backBtn} activeOpacity={0.7} onPress={() => navigation.goBack()}>
           <ArrowLeft size={18} color="#111827" strokeWidth={2} />
-        </TouchableOpacity>
+        </Pressable>
       </View>
 
       <ScrollView
@@ -62,7 +62,7 @@ const SupportScreen = ({ navigation }: SupportScreenProps) => {
 
         <View style={styles.contactList}>
           {CONTACT_OPTIONS.map(c => (
-            <TouchableOpacity
+            <Pressable
               key={c.id}
               style={styles.contactCard}
               activeOpacity={0.8}
@@ -79,16 +79,16 @@ const SupportScreen = ({ navigation }: SupportScreenProps) => {
                 <Text style={styles.contactValue}>{c.value}</Text>
               </View>
               <Text style={styles.contactMeta}>{c.meta}</Text>
-            </TouchableOpacity>
+            </Pressable>
           ))}
         </View>
 
         <View style={[styles.sectionHeaderRow, { marginTop: 22 }]}>
           <Text style={styles.sectionTitle}>My Tickets</Text>
-          <TouchableOpacity style={styles.newTicketBtn} activeOpacity={0.8}>
+          <Pressable style={styles.newTicketBtn} activeOpacity={0.8}>
             <Plus size={12} color="#7C3AED" strokeWidth={2.5} />
             <Text style={styles.newTicketTxt}>New Ticket</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
 
         <View style={styles.ticketCard}>
@@ -109,7 +109,7 @@ const SupportScreen = ({ navigation }: SupportScreenProps) => {
           {FAQS.map(f => {
             const isOpen = openFaqId === f.id;
             return (
-              <TouchableOpacity
+              <Pressable
                 key={f.id}
                 style={styles.faqCard}
                 activeOpacity={0.8}
@@ -124,7 +124,7 @@ const SupportScreen = ({ navigation }: SupportScreenProps) => {
                   )}
                 </View>
                 {isOpen && <Text style={styles.faqAnswer}>{f.answer}</Text>}
-              </TouchableOpacity>
+              </Pressable>
             );
           })}
         </View>

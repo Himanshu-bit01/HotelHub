@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import {
   BookOpen,
   CreditCard,
@@ -25,17 +25,16 @@ const QuickActions = ({ navigation }: QuickActionsProps) => {
       <Text style={styles.sectionTitle}>Quick Actions</Text>
       <View style={styles.quickActionsRow}>
         {QUICK_ACTIONS.map(q => (
-          <TouchableOpacity
+          <Pressable
             key={q.id}
             style={styles.quickAction}
-            activeOpacity={0.8}
             onPress={() => navigation.navigate(q.screen)}
           >
             <View style={[styles.qaIcon, { backgroundColor: q.iconBg }]}>
               <q.Icon size={18} color={q.iconColor} strokeWidth={1.8} />
             </View>
             <Text style={styles.qaLabel}>{q.label}</Text>
-          </TouchableOpacity>
+          </Pressable>
         ))}
       </View>
     </View>
@@ -47,11 +46,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 14,
     padding: 13,
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 1 },
-    elevation: 1,
+    boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
   },
   sectionTitle: {
     fontSize: 12.5,

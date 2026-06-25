@@ -5,8 +5,7 @@ import {
   Image,
   StyleSheet,
   ScrollView,
-  TouchableOpacity,
-  SafeAreaView,
+  Pressable,
   StatusBar,
 } from 'react-native';
 import {
@@ -21,7 +20,7 @@ import {
   Hourglass,
   AlertCircle,
 } from 'lucide-react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import HotelHubHeader from '../../components/HotelHubHeader/HotelHubHeader';
 import { BookingItem } from '../../types';
 
@@ -162,9 +161,9 @@ const UpcomingCard = ({ item }: UpcomingCardProps) => (
         <Text style={styles.amountLabel}>{item.amountLabel}</Text>
         <Text style={styles.amountValue}>{item.amount}</Text>
       </View>
-      <TouchableOpacity style={styles.viewDetailsBtn}>
+      <Pressable style={styles.viewDetailsBtn}>
         <Text style={styles.viewDetailsText}>View Details</Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   </View>
 );
@@ -233,9 +232,9 @@ const CancelledCard = ({ item }: CancelledCardProps) => (
         <Text style={styles.metaLabel}>Refund Amount</Text>
         <Text style={styles.metaValue}>{item.refundAmount}</Text>
       </View>
-      <TouchableOpacity style={styles.viewDetailsBtn}>
+      <Pressable style={styles.viewDetailsBtn}>
         <Text style={styles.viewDetailsText}>View Details</Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   </View>
 );
@@ -261,22 +260,22 @@ const BookingScreen = () => {
       <Text style={styles.screenTitle}>My Booking</Text>
 
       <View style={styles.tabsWrap}>
-        <TouchableOpacity
+        <Pressable
           style={[styles.tab, activeTab === 'upcoming' && styles.tabActive]}
           onPress={() => setActiveTab('upcoming')}
         >
           <Text style={[styles.tabText, activeTab === 'upcoming' && styles.tabTextActive]}>
             Upcoming Bookings
           </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </Pressable>
+        <Pressable
           style={[styles.tab, activeTab === 'cancelled' && styles.tabActive]}
           onPress={() => setActiveTab('cancelled')}
         >
           <Text style={[styles.tabText, activeTab === 'cancelled' && styles.tabTextActive]}>
             Cancelled Bookings
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
 
       <ScrollView
@@ -346,11 +345,7 @@ const styles = StyleSheet.create({
   },
   tabActive: {
     backgroundColor: '#FFFFFF',
-    shadowColor: '#000',
-    shadowOpacity: 0.06,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 1 },
-    elevation: 1,
+    boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
   },
   tabText: {
     fontSize: 13,
@@ -408,11 +403,7 @@ const styles = StyleSheet.create({
     borderColor: '#EFEFEF',
     padding: 12,
     marginBottom: 14,
-    shadowColor: '#000',
-    shadowOpacity: 0.04,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 1,
+    boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
   },
   cardTopRow: {
     flexDirection: 'row',

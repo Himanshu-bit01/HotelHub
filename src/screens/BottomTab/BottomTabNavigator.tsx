@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Platform } from 'react-native';
 import { Home, Briefcase, Tag, User } from 'lucide-react-native';
 
 import HomeScreen    from '../Home/HomeScreen';
@@ -40,10 +40,9 @@ const BottomTabBar = ({ activeTab, navigation, state }: any) => {
         const focused = activeName === tab.name;
         const color = focused ? ACTIVE_COLOR : INACTIVE_COLOR;
         return (
-          <TouchableOpacity
+          <Pressable
             key={tab.name}
             style={styles.tabItem}
-            activeOpacity={0.7}
             onPress={() => {
               if (state) {
                 navigation.navigate(tab.name);
@@ -58,7 +57,7 @@ const BottomTabBar = ({ activeTab, navigation, state }: any) => {
             <Text style={[styles.labelText, { color }, focused && styles.labelTextActive]}>
               {tab.label}
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         );
       })}
     </View>
@@ -96,11 +95,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 10,
-    elevation: 8,
+    boxShadow: '0 4px 10px rgba(0,0,0,0.08)',
   },
   tabItem: {
     flex: 1,

@@ -159,7 +159,6 @@ export const {
 
 export const selectRecentStays = (state: { hotels: HotelsState }) => state.hotels.recentStays;
 export const selectFeaturedHotels = (state: { hotels: HotelsState }) => state.hotels.featuredHotels;
-export const selectTrendingHotels = (state: { hotels: HotelsState }) => state.hotels.trendingHotels;
 export const selectHotelsLoading = (state: { hotels: HotelsState }) => state.hotels.loading;
 export const selectHotelsError = (state: { hotels: HotelsState }) => state.hotels.error;
 

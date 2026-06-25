@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
-  TouchableOpacity,
+  FlatList,
+  Pressable,
   TextInput,
   Image,
-  Dimensions,
+  useWindowDimensions,
   ActivityIndicator,
 } from 'react-native';
 import {
@@ -29,13 +29,12 @@ import {
 } from '../../redux/store/slices/HotelSlice';
 import { RootStackParamList } from '../../types';
 
-const { width } = Dimensions.get('window');
-
 type SearchAndStaysProps = {
   navigation?: any;
 };
 
 const SearchAndStays = (_props?: SearchAndStaysProps) => {
+  const { width } = useWindowDimensions();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const {
     destination,
@@ -49,6 +48,44 @@ const SearchAndStays = (_props?: SearchAndStaysProps) => {
   const recentStays = useSelector(selectRecentStays);
   const loading = useSelector(selectHotelsLoading);
   const error = useSelector(selectHotelsError);
+
+  const handleStayPress = useCallback(() => {
+    navigation.navigate('Bottom', { screen: 'Bookings' });
+  }, [navigation]);
+
+  const renderStayCard = useCallback(({ item: stay }: { item: any }) => (
+    <Pressable style={styles.stayCard} onPress={handleStayPress}>
+      <View style={styles.cardImageWrapper}>
+        <Image source={stay.image} style={styles.cardImage} resizeMode="cover" />
+        <View style={styles.cardImageOverlay} />
+        <Pressable style={styles.cardHeartBtn}>
+          <Heart size={13} color="#FFFFFF" strokeWidth={2} />
+        </Pressable>
+        {stay.trending && (
+          <View style={styles.trendingBadge}>
+            <Text style={styles.trendingText}>Trending</Text>
+          </View>
+        )}
+      </View>
+      <View style={styles.cardBody}>
+        <Text style={styles.cardName} numberOfLines={1}>{stay.name}</Text>
+        <View style={styles.cardLocationRow}>
+          <MapPin size={10} color="#888" strokeWidth={2} />
+          <Text style={styles.cardLocation} numberOfLines={1}> {stay.location}</Text>
+        </View>
+        <View style={styles.cardRatingRow}>
+          <Star size={11} color="#FACC15" fill="#FACC15" strokeWidth={0} />
+          <Text style={styles.cardRating}> {stay.rating}</Text>
+          <Text style={styles.cardReviews}> ({stay.reviews})</Text>
+        </View>
+        <View style={styles.cardPriceRow}>
+          <Text style={styles.cardCurrency}>₹</Text>
+          <Text style={styles.cardPrice}>{stay.price}</Text>
+          <Text style={styles.cardNight}>/night</Text>
+        </View>
+      </View>
+    </Pressable>
+  ), [handleStayPress]);
 
   return (
     <View style={styles.wrapper}>
@@ -91,13 +128,12 @@ const SearchAndStays = (_props?: SearchAndStaysProps) => {
           </View>
         </View>
 
-        <TouchableOpacity
+        <Pressable
           style={styles.searchBtn}
-          activeOpacity={0.85}
           onPress={() => navigation.navigate('Search')}
         >
           <Text style={styles.searchBtnText}>Search Hotels</Text>
-        </TouchableOpacity>
+              </Pressable>
       </View>
 
       <View style={styles.recentSection}>
@@ -106,13 +142,13 @@ const SearchAndStays = (_props?: SearchAndStaysProps) => {
             <Text style={styles.recentDot}>✦</Text>
             <Text style={styles.recentLabel}> RECENT SEARCHES</Text>
           </View>
-          <TouchableOpacity
+          <Pressable
             style={styles.seeAllRow}
             onPress={() => navigation.navigate('Search')}
           >
             <Text style={styles.seeAll}>See all stays</Text>
             <Text style={styles.seeAllArrow}> →</Text>
-          </TouchableOpacity>
+                  </Pressable>
         </View>
 
         <Text style={styles.recentTitle}>Pick up where you left off</Text>
@@ -133,58 +169,14 @@ const SearchAndStays = (_props?: SearchAndStaysProps) => {
         )}
 
         {!loading && !error && (
-          <ScrollView
+          <FlatList
             horizontal
+            data={recentStays}
+            keyExtractor={(item) => item.id}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.cardsRow}
-          >
-            {recentStays.map((stay) => (
-              <TouchableOpacity
-                key={stay.id}
-                style={styles.stayCard}
-                activeOpacity={0.85}
-                onPress={() => navigation.navigate('Bottom', { screen: 'Bookings' })}
-              >
-                <View style={styles.cardImageWrapper}>
-                  <Image
-                    source={stay.image}
-                    style={styles.cardImage}
-                    resizeMode="cover"
-                  />
-                  <View style={styles.cardImageOverlay} />
-                  <TouchableOpacity style={styles.cardHeartBtn}>
-                    <Heart size={13} color="#FFFFFF" strokeWidth={2} />
-                  </TouchableOpacity>
-                  {stay.trending && (
-                    <View style={styles.trendingBadge}>
-                      <Text style={styles.trendingText}>Trending</Text>
-                    </View>
-                  )}
-                </View>
-
-                <View style={styles.cardBody}>
-                  <Text style={styles.cardName} numberOfLines={1}>{stay.name}</Text>
-
-                  <View style={styles.cardLocationRow}>
-                    <MapPin size={10} color="#888" strokeWidth={2} />
-                    <Text style={styles.cardLocation} numberOfLines={1}> {stay.location}</Text>
-                  </View>
-
-                  <View style={styles.cardRatingRow}>
-                    <Star size={11} color="#FACC15" fill="#FACC15" strokeWidth={0} />
-                    <Text style={styles.cardRating}> {stay.rating}</Text>
-                    <Text style={styles.cardReviews}> ({stay.reviews})</Text>
-                  </View>
-
-                  <View style={styles.cardPriceRow}>
-                    <Text style={styles.cardCurrency}>₹</Text>
-                    <Text style={styles.cardPrice}>{stay.price}</Text>
-                    <Text style={styles.cardNight}>/night</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+            renderItem={renderStayCard}
+          />
         )}
       </View>
     </View>
@@ -201,11 +193,7 @@ const styles = StyleSheet.create({
     marginTop: -100,
     borderRadius: 18,
     padding: 18,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.18,
-    shadowRadius: 20,
-    elevation: 16,
+    boxShadow: '0 6px 20px rgba(0,0,0,0.18)',
     zIndex: 20,
   },
   searchCardHeader: {
@@ -265,11 +253,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     alignItems: 'center',
     marginTop: 16,
-    shadowColor: '#7C3AED',
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.40,
-    shadowRadius: 10,
-    elevation: 8,
+    boxShadow: '0 5px 10px rgba(124,58,237,0.40)',
   },
   searchBtnText: {
     fontSize: 15,
@@ -348,15 +332,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   stayCard: {
-    width: width * 0.42,
+    width: '42%',
     borderRadius: 14,
     overflow: 'hidden',
     backgroundColor: '#FFFFFF',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.12,
-    shadowRadius: 8,
-    elevation: 5,
+    boxShadow: '0 3px 8px rgba(0,0,0,0.12)',
   },
   cardImageWrapper: {
     width: '100%',

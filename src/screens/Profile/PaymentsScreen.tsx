@@ -3,7 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
+  Pressable,
   ScrollView,
   StatusBar,
 } from 'react-native';
@@ -35,9 +35,9 @@ const PaymentsScreen = ({ navigation }: PaymentsScreenProps) => {
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
       <View style={styles.topBar}>
-        <TouchableOpacity style={styles.backBtn} activeOpacity={0.7} onPress={() => navigation.goBack()}>
+        <Pressable style={styles.backBtn} onPress={() => navigation.goBack()}>
           <ArrowLeft size={18} color="#111827" strokeWidth={2} />
-        </TouchableOpacity>
+        </Pressable>
       </View>
 
       <ScrollView
@@ -54,17 +54,17 @@ const PaymentsScreen = ({ navigation }: PaymentsScreenProps) => {
             <Text style={styles.walletAmount}>Rs. 2,500</Text>
             <Text style={styles.walletSub}>Available balance</Text>
           </View>
-          <TouchableOpacity style={styles.addMoneyBtn} activeOpacity={0.85}>
+          <Pressable style={styles.addMoneyBtn}>
             <Text style={styles.addMoneyTxt}>Add Money</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
 
         <View style={styles.sectionHeaderRow}>
           <Text style={styles.sectionTitle}>Payment Methods</Text>
-          <TouchableOpacity style={styles.addNewBtn} activeOpacity={0.8}>
+          <Pressable style={styles.addNewBtn}>
             <Plus size={12} color="#7C3AED" strokeWidth={2.5} />
             <Text style={styles.addNewTxt}>Add New</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
 
         <View style={styles.methodList}>
@@ -82,13 +82,13 @@ const PaymentsScreen = ({ navigation }: PaymentsScreenProps) => {
                 {m.isDefault ? (
                   <Text style={styles.defaultTag}>Default</Text>
                 ) : (
-                  <TouchableOpacity>
+                  <Pressable>
                     <Text style={styles.setDefaultTag}>Set default</Text>
-                  </TouchableOpacity>
+        </Pressable>
                 )}
-                <TouchableOpacity style={{ marginTop: 6 }}>
+                <Pressable style={{ marginTop: 6 }}>
                   <Trash2 size={14} color="#9CA3AF" strokeWidth={1.8} />
-                </TouchableOpacity>
+          </Pressable>
               </View>
             </View>
           ))}

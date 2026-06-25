@@ -4,17 +4,16 @@ import {
   Text,
   StyleSheet,
   Image,
-  Dimensions,
+  useWindowDimensions,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const { height } = Dimensions.get('window');
-
-const HERO_HEIGHT = height * 0.44;
-
 const HeroSection = () => {
+  const { height } = useWindowDimensions();
+  const HERO_HEIGHT = height * 0.44;
+
   return (
-    <View style={styles.heroBlock}>
+    <View style={[styles.heroBlock, { height: HERO_HEIGHT }]}>
       <Image
         source={require('../../assets/images/background.jpeg')}
         style={styles.heroBgImage}
@@ -72,7 +71,6 @@ const HeroSection = () => {
 const styles = StyleSheet.create({
   heroBlock: {
     width: '100%',
-    height: HERO_HEIGHT,
     overflow: 'hidden',
     backgroundColor: '#1A0533',
   },

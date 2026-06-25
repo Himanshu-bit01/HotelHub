@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Heart, Info, Search, Compass, FlameIcon } from 'lucide-react-native';
 import { useHomeContext } from '../../redux/context/HomeContext';
 
@@ -41,12 +41,12 @@ const TopNavBar = ({ navigation }: TopNavBarProps) => {
         </Text>
 
         <View style={styles.rightIcons}>
-          <TouchableOpacity style={styles.iconBtn}>
+          <Pressable style={styles.iconBtn}>
             <Heart size={20} color="#FFFFFF" strokeWidth={1.8} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.iconBtn}>
+          </Pressable>
+          <Pressable style={styles.iconBtn}>
             <Info size={20} color="#FFFFFF" strokeWidth={1.8} />
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
 
@@ -55,8 +55,8 @@ const TopNavBar = ({ navigation }: TopNavBarProps) => {
           {TABS.map(({ label, Icon }, i) => {
             const isActive = isTabActive(label);
             return (
-              <TouchableOpacity
-                key={i}
+              <Pressable
+                key={label}
                 style={[styles.searchTab, isActive && styles.searchTabActive]}
                 onPress={() => {
                   setSelectedTab(label);
@@ -79,7 +79,7 @@ const TopNavBar = ({ navigation }: TopNavBarProps) => {
                   {'  '}
                   {label}
                 </Text>
-              </TouchableOpacity>
+              </Pressable>
             );
           })}
         </View>

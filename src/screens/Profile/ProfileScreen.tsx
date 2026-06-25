@@ -3,9 +3,9 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
+  Pressable,
   ScrollView,
-  Dimensions,
+  useWindowDimensions,
   StatusBar,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -36,9 +36,6 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import HotelHubHeader from '../../components/HotelHubHeader/HotelHubHeader';
 import QuickActions from '../../components/Profile/QuickActions';
-
-
-const { width } = Dimensions.get('window');
 
 const MENU_ITEMS = [
   { id: 'settings', label: 'Account Settings', Icon: Settings },
@@ -72,19 +69,22 @@ const NOTIFS = [
   { id: 3, title: 'Exclusive Offer for You', desc: 'Get 20% off on your next booking. Use code SAVE20. Valid till Jun 30.', Icon: Gift, iconColor: '#10B981', iconBg: '#D1FAE5' },
 ];
 
-const StatCard = ({ item }: { item: typeof STATS[number] }) => (
-  <View style={styles.statCard}>
-    <View style={styles.statTop}>
-      <View style={[styles.statIconWrap, { backgroundColor: item.iconBg }]}>
-        <item.Icon size={14} color={item.iconColor} strokeWidth={2} />
+const StatCard = ({ item }: { item: typeof STATS[number] }) => {
+  const { width } = useWindowDimensions();
+  return (
+    <View style={[styles.statCard, { width: (width - 24 - 8) / 2 - 4 }]}>
+      <View style={styles.statTop}>
+        <View style={[styles.statIconWrap, { backgroundColor: item.iconBg }]}>
+          <item.Icon size={14} color={item.iconColor} strokeWidth={2} />
+        </View>
+        <TrendingUp size={12} color={item.trendColor} strokeWidth={2} />
       </View>
-      <TrendingUp size={12} color={item.trendColor} strokeWidth={2} />
+      <Text style={styles.statCount}>{item.count}</Text>
+      <Text style={styles.statLabel}>{item.label}</Text>
+      <Text style={styles.statSub}>{item.sublabel}</Text>
     </View>
-    <Text style={styles.statCount}>{item.count}</Text>
-    <Text style={styles.statLabel}>{item.label}</Text>
-    <Text style={styles.statSub}>{item.sublabel}</Text>
-  </View>
-);
+  );
+};
 
 type ProfileScreenProps = {
   navigation: any;
@@ -92,6 +92,7 @@ type ProfileScreenProps = {
 
 const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
   const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
   return (
     <SafeAreaView style={styles.safe} edges={['left', 'right', 'bottom']} >
       <StatusBar barStyle="light-content" backgroundColor="#1A0533" />
@@ -100,18 +101,18 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
         theme="dark"
         rightIcons={
           <>
-            <TouchableOpacity style={styles.hBtn}>
+            <Pressable style={styles.hBtn}>
               <Heart size={18} color="#FFFFFF" strokeWidth={1.8} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.hBtn}>
+            </Pressable>
+            <Pressable style={styles.hBtn}>
               <View>
                 <User size={18} color="#FFFFFF" strokeWidth={1.8} />
                 <View style={styles.redDot} />
               </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.menuSquare}>
+            </Pressable>
+            <Pressable style={styles.menuSquare}>
               <Menu size={15} color="#fff" strokeWidth={2.2} />
-            </TouchableOpacity>
+            </Pressable>
           </>
         }
       />
@@ -134,9 +135,9 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
               <Text style={styles.bookingsTxt}> 0 bookings</Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.bookStayBtn} activeOpacity={0.85} onPress={() => navigation.navigate('Bottom', { screen: 'Home' })}>
+          <Pressable style={styles.bookStayBtn} activeOpacity={0.85} onPress={() => navigation.navigate('Bottom', { screen: 'Home' })}>
             <Text style={styles.bookStayTxt}>Book a Stay</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
 
         <View style={styles.menuCard}>
@@ -153,7 +154,7 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
               back: { screen: 'Bottom', params: { screen: 'Home' } },
             };
             return (
-              <TouchableOpacity
+              <Pressable
                 key={item.id}
                 style={[styles.menuItem, isFirst && styles.menuItemActive]}
                 activeOpacity={0.7}
@@ -175,7 +176,7 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
                   {item.label}
                 </Text>
                 <ChevronRight size={13} color={isFirst ? '#7C3AED' : '#D1D5DB'} strokeWidth={2} />
-              </TouchableOpacity>
+              </Pressable>
             );
           })}
         </View>
@@ -187,18 +188,18 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
         <View style={styles.sectionCard}>
           <View style={styles.sectionHeaderRow}>
             <Text style={styles.sectionTitle}>Upcoming Stays</Text>
-            <TouchableOpacity>
+            <Pressable>
               <Text style={styles.seeAll}>Show All</Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
           <View style={styles.emptyState}>
             <View style={styles.emptyIcon}>
               <Hotel size={20} color="#9CA3AF" strokeWidth={1.5} />
             </View>
             <Text style={styles.emptyTxt}>No upcoming stays</Text>
-            <TouchableOpacity style={styles.browseBtn} activeOpacity={0.85} onPress={() => navigation.navigate('Bottom', { screen: 'Home' })}>
+            <Pressable style={styles.browseBtn} activeOpacity={0.85} onPress={() => navigation.navigate('Bottom', { screen: 'Home' })}>
               <Text style={styles.browseTxt}>Browse Hotels</Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
         </View>
 
@@ -206,9 +207,9 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
           <View style={[styles.twoColCard, { marginRight: 5 }]}>
             <View style={styles.sectionHeaderRow}>
               <Text style={styles.sectionTitle}>Recent Activity</Text>
-              <TouchableOpacity>
+              <Pressable>
                 <Text style={styles.seeAll}>View All</Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
             {ACTIVITY.map(a => (
               <View key={a.id} style={styles.activityItem}>
@@ -228,9 +229,9 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
               <View style={styles.notifBadge}>
                 <Text style={styles.notifBadgeTxt}>3</Text>
               </View>
-              <TouchableOpacity style={{ marginLeft: 4 }}>
+              <Pressable style={{ marginLeft: 4 }}>
                 <Text style={styles.seeAll}>View All</Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
             {NOTIFS.map(n => (
               <View key={n.id} style={styles.notifItem}>
@@ -307,11 +308,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 14,
     overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 1 },
-    elevation: 1,
+    boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
   },
   menuItem: {
     flexDirection: 'row',
@@ -353,15 +350,10 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   statCard: {
-    width: (width - 24 - 8) / 2 - 4,
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
     padding: 12,
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 1 },
-    elevation: 1,
+    boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
   },
   statTop: {
     flexDirection: 'row',
@@ -397,11 +389,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 14,
     padding: 13,
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 1 },
-    elevation: 1,
+    boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
   },
   sectionHeaderRow: {
     flexDirection: 'row',
@@ -456,11 +444,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 14,
     padding: 11,
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 1 },
-    elevation: 1,
+    boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
   },
   activityItem: {
     flexDirection: 'row',

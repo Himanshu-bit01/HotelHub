@@ -35,9 +35,7 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.scroll}
-        contentContainerStyle={{
-          paddingBottom: insets.bottom + TAB_BAR_CLEARANCE,
-        }}
+        contentInset={{ bottom: TAB_BAR_CLEARANCE }}
       >
         <View style={styles.darkTop}>
           <TopNavBar navigation={navigation} />

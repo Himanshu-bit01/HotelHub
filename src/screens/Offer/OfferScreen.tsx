@@ -3,7 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
+  Pressable,
   ScrollView,
   StatusBar,
   ActivityIndicator,
@@ -112,6 +112,12 @@ const HighlightCard = ({ item }: { item: FeaturedHotel }) => (
   </View>
 );
 
+const NAV_TABS = [
+  { id: 'Search', Icon: Search },
+  { id: 'Trending', Icon: TrendingUp },
+  { id: 'Explore', Icon: Compass },
+];
+
 const OffersScreenContent = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { selectedTab, setSelectedTab } = useHomeContext();
@@ -125,12 +131,6 @@ const OffersScreenContent = () => {
     dispatch(fetchHomeData());
   }, [dispatch]);
 
-  const NAV_TABS = [
-    { id: 'Search', Icon: Search },
-    { id: 'Trending', Icon: TrendingUp },
-    { id: 'Explore', Icon: Compass },
-  ];
-
   return (
     <SafeAreaView style={styles.safe}
     edges={['left', 'right', 'bottom']}
@@ -141,12 +141,12 @@ const OffersScreenContent = () => {
         theme="dark"
         rightIcons={
           <>
-            <TouchableOpacity style={styles.hBtn}>
+            <Pressable style={styles.hBtn}>
               <Heart size={20} color="#000000" strokeWidth={1.8} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.menuSquare}>
+            </Pressable>
+            <Pressable style={styles.menuSquare}>
               <Info size={20} color="#000000" strokeWidth={1.8} />
-            </TouchableOpacity>
+              </Pressable>
           </>
         }
       />
@@ -156,7 +156,7 @@ const OffersScreenContent = () => {
           {NAV_TABS.map(({ id, Icon }) => {
             const active = selectedTab === id;
             return (
-              <TouchableOpacity
+              <Pressable
                 key={id}
                 style={[styles.navTab, active && styles.navTabActive]}
                 onPress={() => {
@@ -169,11 +169,10 @@ const OffersScreenContent = () => {
                     navigation.navigate('Explore');
                   }
                 }}
-                activeOpacity={0.8}
               >
                 <Icon size={11} color={active ? '#fff' : 'rgba(255,255,255,0.55)'} strokeWidth={active ? 2 : 1.8} />
                 <Text style={[styles.navTabTxt, active && styles.navTabTxtActive]}>{'  '}{id}</Text>
-              </TouchableOpacity>
+            </Pressable>
             );
           })}
         </View>
@@ -382,11 +381,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderWidth: 1,
     borderColor: '#F3F4F6',
-    shadowColor: '#000',
-    shadowOpacity: 0.07,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 2,
+    boxShadow: '0 2px 6px rgba(0,0,0,0.07)',
     height: 100,
   },
   hlImg: {
