@@ -52,12 +52,13 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   brandDark: {
-    fontSize: 24,
-    color: '#111827',
+    paddingTop:47,
+    color: '#000000',
+    fontWeight: '800',
   },
   brandPurple: {
-    fontSize: 24,
-    color: '#A855F7',
+    color: '#C084FC',
+    fontWeight: '800',
   },
   topIcons: {
     flexDirection: 'row',

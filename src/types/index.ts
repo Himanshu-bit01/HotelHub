@@ -51,6 +51,7 @@ export interface FeaturedHotel {
   off: string;
   imgColor: string;
   imgColor2: string;
+  image?: any;
 }
 
 export interface HotelCardData {

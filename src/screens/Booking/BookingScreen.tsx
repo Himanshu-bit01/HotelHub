@@ -251,8 +251,8 @@ const BookingScreen = () => {
         theme="dark"
         rightIcons={
           <>
-            <Heart size={20} color="#FFFFFF" strokeWidth={1.8} style={{ marginRight: 16 }} />
-            <Info size={18} color="#FFFFFF" strokeWidth={1.8} />
+            <Heart size={20} color="#000000" strokeWidth={1.8} style={{ marginRight: 16 }} />
+            <Info size={18} color="#000000" strokeWidth={1.8} />
           </>
         }
       />

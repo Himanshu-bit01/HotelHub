@@ -55,11 +55,12 @@ const SearchAndStays = (_props?: SearchAndStaysProps) => {
 
   const renderStayCard = useCallback(({ item: stay }: { item: any }) => (
     <Pressable style={styles.stayCard} onPress={handleStayPress}>
+      {/* Image */}
       <View style={styles.cardImageWrapper}>
         <Image source={stay.image} style={styles.cardImage} resizeMode="cover" />
-        <View style={styles.cardImageOverlay} />
+        {/* Heart — bare icon, no background circle */}
         <Pressable style={styles.cardHeartBtn}>
-          <Heart size={13} color="#FFFFFF" strokeWidth={2} />
+          <Heart size={20} color="#FFFFFF" strokeWidth={2} />
         </Pressable>
         {stay.trending && (
           <View style={styles.trendingBadge}>
@@ -67,21 +68,31 @@ const SearchAndStays = (_props?: SearchAndStaysProps) => {
           </View>
         )}
       </View>
+
+      {/* Body */}
       <View style={styles.cardBody}>
-        <Text style={styles.cardName} numberOfLines={1}>{stay.name}</Text>
+        {/* Hotel name — wraps up to 2 lines */}
+        <Text style={styles.cardName} numberOfLines={2}>{stay.name}</Text>
+
+        {/* Location row */}
         <View style={styles.cardLocationRow}>
-          <MapPin size={10} color="#888" strokeWidth={2} />
+          <MapPin size={12} color="#9E9E9E" strokeWidth={2} />
           <Text style={styles.cardLocation} numberOfLines={1}> {stay.location}</Text>
         </View>
+
+        {/* Rating row */}
         <View style={styles.cardRatingRow}>
-          <Star size={11} color="#FACC15" fill="#FACC15" strokeWidth={0} />
+          <Star size={13} color="#FACC15" fill="#FACC15" strokeWidth={0} />
           <Text style={styles.cardRating}> {stay.rating}</Text>
-          <Text style={styles.cardReviews}> ({stay.reviews})</Text>
+          <Text style={styles.cardReviews}> ({stay.reviews} reviews)</Text>
         </View>
+
+        {/* Price — right-aligned, purple */}
         <View style={styles.cardPriceRow}>
-          <Text style={styles.cardCurrency}>₹</Text>
-          <Text style={styles.cardPrice}>{stay.price}</Text>
-          <Text style={styles.cardNight}>/night</Text>
+          <View style={styles.cardPriceBlock}>
+            <Text style={styles.cardPrice}>₹ {stay.price}</Text>
+            <Text style={styles.cardNight}>/night</Text>
+          </View>
         </View>
       </View>
     </Pressable>
@@ -264,7 +275,7 @@ const styles = StyleSheet.create({
   recentSection: {
     paddingTop: 26,
     paddingHorizontal: 18,
-    paddingBottom: 8,
+    paddingBottom: 100,
   },
   recentHeader: {
     flexDirection: 'row',
@@ -319,7 +330,7 @@ const styles = StyleSheet.create({
   cardsRow: {
     paddingRight: 4,
     gap: 12,
-    paddingBottom: 4,
+    paddingBottom: 8,
   },
   stateBox: {
     paddingVertical: 24,
@@ -332,48 +343,36 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   stayCard: {
-    width: '42%',
-    borderRadius: 14,
+    width: 200,
+    borderRadius: 16,
     overflow: 'hidden',
     backgroundColor: '#FFFFFF',
-    boxShadow: '0 3px 8px rgba(0,0,0,0.12)',
+    boxShadow: '0 4px 14px rgba(0,0,0,0.13)',
   },
   cardImageWrapper: {
     width: '100%',
-    height: 110,
+    height: 150,
     position: 'relative',
   },
   cardImage: {
     width: '100%',
-    height: 110,
+    height: 150,
   },
-  cardImageOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: 110,
-    backgroundColor: 'rgba(26,5,51,0.18)',
-  },
+  // No overlay — clean image like screenshot
   cardHeartBtn: {
     position: 'absolute',
-    top: 7,
-    right: 7,
-    backgroundColor: 'rgba(0,0,0,0.35)',
-    borderRadius: 12,
-    width: 24,
-    height: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
+    top: 10,
+    right: 10,
+    // No background — bare white heart icon only
   },
   trendingBadge: {
     position: 'absolute',
-    top: 7,
-    left: 7,
+    top: 10,
+    left: 10,
     backgroundColor: '#7C3AED',
     borderRadius: 8,
-    paddingHorizontal: 7,
-    paddingVertical: 3,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
   },
   trendingText: {
     fontSize: 9,
@@ -382,24 +381,25 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
   },
   cardBody: {
-    padding: 9,
+    padding: 12,
     backgroundColor: '#FFFFFF',
   },
   cardName: {
-    fontSize: 12,
-    fontWeight: '700',
+    fontSize: 15,
+    fontWeight: '800',
     color: '#1A0533',
-    lineHeight: 17,
-    marginBottom: 2,
+    lineHeight: 20,
+    marginBottom: 6,
   },
   cardLocationRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: 6,
   },
   cardLocation: {
-    fontSize: 11,
-    color: '#888',
+    fontSize: 12,
+    color: '#9E9E9E',
+    flexShrink: 1,
   },
   cardRatingRow: {
     flexDirection: 'row',
@@ -407,33 +407,30 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   cardRating: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     color: '#1A0533',
   },
   cardReviews: {
-    fontSize: 10,
-    color: '#AAA',
+    fontSize: 11,
+    color: '#AAAAAA',
   },
+  // Price block — right-aligned, purple
   cardPriceRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    gap: 1,
+    alignItems: 'flex-end',
   },
-  cardCurrency: {
-    fontSize: 12,
-    color: '#1A0533',
-    fontWeight: '700',
+  cardPriceBlock: {
+    alignItems: 'flex-end',
   },
   cardPrice: {
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: '800',
-    color: '#1A0533',
+    color: '#7C3AED',
   },
   cardNight: {
-    fontSize: 10,
-    color: '#AAA',
-    marginLeft: 2,
+    fontSize: 11,
+    color: '#AAAAAA',
+    marginTop: 1,
   },
 });
 
