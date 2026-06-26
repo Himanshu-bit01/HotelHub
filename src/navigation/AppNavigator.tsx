@@ -13,7 +13,7 @@ import SupportScreen from '../screens/Profile/SupportScreen';
 import { HomeProvider } from '../redux/context/HomeContext';
 import AccountSettings from '../screens/Profile/AccountSettings';
 import { RootStackParamList } from '../types';
-
+import FilterScreen from '../screens/Search/FilterScreen';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator = () => {
@@ -58,6 +58,10 @@ const AppNavigator = () => {
           name="AccountSettings"
           component={AccountSettings}
         />
+        <Stack.Screen
+  name="FilterScreen"
+  component={FilterScreen}
+/>
       </Stack.Navigator>
       </NavigationContainer>
     </HomeProvider>
