@@ -20,6 +20,7 @@ export type RootStackParamList = {
   Reviews: undefined;
   Support: undefined;
   AccountSettings: undefined;
+  FilterScreen: undefined;
 };
 
 // ── Navigation prop types for screens ───────────────────────────────

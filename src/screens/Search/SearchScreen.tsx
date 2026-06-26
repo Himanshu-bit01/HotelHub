@@ -94,14 +94,17 @@ const SearchScreen = ({ navigation }: SearchScreenProps) => {
               </View>
             </View>
 
-            <Pressable style={styles.updateBtn} activeOpacity={0.85}>
+            <Pressable style={styles.updateBtn}>
               <Text style={styles.updateBtnTxt}>Update Results</Text>
             </Pressable>
           </View>
 
-          <View style={styles.fab}>
-            <SlidersHorizontal size={18} color="#fff" strokeWidth={2.4} />
-          </View>
+          <Pressable
+  style={styles.fab}
+  onPress={() => navigation.navigate('FilterScreen')}
+>
+  <SlidersHorizontal size={18} color="#fff" strokeWidth={2.4} />
+</Pressable>
         </View>
 
         <View style={styles.listWrap}>
