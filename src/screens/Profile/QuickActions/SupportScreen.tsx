@@ -47,7 +47,7 @@ const SupportScreen = ({ navigation }: SupportScreenProps) => {
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
       <View style={styles.topBar}>
-        <Pressable style={styles.backBtn} activeOpacity={0.7} onPress={() => navigation.goBack()}>
+        <Pressable style={styles.backBtn} onPress={() => navigation.goBack()}>
           <ArrowLeft size={18} color="#111827" strokeWidth={2} />
         </Pressable>
       </View>
@@ -65,7 +65,6 @@ const SupportScreen = ({ navigation }: SupportScreenProps) => {
             <Pressable
               key={c.id}
               style={styles.contactCard}
-              activeOpacity={0.8}
               onPress={() => {
                 if (c.id === 'call') Linking.openURL('tel:+918001234567');
                 if (c.id === 'email') Linking.openURL('mailto:support@hotelhub.com');
@@ -85,7 +84,7 @@ const SupportScreen = ({ navigation }: SupportScreenProps) => {
 
         <View style={[styles.sectionHeaderRow, { marginTop: 22 }]}>
           <Text style={styles.sectionTitle}>My Tickets</Text>
-          <Pressable style={styles.newTicketBtn} activeOpacity={0.8}>
+          <Pressable style={styles.newTicketBtn}>
             <Plus size={12} color="#7C3AED" strokeWidth={2.5} />
             <Text style={styles.newTicketTxt}>New Ticket</Text>
           </Pressable>
@@ -112,7 +111,6 @@ const SupportScreen = ({ navigation }: SupportScreenProps) => {
               <Pressable
                 key={f.id}
                 style={styles.faqCard}
-                activeOpacity={0.8}
                 onPress={() => setOpenFaqId(isOpen ? null : f.id)}
               >
                 <View style={styles.faqRow}>

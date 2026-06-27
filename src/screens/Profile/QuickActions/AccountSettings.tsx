@@ -6,13 +6,10 @@ import {
   ScrollView,
   TextInput,
   Pressable,
-  Image,
 } from 'react-native';
 import { Camera, Mail, Phone, CheckCircle, AlertCircle } from 'lucide-react-native';
 import { useSelector } from 'react-redux';
 import { formReducer } from './accountSettingsReducer';
-
-type AccountSettingsProps = {};
 
 function AccountSettings() {
   const account = useSelector(
@@ -181,3 +178,39 @@ function AccountSettings() {
 }
 
 export default AccountSettings;
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#F9FAFB', paddingHorizontal: 16 },
+  title: { fontSize: 22, fontWeight: '700', color: '#111827', marginTop: 50 },
+  subtitle: { fontSize: 13, color: '#6B7280', marginTop: 4, marginBottom: 20 },
+  sectionTitle: { fontSize: 15, fontWeight: '600', color: '#111827', marginBottom: 10, marginTop: 8 },
+  card: { backgroundColor: '#fff', borderRadius: 12, padding: 16, marginBottom: 16 },
+  profileRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 16 },
+  avatar: { width: 56, height: 56, borderRadius: 28, backgroundColor: '#7C3AED', justifyContent: 'center', alignItems: 'center', marginRight: 14 },
+  profileName: { fontSize: 16, fontWeight: '700', color: '#111827' },
+  memberText: { fontSize: 12, color: '#6B7280', marginTop: 2 },
+  uploadText: { fontSize: 12, color: '#7C3AED', fontWeight: '600', marginTop: 4 },
+  row: { flexDirection: 'row', gap: 10 },
+  half: { flex: 1 },
+  label: { fontSize: 12, fontWeight: '600', color: '#6B7280', marginBottom: 6, marginTop: 10 },
+  input: { backgroundColor: '#F3F4F6', borderRadius: 8, paddingHorizontal: 12, paddingVertical: 10, fontSize: 14, color: '#111827' },
+  button: { backgroundColor: '#7C3AED', borderRadius: 8, paddingVertical: 10, alignItems: 'center', marginTop: 14 },
+  buttonText: { color: '#fff', fontSize: 13, fontWeight: '600' },
+  desc: { fontSize: 13, color: '#6B7280', marginBottom: 14 },
+  infoRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 14 },
+  smallLabel: { fontSize: 11, color: '#9CA3AF', fontWeight: '600' },
+  infoValue: { fontSize: 14, color: '#111827', fontWeight: '500', marginTop: 2 },
+  verifiedBadge: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#ECFDF5', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 12, gap: 4 },
+  verifiedText: { fontSize: 11, color: '#16A34A', fontWeight: '600' },
+  unverifiedBadge: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFF7ED', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 12, gap: 4 },
+  unverifiedText: { fontSize: 11, color: '#F97316', fontWeight: '600' },
+  actionRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  emailInput: { flex: 1, backgroundColor: '#F3F4F6', borderRadius: 8, paddingHorizontal: 12, paddingVertical: 10, fontSize: 14, color: '#111827' },
+  otpButton: { backgroundColor: '#7C3AED', borderRadius: 8, paddingHorizontal: 14, paddingVertical: 10 },
+  securityRow: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' },
+  securityTitle: { fontSize: 14, fontWeight: '600', color: '#111827' },
+  securityDesc: { fontSize: 12, color: '#6B7280', marginTop: 4 },
+  sessionTitle: { fontSize: 13, fontWeight: '600', color: '#111827', marginTop: 10 },
+  sessionSub: { fontSize: 12, color: '#6B7280', marginTop: 2 },
+  signOutText: { fontSize: 13, color: '#EF4444', fontWeight: '600', marginTop: 10 },
+});

@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-import { HomeProvider, useHomeContext } from '../../redux/context/HomeContext';
 import TopNavBar from '../../components/Home-Screen/Topnavbar';
 import {
   fetchHomeData,
@@ -145,7 +144,6 @@ const HighlightCard = ({ item }: { item: FeaturedHotel }) => (
 // ─── Screen ──────────────────────────────────────────────────────────────────
 const OffersScreenContent = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const { selectedTab, setSelectedTab } = useHomeContext();
   const dispatch = useDispatch<AppDispatch>();
 
   const featuredHotels = useSelector(selectFeaturedHotels);
@@ -220,9 +218,7 @@ const OffersScreenContent = () => {
 };
 
 const OffersScreen = () => (
-  <HomeProvider>
-    <OffersScreenContent />
-  </HomeProvider>
+  <OffersScreenContent />
 );
 
 // ─── Styles ──────────────────────────────────────────────────────────────────
@@ -232,12 +228,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
 
-  // Strips the 48pt top padding that TopNavBar adds for HomeScreen's safe area
-  // (SafeAreaView already handles insets here via edges prop)
+  // Matches TopNavBar reference exactly: paddingTop 48, paddingBottom 12, paddingHorizontal 16
+  // paddingHorizontal is already 16 in TopNavBar base style so only top/bottom are overridden here
   navBarOverride: {
     paddingTop: 48,
-    paddingBottom: 10,
-    // Light theme shadow/separator
+    paddingBottom: 12,
+    // Light theme separator shadow (valid RN syntax)
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.06,
@@ -401,11 +397,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 14,
     overflow: 'hidden',
-    elevation: 3,
-    shadowColor: '#7C3AED',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
+    boxShadow: '0 2px 6px rgba(124,58,237,0.08)',
     height: 108,
   },
 

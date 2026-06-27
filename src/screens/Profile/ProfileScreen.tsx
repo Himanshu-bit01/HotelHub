@@ -11,8 +11,6 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Heart,
-  User,
-  Menu,
   ChevronRight,
   LayoutDashboard,
   BookMarked,
@@ -32,6 +30,7 @@ import {
   Banknote,
   Calendar,
   BookOpen,
+  Info,
 } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import HotelHubHeader from '../../components/HotelHubHeader/HotelHubHeader';
@@ -49,7 +48,7 @@ const MENU_ITEMS = [
 ];
 
 const STATS = [
-  { id: 1, count: '0', label: 'Total Bookings', sublabel: '0 total', Icon: BookOpen, iconBg: '#EDE9FE', iconColor: '#7C3AED', trendColor: '#10B981' },
+  { id: 1, count: '0', label: 'Total Bookings', sublabel: '0 total', Icon: BookOpen, iconBg: '#ffffff', iconColor: '#7C3AED', trendColor: '#10B981' },
   { id: 2, count: '0', label: 'Upcoming Stays', sublabel: '0 stays', Icon: Calendar, iconBg: '#D1FAE5', iconColor: '#059669', trendColor: '#10B981' },
   { id: 3, count: '0', label: 'Cancelled', sublabel: '0 Cancelled', Icon: X, iconBg: '#FEE2E2', iconColor: '#DC2626', trendColor: '#EF4444' },
   { id: 4, count: '₹0', label: 'Total Spent', sublabel: 'Across all bookings', Icon: IndianRupee, iconBg: '#FEF3C7', iconColor: '#D97706', trendColor: '#10B981' },
@@ -92,26 +91,23 @@ type ProfileScreenProps = {
 
 const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
   const insets = useSafeAreaInsets();
-  const { width } = useWindowDimensions();
   return (
     <SafeAreaView style={styles.safe} edges={['left', 'right', 'bottom']} >
       <StatusBar barStyle="light-content" backgroundColor="#1A0533" />
 
       <HotelHubHeader
         theme="dark"
+        containerStyle={styles.headerContainer}
         rightIcons={
           <>
             <Pressable style={styles.hBtn}>
-              <Heart size={18} color="#FFFFFF" strokeWidth={1.8} />
+              <Heart size={18} color="#000000" strokeWidth={1.8} />
             </Pressable>
             <Pressable style={styles.hBtn}>
               <View>
-                <User size={18} color="#FFFFFF" strokeWidth={1.8} />
+                <Info size={18} color="#000000" strokeWidth={1.8} />
                 <View style={styles.redDot} />
               </View>
-            </Pressable>
-            <Pressable style={styles.menuSquare}>
-              <Menu size={15} color="#fff" strokeWidth={2.2} />
             </Pressable>
           </>
         }
@@ -135,7 +131,7 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
               <Text style={styles.bookingsTxt}> 0 bookings</Text>
             </View>
           </View>
-          <Pressable style={styles.bookStayBtn} activeOpacity={0.85} onPress={() => navigation.navigate('Bottom', { screen: 'Home' })}>
+           <Pressable style={styles.bookStayBtn} onPress={() => navigation.navigate('Bottom', { screen: 'Home' })}>
             <Text style={styles.bookStayTxt}>Book a Stay</Text>
           </Pressable>
         </View>
@@ -144,11 +140,11 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
           {MENU_ITEMS.map((item, idx) => {
             const isFirst = idx === 0;
             const menuNavMap: Record<string, any> = {
-              dashboard: { screen: 'Bottom', params: { screen: 'Home' } },
+              dashboard: 'Dashboard',
               bookings: 'Bookings',
               payments: 'Payments',
               reviews: 'Reviews',
-              saved: 'Search',
+              saved: 'Wishlist',
               support: 'Support',
               settings: 'AccountSettings',
               back: { screen: 'Bottom', params: { screen: 'Home' } },
@@ -157,7 +153,6 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
               <Pressable
                 key={item.id}
                 style={[styles.menuItem, isFirst && styles.menuItemActive]}
-                activeOpacity={0.7}
                 onPress={() => {
                   const target = menuNavMap[item.id];
                   if (target) {
@@ -197,7 +192,7 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
               <Hotel size={20} color="#9CA3AF" strokeWidth={1.5} />
             </View>
             <Text style={styles.emptyTxt}>No upcoming stays</Text>
-            <Pressable style={styles.browseBtn} activeOpacity={0.85} onPress={() => navigation.navigate('Bottom', { screen: 'Home' })}>
+            <Pressable style={styles.browseBtn} onPress={() => navigation.navigate('Bottom', { screen: 'Home' })}>
               <Text style={styles.browseTxt}>Browse Hotels</Text>
             </Pressable>
           </View>
@@ -256,15 +251,21 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#F3F4F6' },
-  hBtn: { width: 32, height: 32, justifyContent: 'center', alignItems: 'center' },
+  // Matches TopNavBar (HeroSection reference): paddingTop 48, paddingBottom 12, paddingHorizontal 16
+  headerContainer: {
+    paddingTop: 48,
+    paddingBottom: 12,
+    paddingHorizontal: 16,
+  },
+  hBtn: { width: 32, height: 32, justifyContent: 'center', alignItems: 'center'},
   redDot: {
     position: 'absolute', top: -1, right: -1,
     width: 6, height: 6, borderRadius: 3, backgroundColor: '#EF4444',
   },
-  menuSquare: {
-    width: 28, height: 28, backgroundColor: '#7C3AED',
-    borderRadius: 6, justifyContent: 'center', alignItems: 'center',
-  },
+  // menuSquare: {
+  //   width: 28, height: 28, backgroundColor: '#7C3AED',
+  //   borderRadius: 6, justifyContent: 'center', alignItems: 'center',
+  // },
   body: { flex: 1 },
   bodyContent: { padding: 12, gap: 10 },
   profileHero: {

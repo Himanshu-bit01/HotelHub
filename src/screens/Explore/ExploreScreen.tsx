@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   destName: { fontSize: 11, fontWeight: '700', color: '#FFFFFF', letterSpacing: 1 },
   sectionTitle: { fontSize: 18, fontWeight: '800', color: '#1A0533', paddingHorizontal: 16, marginBottom: 4 },
   sectionSubtitle: { fontSize: 12, color: '#999', paddingHorizontal: 16, marginBottom: 14 },
-  offerCard: { flexDirection: 'row', marginHorizontal: 16, marginBottom: 12, borderRadius: 14, overflow: 'hidden', backgroundColor: '#FFFFFF', elevation: 2 },
+  offerCard: { flexDirection: 'row', marginHorizontal: 16, marginBottom: 12, borderRadius: 14, overflow: 'hidden', backgroundColor: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' },
   offerImage: { width: 110, height: 130 },
   offerImageRadius: { borderBottomLeftRadius: 14, borderTopLeftRadius: 14 },
   offerInfo: { flex: 1, padding: 10, justifyContent: 'space-between' },

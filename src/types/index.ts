@@ -20,7 +20,17 @@ export type RootStackParamList = {
   Reviews: undefined;
   Support: undefined;
   AccountSettings: undefined;
-  FilterScreen: undefined;
+  PropertyDetails: { hotelId: number };
+  RoomSelection: { hotelId: number };
+  GuestDetails: { hotelId: number; roomId: number };
+  CheckoutPayment: { hotelId: number; roomId: number; fullName: string; email: string; phone: string; guests: string };
+  BookingConfirmation: { hotelId: number; roomId: number; fullName: string; email: string; paymentMethod: string };
+  Wishlist: undefined;
+  Notifications: undefined;
+  Discovery: undefined;
+  Dashboard: undefined;
+  InfoPage: { type: 'meals' | 'rules' | 'deposit' | 'checkin' };
+  FAQs: undefined;
 };
 
 // ── Navigation prop types for screens ───────────────────────────────
@@ -68,6 +78,7 @@ export interface HotelCardData {
   price: string;
   imgTop: string;
   imgBottom: string;
+  image?: string;
 }
 
 export interface BookingItem {
@@ -117,6 +128,30 @@ export interface ExploreOffer {
   location: string;
   discount: string;
   price: string;
+  image: string;
+}
+
+export interface PropertyDetail {
+  id: number;
+  name: string;
+  location: string;
+  rating: number;
+  reviews: number;
+  price: string;
+  image: string;
+  description: string;
+  amenities: { icon: string; label: string }[];
+  reviewsList: { name: string; rating: number; comment: string; date: string }[];
+}
+
+export interface RoomType {
+  id: number;
+  hotelId: number;
+  name: string;
+  description: string;
+  capacity: string;
+  price: string;
+  amenities: string[];
   image: string;
 }
 

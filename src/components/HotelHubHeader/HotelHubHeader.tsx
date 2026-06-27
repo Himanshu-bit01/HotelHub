@@ -1,17 +1,18 @@
 import React, { ReactNode } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ViewStyle } from 'react-native';
 
 type HotelHubHeaderProps = {
   theme?: 'dark' | 'light';
   rightIcons?: ReactNode;
   children?: ReactNode;
+  containerStyle?: ViewStyle;
 };
 
-const HotelHubHeader = ({ theme = 'dark', rightIcons, children }: HotelHubHeaderProps) => {
+const HotelHubHeader = ({ theme = 'dark', rightIcons, children, containerStyle }: HotelHubHeaderProps) => {
   const isDark = theme === 'dark';
 
   return (
-    <View style={[styles.container, isDark ? styles.containerDark : styles.containerLight]}>
+    <View style={[styles.container, isDark ? styles.containerDark : styles.containerLight, containerStyle]}>
       <View style={styles.topBar}>
         <Text style={styles.brandName}>
           <Text style={isDark ? styles.brandWhite : styles.brandDark}>Hotel</Text>
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 35,
+    paddingTop: 4,
     paddingBottom: 12,
   },
   brandName: {

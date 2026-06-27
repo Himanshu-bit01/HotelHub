@@ -64,11 +64,13 @@ const BottomTabBar = ({ activeTab, navigation, state }: any) => {
   );
 };
 
+const MemoizedBottomTabBar = React.memo(BottomTabBar);
+
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      tabBar={(props) => <BottomTabBar {...props} />}
+      tabBar={(props) => <MemoizedBottomTabBar {...props} />}
       screenOptions={{ headerShown: false }}
     >
       <Tab.Screen name="Home"     component={HomeScreen}    />

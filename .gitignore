@@ -77,3 +77,7 @@ yarn-error.log
 
 #Package file
 package-lock.json
+.env
+
+__mock__
+__tests__
