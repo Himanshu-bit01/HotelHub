@@ -24,7 +24,7 @@ import DashboardScreen from '../screens/Dashboard/DashboardScreen';
 import InfoPageScreen from '../screens/InfoPages/InfoPageScreen';
 import FAQsScreen from '../screens/FAQs/FAQsScreen';
 import { RootStackParamList } from '../types';
-
+import FilterScreen from '../screens/Search/FilterScreen';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator = () => {
