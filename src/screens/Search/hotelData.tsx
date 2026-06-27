@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
+  Image,
   StyleSheet,
   Pressable,
 } from 'react-native';
@@ -13,7 +14,6 @@ import {
   Check,
 } from 'lucide-react-native';
 import { HotelCardData } from '../../types';
-import { HOTELS } from './hotelConstants';
 
 type HotelCardProps = {
   hotel: HotelCardData;
@@ -25,13 +25,14 @@ export const HotelCard = ({ hotel, navigation }: HotelCardProps) => {
 
   return (
     <View style={styles.card}>
-      <View style={[styles.cardPhoto, { backgroundColor: hotel.imgTop }]}>
-        <View
-          style={[
-            StyleSheet.absoluteFill,
-            { top: '55%', backgroundColor: hotel.imgBottom },
-          ]}
-        />
+      <View style={styles.cardPhoto}>
+        {hotel.image ? (
+          <Image source={{ uri: hotel.image }} style={styles.cardImage} resizeMode="cover" />
+        ) : (
+          <View style={[StyleSheet.absoluteFill, { backgroundColor: hotel.imgTop }]}>
+            <View style={[StyleSheet.absoluteFill, { top: '55%', backgroundColor: hotel.imgBottom }]} />
+          </View>
+        )}
         {hotel.badge && (
           <View style={[styles.photoBadge, { backgroundColor: hotel.badgeColor }]}>
             <Text style={styles.photoBadgeText}>{hotel.badge}</Text>
@@ -82,7 +83,7 @@ export const HotelCard = ({ hotel, navigation }: HotelCardProps) => {
           </View>
           <Pressable
             style={styles.bookBtn}
-            onPress={() => navigation.navigate('Bottom', { screen: 'Bookings' })}
+            onPress={() => navigation.navigate('PropertyDetails', { hotelId: hotel.id })}
           >
             <Text style={styles.bookTxt}>View & Book</Text>
           </Pressable>
@@ -106,6 +107,10 @@ const styles = StyleSheet.create({
     width: 110,
     position: 'relative',
     overflow: 'hidden',
+  },
+  cardImage: {
+    width: '100%',
+    height: '100%',
   },
   photoBadge: {
     position: 'absolute',

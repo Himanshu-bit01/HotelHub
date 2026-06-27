@@ -5,7 +5,6 @@ import {
   ScrollView,
   StatusBar,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 
 import TopNavBar from '../../components/Home-Screen/Topnavbar';
@@ -21,7 +20,6 @@ type HomeScreenProps = {
 };
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
-  const insets = useSafeAreaInsets();
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {

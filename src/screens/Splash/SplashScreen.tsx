@@ -23,7 +23,7 @@ type SplashScreenProps = {
 };
 
 const SplashScreen = ({ navigation }: SplashScreenProps) => {
-  const { height: SCREEN_H } = useWindowDimensions();
+  useWindowDimensions();
   const logoOpacity = useSharedValue(0);
   const logoScale = useSharedValue(0.85);
   const textOpacity = useSharedValue(0);
@@ -56,7 +56,7 @@ const SplashScreen = ({ navigation }: SplashScreenProps) => {
     }, 3000);
 
     return () => clearTimeout(timer);
-  // eslint-disable-next-line react-doctor/exhaustive-deps
+    // eslint-disable-next-line react-doctor/exhaustive-deps
   }, []);
 
   // const logoAnimatedStyle = useAnimatedStyle(() => ({
@@ -91,7 +91,7 @@ const SplashScreen = ({ navigation }: SplashScreenProps) => {
     >
       <StatusBar barStyle="light-content" backgroundColor="#7F2DFE" />
 
-      <Animated.View style={[styles.logoBlock]}>
+      <Animated.View style={styles.logoBlock}>
         <Text style={styles.brandName}>
           <Text style={styles.brandWhite}>Hotel</Text>
           <Text style={styles.brandOrange}>Hub</Text>

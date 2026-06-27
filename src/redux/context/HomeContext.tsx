@@ -27,14 +27,19 @@ const initialState: HomeState = {
 function homeReducer(state: HomeState, action: HomeAction): HomeState {
   switch (action.type) {
     case 'SET_SELECTED_TAB':
+      if (state.selectedTab === action.payload) return state;
       return { ...state, selectedTab: action.payload };
     case 'SET_DESTINATION':
+      if (state.destination === action.payload) return state;
       return { ...state, destination: action.payload };
     case 'SET_CHECK_IN_OUT':
+      if (state.checkInOut === action.payload) return state;
       return { ...state, checkInOut: action.payload };
     case 'SET_GUESTS':
+      if (state.guests === action.payload) return state;
       return { ...state, guests: action.payload };
     case 'SET_ROOMS':
+      if (state.rooms === action.payload) return state;
       return { ...state, rooms: action.payload };
     default:
       return state;

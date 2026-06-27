@@ -86,7 +86,7 @@ const TrendingScreen = ({ navigation }: TrendingScreenProps) => {
               </View>
             </View>
 
-            <Pressable style={styles.updateBtn} activeOpacity={0.85}>
+            <Pressable style={styles.updateBtn} >
               <Text style={styles.updateBtnTxt}>Update Results</Text>
             </Pressable>
           </View>

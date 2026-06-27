@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   Pressable,
   ScrollView,
   TextInput,
@@ -11,11 +10,9 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Search,
-  MapPin,
   Users,
   Calendar,
   SlidersHorizontal,
-  Check,
 } from 'lucide-react-native';
 import { useHomeContext } from '../../redux/context/HomeContext';
 import TopNavBar from '../../components/Home-Screen/Topnavbar';
@@ -94,7 +91,7 @@ const SearchScreen = ({ navigation }: SearchScreenProps) => {
               </View>
             </View>
 
-            <Pressable style={styles.updateBtn} activeOpacity={0.85}>
+            <Pressable style={styles.updateBtn} >
               <Text style={styles.updateBtnTxt}>Update Results</Text>
             </Pressable>
           </View>

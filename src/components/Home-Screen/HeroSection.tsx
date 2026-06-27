@@ -15,7 +15,7 @@ const HeroSection = () => {
   return (
     <View style={[styles.heroBlock, { height: HERO_HEIGHT }]}>
       <Image
-        source={require('../../assets/images/background.jpeg')}
+        source={require('../../assets/images/background.png')}
         style={styles.heroBgImage}
         resizeMode="cover"
       />
@@ -30,7 +30,7 @@ const HeroSection = () => {
           'rgba(80,20,130,0.10)',
           'transparent',
         ]}
-        locations={[0, 0.30, 0.45, 0.58, 0.72, 0.85, 1]}
+        locations={[0, 0.30, 0.50, 0.70, 1]}
         start={{ x: 0.5, y: 0 }}
         end={{ x: 0.5, y: 1 }}
         style={StyleSheet.absoluteFill}

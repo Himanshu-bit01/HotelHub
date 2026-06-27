@@ -27,7 +27,7 @@ const ReviewsScreen = ({ navigation }: ReviewsScreenProps) => {
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
       <View style={styles.topBar}>
-        <Pressable style={styles.backBtn} activeOpacity={0.7} onPress={() => navigation.goBack()}>
+        <Pressable style={styles.backBtn} onPress={() => navigation.goBack()}>
           <ArrowLeft size={18} color="#111827" strokeWidth={2} />
         </Pressable>
       </View>

@@ -7,11 +7,22 @@ import BottomTabNavigator from '../screens/BottomTab/BottomTabNavigator';
 import TrendingScreen from '../screens/Trending/TrendingScreen';
 import ExploreScreen from '../screens/Explore/ExploreScreen';
 import SearchScreen from '../screens/Search/SearchScreen';
-import PaymentsScreen from '../screens/Profile/PaymentsScreen';
-import ReviewsScreen from '../screens/Profile/ReviewsScreen';
-import SupportScreen from '../screens/Profile/SupportScreen';
+import PaymentsScreen from '../screens/Profile/QuickActions/PaymentsScreen';
+import ReviewsScreen from '../screens/Profile/QuickActions/ReviewsScreen';
+import SupportScreen from '../screens/Profile/QuickActions/SupportScreen';
 import { HomeProvider } from '../redux/context/HomeContext';
-import AccountSettings from '../screens/Profile/AccountSettings';
+import AccountSettings from '../screens/Profile/QuickActions/AccountSettings';
+import PropertyDetailsScreen from '../screens/PropertyDetails/PropertyDetailsScreen';
+import RoomSelectionScreen from '../screens/RoomSelection/RoomSelectionScreen';
+import GuestDetailsScreen from '../screens/GuestDetails/GuestDetailsScreen';
+import CheckoutPaymentScreen from '../screens/CheckoutPayment/CheckoutPaymentScreen';
+import BookingConfirmationScreen from '../screens/BookingConfirmation/BookingConfirmationScreen';
+import WishlistScreen from '../screens/Wishlist/WishlistScreen';
+import NotificationsScreen from '../screens/Notifications/NotificationsScreen';
+import DiscoveryScreen from '../screens/Discovery/DiscoveryScreen';
+import DashboardScreen from '../screens/Dashboard/DashboardScreen';
+import InfoPageScreen from '../screens/InfoPages/InfoPageScreen';
+import FAQsScreen from '../screens/FAQs/FAQsScreen';
 import { RootStackParamList } from '../types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -57,6 +68,50 @@ const AppNavigator = () => {
         <Stack.Screen
           name="AccountSettings"
           component={AccountSettings}
+        />
+        <Stack.Screen
+          name="PropertyDetails"
+          component={PropertyDetailsScreen}
+        />
+        <Stack.Screen
+          name="RoomSelection"
+          component={RoomSelectionScreen}
+        />
+        <Stack.Screen
+          name="GuestDetails"
+          component={GuestDetailsScreen}
+        />
+        <Stack.Screen
+          name="CheckoutPayment"
+          component={CheckoutPaymentScreen}
+        />
+        <Stack.Screen
+          name="BookingConfirmation"
+          component={BookingConfirmationScreen}
+        />
+        <Stack.Screen
+          name="Wishlist"
+          component={WishlistScreen}
+        />
+        <Stack.Screen
+          name="Notifications"
+          component={NotificationsScreen}
+        />
+        <Stack.Screen
+          name="Discovery"
+          component={DiscoveryScreen}
+        />
+        <Stack.Screen
+          name="Dashboard"
+          component={DashboardScreen}
+        />
+        <Stack.Screen
+          name="InfoPage"
+          component={InfoPageScreen}
+        />
+        <Stack.Screen
+          name="FAQs"
+          component={FAQsScreen}
         />
       </Stack.Navigator>
       </NavigationContainer>

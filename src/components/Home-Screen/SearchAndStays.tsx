@@ -7,7 +7,6 @@ import {
   Pressable,
   TextInput,
   Image,
-  useWindowDimensions,
   ActivityIndicator,
 } from 'react-native';
 import {
@@ -34,7 +33,6 @@ type SearchAndStaysProps = {
 };
 
 const SearchAndStays = (_props?: SearchAndStaysProps) => {
-  const { width } = useWindowDimensions();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const {
     destination,
@@ -49,12 +47,12 @@ const SearchAndStays = (_props?: SearchAndStaysProps) => {
   const loading = useSelector(selectHotelsLoading);
   const error = useSelector(selectHotelsError);
 
-  const handleStayPress = useCallback(() => {
-    navigation.navigate('Bottom', { screen: 'Bookings' });
+  const handleStayPress = useCallback((hotelId?: string | number) => {
+    navigation.navigate('PropertyDetails', { hotelId: Number(hotelId) || 1 });
   }, [navigation]);
 
   const renderStayCard = useCallback(({ item: stay }: { item: any }) => (
-    <Pressable style={styles.stayCard} onPress={handleStayPress}>
+    <Pressable style={styles.stayCard} onPress={() => handleStayPress(stay.id)}>
       {/* Image */}
       <View style={styles.cardImageWrapper}>
         <Image source={stay.image} style={styles.cardImage} resizeMode="cover" />
