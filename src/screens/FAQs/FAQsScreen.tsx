@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
+  FlatList,
   Pressable,
   StatusBar,
 } from 'react-native';
@@ -27,6 +27,26 @@ const FAQsScreen = ({ navigation }: FAQsScreenProps) => {
   const insets = useSafeAreaInsets();
   const [openId, setOpenId] = useState<number | null>(null);
 
+  const renderFaq = useCallback(({ item }: { item: typeof FAQS[number] }) => {
+    const isOpen = openId === item.id;
+    return (
+      <Pressable
+        style={styles.faqCard}
+        onPress={() => setOpenId(isOpen ? null : item.id)}
+      >
+        <View style={styles.faqRow}>
+          <Text style={styles.faqQuestion}>{item.question}</Text>
+          {isOpen ? (
+            <ChevronDown size={16} color="#9CA3AF" strokeWidth={2} />
+          ) : (
+            <ChevronRight size={16} color="#9CA3AF" strokeWidth={2} />
+          )}
+        </View>
+        {isOpen && <Text style={styles.faqAnswer}>{item.answer}</Text>}
+      </Pressable>
+    );
+  }, [openId]);
+
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
@@ -39,32 +59,14 @@ const FAQsScreen = ({ navigation }: FAQsScreenProps) => {
         <View style={{ width: 36 }} />
       </View>
 
-      <ScrollView
+      <FlatList
+        data={FAQS}
+        keyExtractor={(f) => f.id.toString()}
+        renderItem={renderFaq}
         style={styles.body}
         contentContainerStyle={[styles.bodyContent, { paddingBottom: insets.bottom + 24 }]}
         showsVerticalScrollIndicator={false}
-      >
-        {FAQS.map(f => {
-          const isOpen = openId === f.id;
-          return (
-            <Pressable
-              key={f.id}
-              style={styles.faqCard}
-              onPress={() => setOpenId(isOpen ? null : f.id)}
-            >
-              <View style={styles.faqRow}>
-                <Text style={styles.faqQuestion}>{f.question}</Text>
-                {isOpen ? (
-                  <ChevronDown size={16} color="#9CA3AF" strokeWidth={2} />
-                ) : (
-                  <ChevronRight size={16} color="#9CA3AF" strokeWidth={2} />
-                )}
-              </View>
-              {isOpen && <Text style={styles.faqAnswer}>{f.answer}</Text>}
-            </Pressable>
-          );
-        })}
-      </ScrollView>
+      />
     </SafeAreaView>
   );
 };

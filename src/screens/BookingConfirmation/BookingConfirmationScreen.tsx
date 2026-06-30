@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -18,6 +18,8 @@ import {
 } from 'lucide-react-native';
 import { getPropertyById } from '../PropertyDetails/propertyData';
 import { getRoomById } from '../RoomSelection/roomData';
+import { useAppDispatch } from '../../redux/hooks';
+import { resetBooking } from '../../redux/store/slices/bookingSlice';
 
 type BookingConfirmationScreenProps = {
   navigation: any;
@@ -29,7 +31,12 @@ const formatDate = (d: Date) =>
 
 const BookingConfirmationScreen = ({ navigation, route }: BookingConfirmationScreenProps) => {
   const insets = useSafeAreaInsets();
+  const dispatch = useAppDispatch();
   const { hotelId, roomId, fullName, email, paymentMethod } = route.params ?? {};
+
+  useEffect(() => {
+    dispatch(resetBooking());
+  }, [dispatch]);
 
   const property = hotelId ? getPropertyById(hotelId) : null;
   const room = roomId ? getRoomById(roomId) : null;

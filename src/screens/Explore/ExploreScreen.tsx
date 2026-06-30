@@ -81,9 +81,9 @@ function ExploreScreen({ navigation }: ExploreScreenProps) {
 
   return (
     <SafeAreaView style={styles.safe} edges={['bottom']}>
-      <StatusBar barStyle="light-content" backgroundColor="#1A0533" />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
-      <TopNavBar navigation={navigation} />
+      <TopNavBar navigation={navigation} theme="light" />
 
       <FlatList
         style={styles.body}
@@ -101,21 +101,84 @@ function ExploreScreen({ navigation }: ExploreScreenProps) {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: '#1A0533' },
-  body: { flex: 1, backgroundColor: '#F5F3F8' },
-  bodyContent: { paddingBottom: 80 },
-  heroTitle: { fontSize: 22, fontWeight: '800', color: '#FFFFFF', paddingHorizontal: 16, paddingTop: 12 },
-  heroTitlePurple: { fontSize: 22, fontWeight: '800', color: '#9B6DD4', paddingHorizontal: 16, marginBottom: 4 },
-  heroSubtitle: { fontSize: 12, color: '#C4B5D4', paddingHorizontal: 16, marginBottom: 16 },
-  destinationRow: { flexDirection: 'row', paddingHorizontal: 16, gap: 10, marginBottom: 24 },
-  destCard: { flex: 1, borderRadius: 14, overflow: 'hidden', height: 110 },
-  destImage: { flex: 1, justifyContent: 'flex-end', padding: 8 },
+  safe: { flex: 1, backgroundColor: '#FFFFFF' },
+  body: { flex: 1, backgroundColor: '#F9FAFB' },
+  bodyContent: { paddingBottom: 80, paddingTop: 4 },
+  heroTitle: {
+    fontSize: 24,
+    fontWeight: '900',
+    color: '#111827',
+    paddingHorizontal: 16,
+    paddingTop: 8,
+    letterSpacing: 0.5,
+  },
+  heroTitlePurple: {
+    fontSize: 24,
+    fontWeight: '900',
+    color: '#7C3AED',
+    paddingHorizontal: 16,
+    marginBottom: 6,
+    letterSpacing: 0.5,
+  },
+  heroSubtitle: {
+    fontSize: 13,
+    color: '#6B7280',
+    paddingHorizontal: 16,
+    marginBottom: 20,
+    lineHeight: 18,
+  },
+  destinationRow: {
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    gap: 10,
+    marginBottom: 28,
+  },
+  destCard: {
+    flex: 1,
+    borderRadius: 14,
+    overflow: 'hidden',
+    height: 120,
+  },
+  destImage: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    padding: 10,
+  },
   destImageRadius: { borderRadius: 14 },
-  destOverlay: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(26,5,51,0.45)', borderRadius: 14 },
-  destName: { fontSize: 11, fontWeight: '700', color: '#FFFFFF', letterSpacing: 1 },
-  sectionTitle: { fontSize: 18, fontWeight: '800', color: '#1A0533', paddingHorizontal: 16, marginBottom: 4 },
-  sectionSubtitle: { fontSize: 12, color: '#999', paddingHorizontal: 16, marginBottom: 14 },
-  offerCard: { flexDirection: 'row', marginHorizontal: 16, marginBottom: 12, borderRadius: 14, overflow: 'hidden', backgroundColor: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' },
+  destOverlay: {
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'rgba(26,5,51,0.5)',
+    borderRadius: 14,
+  },
+  destName: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    letterSpacing: 1.2,
+    zIndex: 1,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: '#111827',
+    paddingHorizontal: 16,
+    marginBottom: 4,
+  },
+  sectionSubtitle: {
+    fontSize: 12,
+    color: '#9CA3AF',
+    paddingHorizontal: 16,
+    marginBottom: 16,
+  },
+  offerCard: {
+    flexDirection: 'row',
+    marginHorizontal: 16,
+    marginBottom: 12,
+    borderRadius: 14,
+    overflow: 'hidden',
+    backgroundColor: '#FFFFFF',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+  },
   offerImage: { width: 110, height: 130 },
   offerImageRadius: { borderBottomLeftRadius: 14, borderTopLeftRadius: 14 },
   offerInfo: { flex: 1, padding: 10, justifyContent: 'space-between' },
@@ -123,14 +186,14 @@ const styles = StyleSheet.create({
   offerBadge: { paddingHorizontal: 7, paddingVertical: 3, borderRadius: 8 },
   offerBadgeText: { fontSize: 9, fontWeight: '700', color: '#FFFFFF' },
   ratingRow: { flexDirection: 'row', alignItems: 'center', gap: 3 },
-  ratingText: { fontSize: 11, fontWeight: '700', color: '#1A0533' },
-  offerTitle: { fontSize: 13, fontWeight: '700', color: '#1A0533' },
-  offerSubtitle: { fontSize: 11, color: '#888' },
+  ratingText: { fontSize: 11, fontWeight: '700', color: '#111827' },
+  offerTitle: { fontSize: 13, fontWeight: '700', color: '#111827' },
+  offerSubtitle: { fontSize: 11, color: '#9CA3AF' },
   locationRow: { flexDirection: 'row', alignItems: 'center', gap: 3 },
   locationText: { fontSize: 10, color: '#6B7280' },
   offerBottomRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   discountText: { fontSize: 11, fontWeight: '700', color: '#D97706' },
-  priceText: { fontSize: 14, fontWeight: '800', color: '#1A0533' },
+  priceText: { fontSize: 14, fontWeight: '800', color: '#7C3AED' },
 });
 
 export default ExploreScreen;

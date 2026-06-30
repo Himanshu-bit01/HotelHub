@@ -10,7 +10,6 @@ import SearchScreen from '../screens/Search/SearchScreen';
 import PaymentsScreen from '../screens/Profile/QuickActions/PaymentsScreen';
 import ReviewsScreen from '../screens/Profile/QuickActions/ReviewsScreen';
 import SupportScreen from '../screens/Profile/QuickActions/SupportScreen';
-import { HomeProvider } from '../redux/context/HomeContext';
 import AccountSettings from '../screens/Profile/QuickActions/AccountSettings';
 import PropertyDetailsScreen from '../screens/PropertyDetails/PropertyDetailsScreen';
 import RoomSelectionScreen from '../screens/RoomSelection/RoomSelectionScreen';
@@ -29,13 +28,13 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator = () => {
   return (
-    <HomeProvider>
       <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Splash"
         screenOptions={{
           headerShown: false,
-          animation: 'fade',
+          animation: 'slide_from_right',
+          animationDuration: 150,
           contentStyle: { backgroundColor: '#FFFFFF' },
         }}
       >
@@ -44,14 +43,17 @@ const AppNavigator = () => {
         <Stack.Screen
           name="Search"
           component={SearchScreen}
+          options={{ animation: 'none' }}
         />
         <Stack.Screen
           name="Trending"
           component={TrendingScreen}
+          options={{ animation: 'none' }}
         />
         <Stack.Screen
           name="Explore"
           component={ExploreScreen}
+          options={{ animation: 'none' }}
         />
         <Stack.Screen
           name="Payments"
@@ -115,7 +117,6 @@ const AppNavigator = () => {
         />
       </Stack.Navigator>
       </NavigationContainer>
-    </HomeProvider>
   );
 };
 export default AppNavigator;

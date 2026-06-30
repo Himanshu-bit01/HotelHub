@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
+  FlatList,
   Pressable,
   StatusBar,
 } from 'react-native';
@@ -23,6 +23,22 @@ type NotificationsScreenProps = { navigation: any };
 const NotificationsScreen = ({ navigation }: NotificationsScreenProps) => {
   const insets = useSafeAreaInsets();
 
+  const renderNotification = useCallback(({ item }: { item: typeof NOTIFICATIONS[number] }) => {
+    const IconComp = item.icon;
+    return (
+      <View style={styles.notifCard}>
+        <View style={[styles.iconWrap, { backgroundColor: item.bg }]}>
+          <IconComp size={18} color={item.color} strokeWidth={2} />
+        </View>
+        <View style={styles.notifInfo}>
+          <Text style={styles.notifTitle}>{item.title}</Text>
+          <Text style={styles.notifDesc}>{item.desc}</Text>
+          <Text style={styles.notifTime}>{item.time}</Text>
+        </View>
+      </View>
+    );
+  }, []);
+
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
@@ -35,27 +51,14 @@ const NotificationsScreen = ({ navigation }: NotificationsScreenProps) => {
         <View style={{ width: 36 }} />
       </View>
 
-      <ScrollView
+      <FlatList
+        data={NOTIFICATIONS}
+        keyExtractor={(n) => n.id.toString()}
+        renderItem={renderNotification}
         style={styles.body}
         contentContainerStyle={[styles.bodyContent, { paddingBottom: insets.bottom + 24 }]}
         showsVerticalScrollIndicator={false}
-      >
-        {NOTIFICATIONS.map(n => {
-          const IconComp = n.icon;
-          return (
-            <View key={n.id} style={styles.notifCard}>
-              <View style={[styles.iconWrap, { backgroundColor: n.bg }]}>
-                <IconComp size={18} color={n.color} strokeWidth={2} />
-              </View>
-              <View style={styles.notifInfo}>
-                <Text style={styles.notifTitle}>{n.title}</Text>
-                <Text style={styles.notifDesc}>{n.desc}</Text>
-                <Text style={styles.notifTime}>{n.time}</Text>
-              </View>
-            </View>
-          );
-        })}
-      </ScrollView>
+      />
     </SafeAreaView>
   );
 };

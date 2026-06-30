@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
-  Heart,
   ChevronRight,
   LayoutDashboard,
   BookMarked,
@@ -30,10 +29,9 @@ import {
   Banknote,
   Calendar,
   BookOpen,
-  Info,
 } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import HotelHubHeader from '../../components/HotelHubHeader/HotelHubHeader';
+import TopNavBar from '../../components/Home-Screen/Topnavbar';
 import QuickActions from '../../components/Profile/QuickActions';
 
 const MENU_ITEMS = [
@@ -93,24 +91,12 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
   const insets = useSafeAreaInsets();
   return (
     <SafeAreaView style={styles.safe} edges={['left', 'right', 'bottom']} >
-      <StatusBar barStyle="light-content" backgroundColor="#1A0533" />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
-      <HotelHubHeader
-        theme="dark"
-        containerStyle={styles.headerContainer}
-        rightIcons={
-          <>
-            <Pressable style={styles.hBtn}>
-              <Heart size={18} color="#000000" strokeWidth={1.8} />
-            </Pressable>
-            <Pressable style={styles.hBtn}>
-              <View>
-                <Info size={18} color="#000000" strokeWidth={1.8} />
-                <View style={styles.redDot} />
-              </View>
-            </Pressable>
-          </>
-        }
+      <TopNavBar
+        navigation={navigation}
+        theme="light"
+        showTabs={false}
       />
 
       <ScrollView
@@ -147,7 +133,7 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
               saved: 'Wishlist',
               support: 'Support',
               settings: 'AccountSettings',
-              back: { screen: 'Bottom', params: { screen: 'Home' } },
+              back: { name: 'Bottom', params: { screen: 'Home' } },
             };
             return (
               <Pressable
@@ -251,21 +237,6 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#F3F4F6' },
-  // Matches TopNavBar (HeroSection reference): paddingTop 48, paddingBottom 12, paddingHorizontal 16
-  headerContainer: {
-    paddingTop: 48,
-    paddingBottom: 12,
-    paddingHorizontal: 16,
-  },
-  hBtn: { width: 32, height: 32, justifyContent: 'center', alignItems: 'center'},
-  redDot: {
-    position: 'absolute', top: -1, right: -1,
-    width: 6, height: 6, borderRadius: 3, backgroundColor: '#EF4444',
-  },
-  // menuSquare: {
-  //   width: 28, height: 28, backgroundColor: '#7C3AED',
-  //   borderRadius: 6, justifyContent: 'center', alignItems: 'center',
-  // },
   body: { flex: 1 },
   bodyContent: { padding: 12, gap: 10 },
   profileHero: {

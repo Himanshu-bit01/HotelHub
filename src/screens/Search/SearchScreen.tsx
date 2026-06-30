@@ -14,7 +14,9 @@ import {
   Calendar,
   SlidersHorizontal,
 } from 'lucide-react-native';
-import { useHomeContext } from '../../redux/context/HomeContext';
+
+import { useAppDispatch } from '../../redux/hooks';
+import {setSelectedTab} from '../../redux/store/slices/homeSlice';
 import TopNavBar from '../../components/Home-Screen/Topnavbar';
 import { BottomTabBar } from '../BottomTab/BottomTabNavigator';
 import SearchTrendingStyles from '../../components/SearchTrending/SearchTrendingStyles';
@@ -26,19 +28,19 @@ type SearchScreenProps = {
 };
 
 const SearchScreen = ({ navigation }: SearchScreenProps) => {
-  const { setSelectedTab } = useHomeContext();
+  const dispatch  = useAppDispatch();
   const [destination, setDestination] = useState('');
   const [dates, setDates] = useState('');
 
   useEffect(() => {
-    setSelectedTab('Search');
-  }, [setSelectedTab]);
+    dispatch(setSelectedTab('Search'));
+  }, [dispatch]);
 
   return (
     <SafeAreaView style={styles.safe} edges={['bottom']}>
-      <StatusBar barStyle="light-content" backgroundColor="#1A0533" />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
-      <TopNavBar navigation={navigation} />
+      <TopNavBar navigation={navigation} theme="light" />
 
       <ScrollView
         style={styles.body}
@@ -52,7 +54,7 @@ const SearchScreen = ({ navigation }: SearchScreenProps) => {
             <View style={styles.divider} />
 
             <View style={styles.formRow}>
-              <View style={[styles.fieldWrap, { flex: 1.15, marginRight: 8 }]}>
+              <View style={[styles.fieldWrap, { flex: 1.4, marginRight: 8 }]}>
                 <Text style={styles.fieldLbl}>Destination</Text>
                 <View style={styles.fieldBox}>
                   <Search size={13} color="#7C3AED" strokeWidth={2.2} />
@@ -77,24 +79,26 @@ const SearchScreen = ({ navigation }: SearchScreenProps) => {
               </View>
             </View>
 
-            <View style={styles.fieldWrap}>
-              <Text style={styles.fieldLbl}>Check-in & Check-out</Text>
-              <View style={styles.fieldBox}>
-                <Calendar size={13} color="#7C3AED" strokeWidth={2.2} />
-                <TextInput
-                  style={styles.fieldInp}
-                  placeholder="Check-in - Check-out dates"
-                  placeholderTextColor="#9CA3AF"
-                  value={dates}
-                  onChangeText={setDates}
-                />
+            <View style={styles.checkinRow}>
+              <View style={[styles.fieldWrap, { flex: 1, marginRight: 10 }]}>
+                <Text style={styles.fieldLbl}>Check-in & Check-out</Text>
+                <View style={styles.fieldBox}>
+                  <Calendar size={13} color="#7C3AED" strokeWidth={2.2} />
+                  <TextInput
+                    style={styles.fieldInp}
+                    placeholder="Check-in and check-out dates"
+                    placeholderTextColor="#9CA3AF"
+                    value={dates}
+                    onChangeText={setDates}
+                  />
+                </View>
               </View>
+              <Pressable style={styles.updateBtn}>
+                <Text style={styles.updateBtnTxt}>Update Results</Text>
+              </Pressable>
             </View>
-
-            <Pressable style={styles.updateBtn} >
-              <Text style={styles.updateBtnTxt}>Update Results</Text>
-            </Pressable>
           </View>
+        </View>
 
           <Pressable
   style={styles.fab}
