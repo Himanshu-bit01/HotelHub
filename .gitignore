@@ -81,3 +81,6 @@ package-lock.json
 
 __mock__
 __tests__
+
+# OpenCode
+opencode.json
