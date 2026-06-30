@@ -9,7 +9,7 @@ const SearchTrendingStyles = StyleSheet.create({
   bodyContent: { paddingTop: 4, paddingBottom: 0 },
   formCardWrap: {
     marginHorizontal: 12,
-    marginBottom: 16,
+    marginBottom: 20,
   },
   formCard: {
     backgroundColor: '#FFFFFF',
@@ -36,6 +36,10 @@ const SearchTrendingStyles = StyleSheet.create({
   formRow: {
     flexDirection: 'row',
     marginBottom: 10,
+  },
+  checkinRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
   },
   fieldWrap: { marginBottom: 10 },
   fieldLbl: {
@@ -68,9 +72,10 @@ const SearchTrendingStyles = StyleSheet.create({
     backgroundColor: '#7C3AED',
     borderRadius: 9,
     paddingVertical: 12,
+    paddingHorizontal: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 2,
+    minWidth: 130,
   },
   updateBtnTxt: {
     fontSize: 13,
@@ -78,10 +83,13 @@ const SearchTrendingStyles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 0.3,
   },
+  fabWrap: {
+    alignItems: 'flex-end',
+    paddingRight: 18,
+    marginBottom: 16,
+    marginTop: -6,
+  },
   fab: {
-    position: 'absolute',
-    bottom: -18,
-    right: 6,
     width: 44,
     height: 44,
     borderRadius: 22,

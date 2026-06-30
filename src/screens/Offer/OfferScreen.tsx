@@ -10,9 +10,10 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MapPin, Star, Tag } from 'lucide-react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 
 import TopNavBar from '../../components/Home-Screen/Topnavbar';
 import {
@@ -21,7 +22,7 @@ import {
   selectHotelsLoading,
   selectHotelsError,
 } from '../../redux/store/slices/HotelSlice';
-import { AppDispatch, FeaturedHotel, CouponItem, RootStackParamList } from '../../types';
+import { FeaturedHotel, CouponItem, RootStackParamList } from '../../types';
 
 // ─── Coupon data (unchanged) ─────────────────────────────────────────────────
 const COUPONS: CouponItem[] = [
@@ -144,11 +145,11 @@ const HighlightCard = ({ item }: { item: FeaturedHotel }) => (
 // ─── Screen ──────────────────────────────────────────────────────────────────
 const OffersScreenContent = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
-  const featuredHotels = useSelector(selectFeaturedHotels);
-  const loading = useSelector(selectHotelsLoading);
-  const error = useSelector(selectHotelsError);
+  const featuredHotels = useAppSelector(selectFeaturedHotels);
+  const loading = useAppSelector(selectHotelsLoading);
+  const error = useAppSelector(selectHotelsError);
 
   useEffect(() => {
     dispatch(fetchHomeData());
@@ -233,12 +234,7 @@ const styles = StyleSheet.create({
   navBarOverride: {
     paddingTop: 48,
     paddingBottom: 12,
-    // Light theme separator shadow (valid RN syntax)
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.06,
-    shadowRadius: 4,
-    elevation: 2,
+    boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
   },
 
   body: {

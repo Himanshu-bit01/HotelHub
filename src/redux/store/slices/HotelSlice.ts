@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { HotelsState, RecentStay, FeaturedHotel } from '../../../types';
+import type { RootState } from '../store';
 
 const fetchHomeDataFromApi = (): Promise<{
   recentStays: RecentStay[];
@@ -157,9 +158,9 @@ export const {
   clearHotelsError,
 } = hotelsSlice.actions;
 
-export const selectRecentStays = (state: { hotels: HotelsState }) => state.hotels.recentStays;
-export const selectFeaturedHotels = (state: { hotels: HotelsState }) => state.hotels.featuredHotels;
-export const selectHotelsLoading = (state: { hotels: HotelsState }) => state.hotels.loading;
-export const selectHotelsError = (state: { hotels: HotelsState }) => state.hotels.error;
+export const selectRecentStays = (state: RootState) => state.hotels.recentStays;
+export const selectFeaturedHotels = (state: RootState) => state.hotels.featuredHotels;
+export const selectHotelsLoading = (state: RootState) => state.hotels.loading;
+export const selectHotelsError = (state: RootState) => state.hotels.error;
 
 export default hotelsSlice.reducer;

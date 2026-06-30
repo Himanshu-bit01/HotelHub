@@ -8,11 +8,11 @@ import {
   Pressable,
 } from 'react-native';
 import { Camera, Mail, Phone, CheckCircle, AlertCircle } from 'lucide-react-native';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../../redux/hooks';
 import { formReducer } from './accountSettingsReducer';
 
 function AccountSettings() {
-  const account = useSelector(
+  const account = useAppSelector(
     (state: any) => state.account || {}
   );
 

@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Heart, MapPin, Star, Check } from 'lucide-react-native';
-import HotelHubHeader from '../../components/HotelHubHeader/HotelHubHeader';
+import TopNavBar from '../../components/Home-Screen/Topnavbar';
 import { HOTELS } from '../Search/hotelConstants';
 import { BottomTabBar } from '../BottomTab/BottomTabNavigator';
 
@@ -34,10 +34,11 @@ const WishlistScreen = ({ navigation }: WishlistScreenProps) => {
   return (
     <SafeAreaView style={styles.safe}>
       <StatusBar barStyle="light-content" backgroundColor="#1A0533" />
-      <HotelHubHeader
-        theme="dark"
+      <TopNavBar
+        theme="light"
+        showTabs={false}
         rightIcons={
-          <Heart size={20} color="#000" strokeWidth={1.8} />
+          <Heart size={20} color="#374151" strokeWidth={1.8} />
         }
       />
       <Text style={styles.screenTitle}>My Wishlist</Text>
@@ -106,7 +107,7 @@ const WishlistScreen = ({ navigation }: WishlistScreenProps) => {
 };
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: '#FFFFFF' },
+  safe: { flex: 1, backgroundColor: '#FFFFFF',marginTop:-32 },
   screenTitle: { fontSize: 16, fontWeight: '700', color: '#1A1A1A', paddingHorizontal: 16, marginTop: 4, marginBottom: 10 },
   body: { flex: 1, backgroundColor: '#F9FAFB' },
   bodyContent: { paddingHorizontal: 16, paddingTop: 4 },

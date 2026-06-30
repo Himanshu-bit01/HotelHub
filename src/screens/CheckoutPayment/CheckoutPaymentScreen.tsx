@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -16,6 +16,8 @@ import {
 } from 'lucide-react-native';
 import { getPropertyById } from '../PropertyDetails/propertyData';
 import { getRoomById } from '../RoomSelection/roomData';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { setPaymentMethod, selectPaymentMethod } from '../../redux/store/slices/bookingSlice';
 
 type PaymentMethod = {
   id: string;
@@ -45,9 +47,8 @@ const CheckoutPaymentScreen = ({ navigation, route }: CheckoutPaymentScreenProps
   const property = hotelId ? getPropertyById(hotelId) : null;
   const room = roomId ? getRoomById(roomId) : null;
 
-  const [selectedMethod, setSelectedMethod] = useState<string>(
-    PAYMENT_METHODS.find(m => m.isDefault)?.id ?? '1'
-  );
+  const dispatch = useAppDispatch();
+  const selectedMethod = useAppSelector(selectPaymentMethod);
 
   const handlePay = () => {
     const method = PAYMENT_METHODS.find(m => m.id === selectedMethod);
@@ -114,7 +115,7 @@ const CheckoutPaymentScreen = ({ navigation, route }: CheckoutPaymentScreenProps
               <Pressable
                 key={method.id}
                 style={[styles.methodRow, isSelected && styles.methodRowActive]}
-                onPress={() => setSelectedMethod(method.id)}
+                onPress={() => dispatch(setPaymentMethod(method.id))}
               >
                 <View style={[styles.methodBadge, { backgroundColor: method.badgeBg }]}>
                   <Text style={styles.methodBadgeTxt}>{method.badge}</Text>

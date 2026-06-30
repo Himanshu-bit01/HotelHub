@@ -5,14 +5,12 @@ import {
   ScrollView,
   StatusBar,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
 
 import TopNavBar from '../../components/Home-Screen/Topnavbar';
 import SearchAndStays from '../../components/Home-Screen/SearchAndStays';
 import HeroSection from '../../components/Home-Screen/HeroSection';
 import { fetchHomeData } from '../../redux/store/slices/HotelSlice';
-import { AppDispatch } from '../../types';
-
+import { useAppDispatch } from '../../redux/hooks';
 const TAB_BAR_CLEARANCE = 90;
 
 type HomeScreenProps = {
@@ -20,7 +18,7 @@ type HomeScreenProps = {
 };
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchHomeData());

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
+  FlatList,
   Pressable,
   StatusBar,
 } from 'react-native';
@@ -15,7 +15,7 @@ import {
   Calendar,
   ChevronRight,
 } from 'lucide-react-native';
-import HotelHubHeader from '../../components/HotelHubHeader/HotelHubHeader';
+import TopNavBar from '../../components/Home-Screen/Topnavbar';
 
 const STATS = [
   { label: 'Total Bookings', value: '128', icon: Calendar, color: '#7C3AED', bg: '#EDE9FE' },
@@ -35,80 +35,87 @@ type DashboardScreenProps = { navigation: any };
 const DashboardScreen = ({ navigation }: DashboardScreenProps) => {
   const insets = useSafeAreaInsets();
 
+  const renderActivity = useCallback(({ item }: { item: typeof RECENT_ACTIVITY[number] }) => (
+    <View style={styles.activityCard}>
+      <View style={[styles.activityDot, { backgroundColor: item.color }]} />
+      <View style={styles.activityInfo}>
+        <Text style={styles.activityTitle}>{item.title}</Text>
+        <Text style={styles.activitySub}>{item.subtitle}</Text>
+      </View>
+      <Text style={styles.activityTime}>{item.time}</Text>
+    </View>
+  ), []);
+
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar barStyle="light-content" backgroundColor="#1A0533" />
-      <HotelHubHeader
-        theme="dark"
+      <TopNavBar
+        theme="light"
+        showTabs={false}
         rightIcons={
           <Pressable onPress={() => navigation.goBack()}>
-            <ArrowLeft size={20} color="#000" strokeWidth={1.8} />
+            <ArrowLeft size={20} color="#374151" strokeWidth={1.8} />
           </Pressable>
         }
       />
 
-      <ScrollView
-        style={styles.body}
+      <FlatList
+        data={RECENT_ACTIVITY}
+        keyExtractor={(a) => a.id.toString()}
+        renderItem={renderActivity}
+        ListHeaderComponent={
+          <>
+            <Text style={styles.screenTitle}>Dashboard</Text>
+
+            <View style={styles.statsRow}>
+              {STATS.map((s) => {
+                const IconComp = s.icon;
+                return (
+                  <View key={s.label} style={styles.statCard}>
+                    <View style={[styles.statIconWrap, { backgroundColor: s.bg }]}>
+                      <IconComp size={16} color={s.color} strokeWidth={2} />
+                    </View>
+                    <Text style={styles.statValue}>{s.value}</Text>
+                    <Text style={styles.statLabel}>{s.label}</Text>
+                  </View>
+                );
+              })}
+            </View>
+
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>OFFERS</Text>
+              <Pressable style={styles.seeAllBtn}>
+                <Text style={styles.seeAllTxt}>See All</Text>
+                <ChevronRight size={12} color="#7C3AED" strokeWidth={2.5} />
+              </Pressable>
+            </View>
+
+            <View style={styles.offerCards}>
+              <View style={[styles.offerCard, { backgroundColor: '#F3E8FF' }]}>
+                <Text style={styles.offerPercent}>30% OFF</Text>
+                <Text style={styles.offerLabel}>Summer Sale</Text>
+                <Text style={styles.offerCode}>Code: SUMMER30</Text>
+              </View>
+              <View style={[styles.offerCard, { backgroundColor: '#FEF3C7' }]}>
+                <Text style={styles.offerPercent}>20% OFF</Text>
+                <Text style={styles.offerLabel}>First Booking</Text>
+                <Text style={styles.offerCode}>Code: FIRST20</Text>
+              </View>
+            </View>
+
+            <Text style={[styles.sectionTitle, { marginTop: 20, marginBottom: 12 }]}>RECENT ACTIVITY</Text>
+          </>
+        }
         contentContainerStyle={[styles.bodyContent, { paddingBottom: insets.bottom + 24 }]}
         showsVerticalScrollIndicator={false}
-      >
-        <Text style={styles.screenTitle}>Dashboard</Text>
-
-        <View style={styles.statsRow}>
-          {STATS.map((s) => {
-            const IconComp = s.icon;
-            return (
-              <View key={s.label} style={styles.statCard}>
-                <View style={[styles.statIconWrap, { backgroundColor: s.bg }]}>
-                  <IconComp size={16} color={s.color} strokeWidth={2} />
-                </View>
-                <Text style={styles.statValue}>{s.value}</Text>
-                <Text style={styles.statLabel}>{s.label}</Text>
-              </View>
-            );
-          })}
-        </View>
-
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>OFFERS</Text>
-          <Pressable style={styles.seeAllBtn}>
-            <Text style={styles.seeAllTxt}>See All</Text>
-            <ChevronRight size={12} color="#7C3AED" strokeWidth={2.5} />
-          </Pressable>
-        </View>
-
-        <View style={styles.offerCards}>
-          <View style={[styles.offerCard, { backgroundColor: '#F3E8FF' }]}>
-            <Text style={styles.offerPercent}>30% OFF</Text>
-            <Text style={styles.offerLabel}>Summer Sale</Text>
-            <Text style={styles.offerCode}>Code: SUMMER30</Text>
-          </View>
-          <View style={[styles.offerCard, { backgroundColor: '#FEF3C7' }]}>
-            <Text style={styles.offerPercent}>20% OFF</Text>
-            <Text style={styles.offerLabel}>First Booking</Text>
-            <Text style={styles.offerCode}>Code: FIRST20</Text>
-          </View>
-        </View>
-
-        <Text style={[styles.sectionTitle, { marginTop: 20, marginBottom: 12 }]}>RECENT ACTIVITY</Text>
-
-        {RECENT_ACTIVITY.map(a => (
-          <View key={a.id} style={styles.activityCard}>
-            <View style={[styles.activityDot, { backgroundColor: a.color }]} />
-            <View style={styles.activityInfo}>
-              <Text style={styles.activityTitle}>{a.title}</Text>
-              <Text style={styles.activitySub}>{a.subtitle}</Text>
-            </View>
-            <Text style={styles.activityTime}>{a.time}</Text>
-          </View>
-        ))}
-      </ScrollView>
+        style={styles.body}
+      />
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: '#FFFFFF' },
+  safe: { flex: 1, backgroundColor: '#FFFFFF',marginTop:-32 },
   body: { flex: 1 },
   bodyContent: { paddingHorizontal: 16, paddingTop: 4 },
   screenTitle: { fontSize: 20, fontWeight: '800', color: '#111827', marginBottom: 16 },

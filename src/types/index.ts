@@ -31,12 +31,11 @@ export type RootStackParamList = {
   Dashboard: undefined;
   InfoPage: { type: 'meals' | 'rules' | 'deposit' | 'checkin' };
   FAQs: undefined;
+  FilterScreen: undefined;
 };
 
 // ── Navigation prop types for screens ───────────────────────────────
 export type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
-
-export type AppDispatch = any;
 
 // ── Hotel Data Types ────────────────────────────────────────────────
 export interface RecentStay {
@@ -177,18 +176,30 @@ export interface AccountState {
 export interface RootState {
   hotels: HotelsState;
   account: AccountState;
+  home: HomeState;
+  booking: BookingState;
 }
 
-// ── Home Context Types ──────────────────────────────────────────────
-export interface HomeContextValue {
+// ── Home State Types ──────────────────────────────────────────────
+export interface HomeState {
   selectedTab: string;
-  setSelectedTab: (tab: string) => void;
   destination: string;
-  setDestination: (dest: string) => void;
   checkInOut: string;
-  setCheckInOut: (dates: string) => void;
   guests: number;
-  setGuests: (guests: number) => void;
   rooms: number;
-  setRooms: (rooms: number) => void;
+}
+
+// ── Booking State Types ──────────────────────────────────────────
+export interface BookingState {
+  hotelId: number | null;
+  selectedRoomId: number | null;
+  guestForm: {
+    fullName: string;
+    email: string;
+    phone: string;
+    adults: number;
+    children: number;
+    specialRequests: string;
+  };
+  paymentMethod: string;
 }

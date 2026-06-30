@@ -1,0 +1,10 @@
+{
+  "$schema": "https://react.doctor/schema/config.json",
+  "ignore": {
+    "rules": [
+      "react-doctor/rn-no-non-native-navigator",
+      "react-doctor/exhaustive-deps",
+      "react-doctor/prefer-useReducer"
+    ]
+  }
+}
