@@ -31,6 +31,7 @@ export type RootStackParamList = {
   Dashboard: undefined;
   InfoPage: { type: 'meals' | 'rules' | 'deposit' | 'checkin' };
   FAQs: undefined;
+  FilterScreen: undefined;
 };
 
 // ── Navigation prop types for screens ───────────────────────────────

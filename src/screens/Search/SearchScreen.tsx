@@ -100,13 +100,12 @@ const SearchScreen = ({ navigation }: SearchScreenProps) => {
           </View>
         </View>
 
-          <Pressable
-  style={styles.fab}
-  onPress={() => navigation.navigate('FilterScreen')}
->
-  <SlidersHorizontal size={18} color="#fff" strokeWidth={2.4} />
-</Pressable>
-        </View>
+        <Pressable
+          style={styles.fab}
+          onPress={() => navigation.navigate('FilterScreen')}
+        >
+          <SlidersHorizontal size={18} color="#fff" strokeWidth={2.4} />
+        </Pressable>
 
         <View style={styles.listWrap}>
           {HOTELS.map(h => (
