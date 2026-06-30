@@ -3,7 +3,8 @@
   "ignore": {
     "rules": [
       "react-doctor/rn-no-non-native-navigator",
-      "react-doctor/exhaustive-deps"
+      "react-doctor/exhaustive-deps",
+      "react-doctor/prefer-useReducer"
     ]
   }
 }

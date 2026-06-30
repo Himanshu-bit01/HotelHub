@@ -6,14 +6,23 @@ import {
   ScrollView,
   Pressable,
   Image,
-  Dimensions,
 } from "react-native";
 import Slider from "@react-native-community/slider";
 import LinearGradient from "react-native-linear-gradient";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../redux/hooks";
 import { setFilters, resetFilters } from "../../redux/store/slices/filterSlice";
 
-const { width } = Dimensions.get("window");
+const toggleSelection = (
+  value: string | number,
+  state: any[],
+  setter: any
+) => {
+  if (state.includes(value)) {
+    setter(state.filter((item: any) => item !== value));
+  } else {
+    setter([...state, value]);
+  }
+};
 
 const propertyTypesData = [
   { label: "Home", icon: require("../../assets/images/home.png") },
@@ -51,9 +60,7 @@ const suitabilityData = [
 ];
 
 export default function FilterScreen() {
-  const dispatch = useDispatch();
-
-  const { width } = Dimensions.get("window");
+  const dispatch = useAppDispatch();
 
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(100000);
@@ -64,18 +71,6 @@ export default function FilterScreen() {
   const [guestRating, setGuestRating] = useState<number | null>(null);
   const [amenities, setAmenities] = useState<string[]>([]);
   const [suitability, setSuitability] = useState<string[]>([]);
-
-  const toggleSelection = (
-    value: string | number,
-    state: any[],
-    setter: any
-  ) => {
-    if (state.includes(value)) {
-      setter(state.filter((item) => item !== value));
-    } else {
-      setter([...state, value]);
-    }
-  };
 
   const applyFilters = () => {
     dispatch(
@@ -318,11 +313,11 @@ const styles = StyleSheet.create({
   },
 
   leftColumn: {
-    width: width * 0.49,
+    flex: 1,
   },
 
   rightColumn: {
-    width: width * 0.4,
+    flex: 1,
   },
 
   card: {
@@ -330,15 +325,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 14,
     marginBottom: 8,
-
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.12,
-    shadowRadius: 8,
-    elevation: 5,
+    boxShadow: "0 4px 8px rgba(0,0,0,0.12)",
   },
 
   title: {
@@ -440,15 +427,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
-
-    shadowColor: "#A24BFF",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
-    elevation: 5,
+    boxShadow: "0 4px 10px rgba(162,75,255,0.3)",
   },
 
   applyText: {
@@ -466,15 +445,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#EAEAEA",
     marginBottom: 40,
-
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 3,
+    boxShadow: "0 3px 8px rgba(0,0,0,0.08)",
   },
 
   resetText: {

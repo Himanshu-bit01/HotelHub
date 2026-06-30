@@ -115,6 +115,10 @@ const AppNavigator = () => {
           name="FAQs"
           component={FAQsScreen}
         />
+        <Stack.Screen
+          name="FilterScreen"
+          component={FilterScreen}
+        />
       </Stack.Navigator>
       </NavigationContainer>
   );

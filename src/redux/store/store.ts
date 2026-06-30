@@ -3,6 +3,7 @@ import hotelsReducer from './slices/HotelSlice';
 import accountReducer from './slices/accountSlice';
 import homeReducer from './slices/homeSlice';
 import bookingReducer from './slices/bookingSlice';
+import filterReducer from './slices/filterSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     account: accountReducer,
     home: homeReducer,
     booking: bookingReducer,
+    filters: filterReducer,
   },
 });
 
