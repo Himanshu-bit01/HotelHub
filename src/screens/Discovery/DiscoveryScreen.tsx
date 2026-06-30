@@ -10,9 +10,10 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useHomeContext } from '../../redux/context/HomeContext';
 import TopNavBar from '../../components/Home-Screen/Topnavbar';
 import { BottomTabBar } from '../BottomTab/BottomTabNavigator';
+import { useAppDispatch } from '../../redux/hooks';
+import { setSelectedTab } from '../../redux/store/slices/homeSlice';
 
 const DESTINATIONS = [
   { id: 1, name: 'Bali, Indonesia', image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600', color: '#3B82F6' },
@@ -35,10 +36,10 @@ type DiscoveryScreenProps = { navigation: any };
 
 const DiscoveryScreen = ({ navigation }: DiscoveryScreenProps) => {
   const { width } = useWindowDimensions();
-  const { setSelectedTab } = useHomeContext();
+  const dispatch = useAppDispatch();
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
 
-  React.useEffect(() => { setSelectedTab('Explore'); }, [setSelectedTab]);
+  React.useEffect(() => { dispatch(setSelectedTab('Explore')); }, [dispatch]);
 
   const cardWidth = (width - 44) / 2;
 

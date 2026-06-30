@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -24,44 +24,13 @@ import {
 } from 'lucide-react-native';
 import { getPropertyById } from '../PropertyDetails/propertyData';
 import { getRoomById } from '../RoomSelection/roomData';
-
-type FormState = {
-  fullName: string;
-  email: string;
-  phone: string;
-  adults: number;
-  children: number;
-  specialRequests: string;
-};
-
-type FormAction =
-  | { type: 'SET_FIELD'; field: keyof FormState; value: string }
-  | { type: 'INCREMENT'; field: 'adults' | 'children' }
-  | { type: 'DECREMENT'; field: 'adults' | 'children' };
-
-const formReducer = (state: FormState, action: FormAction): FormState => {
-  switch (action.type) {
-    case 'SET_FIELD':
-      return { ...state, [action.field]: action.value };
-    case 'INCREMENT':
-      return { ...state, [action.field]: state[action.field] + 1 };
-    case 'DECREMENT':
-      if (action.field === 'adults' && state.adults <= 1) return state;
-      if (action.field === 'children' && state.children <= 0) return state;
-      return { ...state, [action.field]: state[action.field] - 1 };
-    default:
-      return state;
-  }
-};
-
-const initialState: FormState = {
-  fullName: '',
-  email: '',
-  phone: '',
-  adults: 2,
-  children: 0,
-  specialRequests: '',
-};
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import {
+  selectGuestForm,
+  setGuestField,
+  incrementGuest,
+  decrementGuest,
+} from '../../redux/store/slices/bookingSlice';
 
 type FormInputProps = {
   label: string;
@@ -119,7 +88,8 @@ type GuestDetailsScreenProps = {
 const GuestDetailsScreen = ({ navigation, route }: GuestDetailsScreenProps) => {
   const insets = useSafeAreaInsets();
   const { hotelId, roomId } = route.params || { hotelId: 1, roomId: 101 };
-  const [form, dispatch] = useReducer(formReducer, initialState);
+  const dispatch = useAppDispatch();
+  const form = useAppSelector(selectGuestForm);
 
   const property = getPropertyById(hotelId);
   const room = getRoomById(roomId);
@@ -192,7 +162,7 @@ const GuestDetailsScreen = ({ navigation, route }: GuestDetailsScreenProps) => {
           icon={User}
           placeholder="Enter your full name"
           value={form.fullName}
-          onChangeText={val => dispatch({ type: 'SET_FIELD', field: 'fullName', value: val })}
+          onChangeText={val => dispatch(setGuestField({ field: 'fullName', value: val }))}
         />
 
         <FormInput
@@ -200,7 +170,7 @@ const GuestDetailsScreen = ({ navigation, route }: GuestDetailsScreenProps) => {
           icon={Mail}
           placeholder="Enter your email"
           value={form.email}
-          onChangeText={val => dispatch({ type: 'SET_FIELD', field: 'email', value: val })}
+          onChangeText={val => dispatch(setGuestField({ field: 'email', value: val }))}
           keyboardType="email-address"
         />
 
@@ -209,7 +179,7 @@ const GuestDetailsScreen = ({ navigation, route }: GuestDetailsScreenProps) => {
           icon={Phone}
           placeholder="Enter your phone number"
           value={form.phone}
-          onChangeText={val => dispatch({ type: 'SET_FIELD', field: 'phone', value: val })}
+          onChangeText={val => dispatch(setGuestField({ field: 'phone', value: val }))}
           keyboardType="phone-pad"
         />
 
@@ -218,15 +188,15 @@ const GuestDetailsScreen = ({ navigation, route }: GuestDetailsScreenProps) => {
           <GuestCounter
             label="Adults"
             count={form.adults}
-            onIncrement={() => dispatch({ type: 'INCREMENT', field: 'adults' })}
-            onDecrement={() => dispatch({ type: 'DECREMENT', field: 'adults' })}
+            onIncrement={() => dispatch(incrementGuest('adults'))}
+            onDecrement={() => dispatch(decrementGuest('adults'))}
           />
           <View style={styles.divider} />
           <GuestCounter
             label="Children"
             count={form.children}
-            onIncrement={() => dispatch({ type: 'INCREMENT', field: 'children' })}
-            onDecrement={() => dispatch({ type: 'DECREMENT', field: 'children' })}
+            onIncrement={() => dispatch(incrementGuest('children'))}
+            onDecrement={() => dispatch(decrementGuest('children'))}
           />
         </View>
 
@@ -238,7 +208,7 @@ const GuestDetailsScreen = ({ navigation, route }: GuestDetailsScreenProps) => {
             placeholder="Any special requests? (e.g., early check-in, extra pillows)"
             placeholderTextColor="#9CA3AF"
             value={form.specialRequests}
-            onChangeText={val => dispatch({ type: 'SET_FIELD', field: 'specialRequests', value: val })}
+            onChangeText={val => dispatch(setGuestField({ field: 'specialRequests', value: val }))}
             multiline
             numberOfLines={4}
             textAlignVertical="top"

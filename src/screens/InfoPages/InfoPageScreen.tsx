@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
+  FlatList,
   Pressable,
   StatusBar,
 } from 'react-native';
@@ -20,6 +20,13 @@ const InfoPageScreen = ({ navigation, route }: InfoPageScreenProps) => {
   const insets = useSafeAreaInsets();
   const { type } = route.params || { type: 'meals' };
   const data = getInfoPageData(type);
+
+  const renderSection = useCallback(({ item }: { item: { title: string; content: string } }) => (
+    <View style={styles.sectionCard}>
+      <Text style={styles.sectionTitle}>{item.title}</Text>
+      <Text style={styles.sectionContent}>{item.content}</Text>
+    </View>
+  ), []);
 
   if (!data) {
     return (
@@ -49,20 +56,15 @@ const InfoPageScreen = ({ navigation, route }: InfoPageScreenProps) => {
         <View style={{ width: 36 }} />
       </View>
 
-      <ScrollView
+      <FlatList
+        data={data.sections}
+        keyExtractor={(section) => section.title}
+        renderItem={renderSection}
+        ListHeaderComponent={<Text style={styles.subtitle}>{data.subtitle}</Text>}
         style={styles.body}
         contentContainerStyle={[styles.bodyContent, { paddingBottom: insets.bottom + 24 }]}
         showsVerticalScrollIndicator={false}
-      >
-        <Text style={styles.subtitle}>{data.subtitle}</Text>
-
-        {data.sections.map((section) => (
-          <View key={section.title} style={styles.sectionCard}>
-            <Text style={styles.sectionTitle}>{section.title}</Text>
-            <Text style={styles.sectionContent}>{section.content}</Text>
-          </View>
-        ))}
-      </ScrollView>
+      />
     </SafeAreaView>
   );
 };

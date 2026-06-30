@@ -20,6 +20,7 @@
         "CONTEXT7_API_KEY": "ctx7sk-b2a29325-bbd4-4d5e-a282-867b463eb3ce"
       }
     },
+    
     "memory": {
       "type": "local",
       "command": ["npx", "-y", "@modelcontextprotocol/server-memory"],

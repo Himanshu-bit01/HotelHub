@@ -17,10 +17,17 @@ import {
   Users,
   Heart,
 } from 'lucide-react-native';
-import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useHomeContext } from '../../redux/context/HomeContext';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import {
+  selectDestination,
+  selectCheckInOut,
+  selectGuests,
+  selectRooms,
+  setDestination,
+  setCheckInOut,
+} from '../../redux/store/slices/homeSlice';
 import {
   selectRecentStays,
   selectHotelsLoading,
@@ -34,18 +41,14 @@ type SearchAndStaysProps = {
 
 const SearchAndStays = (_props?: SearchAndStaysProps) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const {
-    destination,
-    setDestination,
-    checkInOut,
-    setCheckInOut,
-    guests,
-    rooms,
-  } = useHomeContext();
-
-  const recentStays = useSelector(selectRecentStays);
-  const loading = useSelector(selectHotelsLoading);
-  const error = useSelector(selectHotelsError);
+  const dispatch = useAppDispatch();
+const destination = useAppSelector(selectDestination);
+const checkInOut = useAppSelector(selectCheckInOut);
+const guests = useAppSelector(selectGuests);
+const rooms = useAppSelector(selectRooms);
+  const recentStays = useAppSelector(selectRecentStays);
+  const loading = useAppSelector(selectHotelsLoading);
+  const error = useAppSelector(selectHotelsError);
 
   const handleStayPress = useCallback((hotelId?: string | number) => {
     navigation.navigate('PropertyDetails', { hotelId: Number(hotelId) || 1 });
@@ -112,8 +115,7 @@ const SearchAndStays = (_props?: SearchAndStaysProps) => {
             placeholder="Search Destination"
             placeholderTextColor="#BBBBBB"
             value={destination}
-            onChangeText={setDestination}
-          />
+            onChangeText={(val) => dispatch(setDestination(val))}          />
         </View>
 
         <Text style={styles.fieldLabel}>Check-in & Check-out</Text>
@@ -124,8 +126,7 @@ const SearchAndStays = (_props?: SearchAndStaysProps) => {
             placeholder="Select check-in & check-out dates"
             placeholderTextColor="#BBBBBB"
             value={checkInOut}
-            onChangeText={setCheckInOut}
-          />
+            onChangeText={(val) => dispatch(setCheckInOut(val))}          />
         </View>
 
         <Text style={styles.fieldLabel}>Guests & Rooms</Text>

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { View, Text, StyleSheet, Pressable, ViewStyle, TextStyle } from 'react-native';
 import { Heart, Info, Search, Compass, FlameIcon } from 'lucide-react-native';
-import { useHomeContext } from '../../redux/context/HomeContext';
+import { useAppDispatch } from '../../redux/hooks';
+import { setSelectedTab } from '../../redux/store/slices/homeSlice';
 
 const TABS = [
   { label: 'Search', Icon: Search },
@@ -12,11 +13,15 @@ const TABS = [
 export type NavBarTheme = 'dark' | 'light';
 
 type TopNavBarProps = {
-  navigation: any;
+  navigation?: any;
   containerStyle?: ViewStyle;
   /** 'dark' = original deep-purple bg (HomeScreen default)
    *  'light' = white bg with dark icons/text (OfferScreen) */
   theme?: NavBarTheme;
+  /** When false, only render the header (logo + icons) without tabs */
+  showTabs?: boolean;
+  /** Custom right-side icons (replaces default Heart/Info) */
+  rightIcons?: ReactNode;
 };
 
 const THEME = {
@@ -41,10 +46,10 @@ const THEME = {
     logoHub: { color: '#7C3AED' },
     iconColor: '#374151',
     tabsRow: {
-      backgroundColor: 'rgba(124,58,237,0.06)',
-      borderColor: 'rgba(209, 43, 173, 0.25)',
+      backgroundColor: 'rgba(124,58,237,0.08)',
+      borderColor: 'rgba(124, 58, 237, 0.20)',
     },
-    tabActiveBackground: 'rgba(124, 58, 237, 0.60)',
+    tabActiveBackground: '#7C3AED',
     tabText: { color: '#6B7280' },
     tabTextActive: { color: '#FFFFFF' },
     tabIconColor: '#6B7280',
@@ -52,8 +57,8 @@ const THEME = {
   },
 };
 
-const TopNavBar = ({ navigation, containerStyle, theme = 'dark' }: TopNavBarProps) => {
-  const { setSelectedTab } = useHomeContext();
+const TopNavBar = ({ navigation, containerStyle, theme = 'dark', showTabs = true, rightIcons }: TopNavBarProps) => {
+  const dispatch = useAppDispatch();
   const t = THEME[theme];
 
   const getActiveRouteName = (): string | null => {
@@ -80,62 +85,68 @@ const TopNavBar = ({ navigation, containerStyle, theme = 'dark' }: TopNavBarProp
         </Text>
 
         <View style={styles.rightIcons}>
-          <Pressable style={styles.iconBtn}>
-            <Heart size={20} color={t.iconColor} strokeWidth={1.8} />
-          </Pressable>
-          <Pressable style={styles.iconBtn}>
-            <Info size={20} color={t.iconColor} strokeWidth={1.8} />
-          </Pressable>
+          {rightIcons ?? (
+            <>
+              <Pressable style={styles.iconBtn}>
+                <Heart size={20} color={t.iconColor} strokeWidth={1.8} />
+              </Pressable>
+              <Pressable style={styles.iconBtn}>
+                <Info size={20} color={t.iconColor} strokeWidth={1.8} />
+              </Pressable>
+            </>
+          )}
         </View>
       </View>
 
-      <View style={styles.tabsWrapper}>
-        <View style={[styles.searchTabsRow, t.tabsRow]}>
-          {TABS.map(({ label, Icon }) => {
-            const isActive = isTabActive(label);
-            return (
-              <Pressable
-                key={label}
-                style={[
-                  styles.searchTab,
-                  isActive && { backgroundColor: t.tabActiveBackground },
-                ]}
-                onPress={() => {
-                  setSelectedTab(label);
-                  if (navigation) {
-                    const parent = navigation.getParent();
-                    if (parent) {
-                      parent.navigate(label as any);
-                    } else {
-                      const currentRoute =
-                        navigation.getState()?.routes[navigation.getState()?.index]?.name;
-                      if (currentRoute !== label) {
-                        navigation.navigate(label as any);
+      {showTabs && (
+        <View style={styles.tabsWrapper}>
+          <View style={[styles.searchTabsRow, t.tabsRow]}>
+            {TABS.map(({ label, Icon }) => {
+              const isActive = isTabActive(label);
+              return (
+                <Pressable
+                  key={label}
+                  style={[
+                    styles.searchTab,
+                    isActive && { backgroundColor: t.tabActiveBackground },
+                  ]}
+                  onPress={() => {
+                    dispatch(setSelectedTab(label));
+                    if (navigation) {
+                      const parent = navigation.getParent();
+                      if (parent) {
+                        parent.navigate(label as any);
+                      } else {
+                        const currentRoute =
+                          navigation.getState()?.routes[navigation.getState()?.index]?.name;
+                        if (currentRoute !== label) {
+                          navigation.navigate(label as any);
+                        }
                       }
                     }
-                  }
-                }}
-              >
-                <Icon
-                  size={13}
-                  color={isActive ? t.tabIconActiveColor : t.tabIconColor}
-                  strokeWidth={2}
-                />
-                <Text
-                  style={[
-                    styles.searchTabText,
-                    t.tabText,
-                    isActive && (t.tabTextActive as TextStyle),
-                  ]}
+                  }}
                 >
-                  {'  '}
-                  {label}
-                </Text>
-              </Pressable>
-            );
-          })}
+                  <Icon
+                    size={13}
+                    color={isActive ? t.tabIconActiveColor : t.tabIconColor}
+                    strokeWidth={2}
+                  />
+                  <Text
+                    style={[
+                      styles.searchTabText,
+                      t.tabText,
+                      isActive && (t.tabTextActive as TextStyle),
+                    ]}
+                  >
+                    {'  '}
+                    {label}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </View>
         </View>
-      </View>
+      )}
     </View>
   );
 };

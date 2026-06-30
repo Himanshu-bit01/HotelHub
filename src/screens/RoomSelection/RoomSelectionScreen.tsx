@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 import {
   View,
   Text,
   Image,
   StyleSheet,
-  ScrollView,
+  FlatList,
   Pressable,
   StatusBar,
 } from 'react-native';
@@ -27,6 +27,8 @@ import {
 } from 'lucide-react-native';
 import { getRoomsByHotelId, getRoomById } from './roomData';
 import { getPropertyById } from '../PropertyDetails/propertyData';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { setSelectedRoom, selectSelectedRoomId } from '../../redux/store/slices/bookingSlice';
 
 const ROOM_ICON_MAP: Record<string, any> = {
   'Free Wifi': Wifi,
@@ -59,16 +61,80 @@ type RoomSelectionScreenProps = {
 const RoomSelectionScreen = ({ navigation, route }: RoomSelectionScreenProps) => {
   const insets = useSafeAreaInsets();
   const { hotelId } = route.params || { hotelId: 1 };
-  const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
+  const dispatch = useAppDispatch();
+  const selectedRoomId = useAppSelector(selectSelectedRoomId);
 
   const rooms = getRoomsByHotelId(hotelId);
   const property = getPropertyById(hotelId);
 
-  const handleContinue = () => {
+  const handleContinue = useCallback(() => {
     if (selectedRoomId) {
       navigation.navigate('GuestDetails', { hotelId, roomId: selectedRoomId });
     }
-  };
+  }, [selectedRoomId, hotelId, navigation]);
+
+  const handleSelectRoom = useCallback((roomId: number) => {
+    dispatch(setSelectedRoom(roomId));
+  }, [dispatch]);
+
+  const renderRoom = useCallback(({ item: room }: { item: typeof rooms[number] }) => {
+    const isSelected = selectedRoomId === room.id;
+    return (
+      <Pressable
+        style={[styles.roomCard, isSelected && styles.roomCardSelected]}
+        onPress={() => handleSelectRoom(room.id)}
+      >
+        <Image source={{ uri: room.image }} style={styles.roomImage} />
+
+        <View style={styles.roomBody}>
+          <View style={styles.roomTopRow}>
+            <View style={styles.roomTopLeft}>
+              <Text style={styles.roomName}>{room.name}</Text>
+              <Text style={styles.roomCapacity}>
+                <Users size={11} color="#9CA3AF" strokeWidth={2} /> {room.capacity}
+              </Text>
+            </View>
+            <View style={styles.priceBlock}>
+              <Text style={styles.roomPrice}>{room.price}</Text>
+              <Text style={styles.pricePerNight}>/night</Text>
+            </View>
+          </View>
+
+          <Text style={styles.roomDesc} numberOfLines={2}>{room.description}</Text>
+
+          <View style={styles.roomAmenities}>
+            {room.amenities.slice(0, 4).map((a) => {
+              const IconComp = ROOM_ICON_MAP[a] || Check;
+              return (
+                <View key={a} style={styles.amenityTag}>
+                  <IconComp size={10} color="#7C3AED" strokeWidth={2} />
+                  <Text style={styles.amenityTagTxt}>{a}</Text>
+                </View>
+              );
+            })}
+            {room.amenities.length > 4 && (
+              <View style={styles.amenityTag}>
+                <Text style={styles.amenityTagTxt}>+{room.amenities.length - 4} more</Text>
+              </View>
+            )}
+          </View>
+
+          <View style={styles.selectRow}>
+            <Pressable
+              style={[styles.selectBtn, isSelected && styles.selectBtnActive]}
+              onPress={() => handleSelectRoom(room.id)}
+            >
+              {isSelected ? (
+                <Check size={14} color="#FFFFFF" strokeWidth={3} />
+              ) : (
+                <Text style={styles.selectBtnTxt}>Select</Text>
+              )}
+            </Pressable>
+          </View>
+        </View>
+      </Pressable>
+    );
+  }, [selectedRoomId, handleSelectRoom]);
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -96,73 +162,15 @@ const RoomSelectionScreen = ({ navigation, route }: RoomSelectionScreenProps) =>
         </View>
       )}
 
-      <ScrollView
+      <FlatList
+        data={rooms}
+        keyExtractor={(room) => room.id.toString()}
+        renderItem={renderRoom}
+        ListHeaderComponent={<Text style={styles.sectionTitle}>AVAILABLE ROOMS</Text>}
         style={styles.body}
         contentContainerStyle={[styles.bodyContent, { paddingBottom: insets.bottom + 100 }]}
         showsVerticalScrollIndicator={false}
-      >
-        <Text style={styles.sectionTitle}>AVAILABLE ROOMS</Text>
-
-        {rooms.map(room => {
-          const isSelected = selectedRoomId === room.id;
-          return (
-            <Pressable
-              key={room.id}
-              style={[styles.roomCard, isSelected && styles.roomCardSelected]}
-              onPress={() => setSelectedRoomId(room.id)}
-            >
-              <Image source={{ uri: room.image }} style={styles.roomImage} />
-
-              <View style={styles.roomBody}>
-                <View style={styles.roomTopRow}>
-                  <View style={{ flex: 1 }}>
-                    <Text style={styles.roomName}>{room.name}</Text>
-                    <Text style={styles.roomCapacity}>
-                      <Users size={11} color="#9CA3AF" strokeWidth={2} /> {room.capacity}
-                    </Text>
-                  </View>
-                  <View style={styles.priceBlock}>
-                    <Text style={styles.roomPrice}>{room.price}</Text>
-                    <Text style={styles.pricePerNight}>/night</Text>
-                  </View>
-                </View>
-
-                <Text style={styles.roomDesc} numberOfLines={2}>{room.description}</Text>
-
-                <View style={styles.roomAmenities}>
-                  {room.amenities.slice(0, 4).map((a) => {
-                    const IconComp = ROOM_ICON_MAP[a] || Check;
-                    return (
-                      <View key={a} style={styles.amenityTag}>
-                        <IconComp size={10} color="#7C3AED" strokeWidth={2} />
-                        <Text style={styles.amenityTagTxt}>{a}</Text>
-                      </View>
-                    );
-                  })}
-                  {room.amenities.length > 4 && (
-                    <View style={styles.amenityTag}>
-                      <Text style={styles.amenityTagTxt}>+{room.amenities.length - 4} more</Text>
-                    </View>
-                  )}
-                </View>
-
-                <View style={styles.selectRow}>
-                  <Pressable
-                    style={[styles.selectBtn, isSelected && styles.selectBtnActive]}
-                    onPress={() => setSelectedRoomId(room.id)}
-                  >
-                    {isSelected ? (
-                      <Check size={14} color="#FFFFFF" strokeWidth={3} />
-                    ) : (
-                      <Text style={styles.selectBtnTxt}>Select</Text>
-                    )}
-                  </Pressable>
-                </View>
-              </View>
-            </Pressable>
-          );
-        })}
-      </ScrollView>
+      />
 
       <View style={[styles.bottomBar, { paddingBottom: insets.bottom + 12 }]}>
         <View>
@@ -282,6 +290,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
+  },
+  roomTopLeft: {
+    flex: 1,
   },
   roomName: {
     fontSize: 15,

@@ -9,8 +9,6 @@ import {
   StatusBar,
 } from 'react-native';
 import {
-  Heart,
-  Info,
   MapPin,
   BedDouble,
   Calendar,
@@ -21,7 +19,7 @@ import {
   AlertCircle,
 } from 'lucide-react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import HotelHubHeader from '../../components/HotelHubHeader/HotelHubHeader';
+import TopNavBar from '../../components/Home-Screen/Topnavbar';
 import { BookingItem } from '../../types';
 
 const upcomingBookings: BookingItem[] = [
@@ -244,18 +242,10 @@ const BookingScreen = () => {
   const insets = useSafeAreaInsets();
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="light-content" backgroundColor="#1A0533" />
+    <SafeAreaView style={styles.safeArea} edges={['left', 'right', 'bottom']}>
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
-      <HotelHubHeader
-        theme="dark"
-        rightIcons={
-          <>
-            <Heart size={20} color="#000000" strokeWidth={1.8} style={{ marginRight: 16 }} />
-            <Info size={18} color="#000000" strokeWidth={1.8} />
-          </>
-        }
-      />
+      <TopNavBar theme="light" showTabs={false} />
 
       <Text style={styles.screenTitle}>My Booking</Text>
 
@@ -316,10 +306,6 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-  },
-  headerIcons: {
-    flexDirection: 'row',
-    alignItems: 'center',
   },
   screenTitle: {
     fontSize: 16,

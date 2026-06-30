@@ -56,7 +56,7 @@ const SplashScreen = ({ navigation }: SplashScreenProps) => {
     }, 3000);
 
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-doctor/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // const logoAnimatedStyle = useAnimatedStyle(() => ({
